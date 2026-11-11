@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Styles communs à tout le site
+body {
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  color: #080808;
+  background: #ffffff;
+}
+
+main {
+  min-height: 70vh;
+}
+
+.page {
+  padding: 48px;
+}
