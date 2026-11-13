@@ -7,4 +7,5 @@ export interface Avis {
   noteService: number; // sur 5
   commentaire: string;
   date: string; // format AAAA-MM-JJ
+  billetId?: number; // le billet de la séance notée (avis laissés depuis « Mon compte »)
 }

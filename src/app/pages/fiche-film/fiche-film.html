@@ -1,5 +1,185 @@
-<section class="page">
-  <h1>Fiche film</h1>
-  <p>Bande-annonce, infos, séances, avis. (à construire)</p>
-  <a [routerLink]="'/reservation/1'">Réserver une séance →</a>
-</section>
+@if (film(); as film) {
+  <!-- 1. Bande-annonce : grande image qui se resserre au défilement -->
+  <section class="media" [attr.aria-label]="'fiche.bandeAnnonce' | t">
+    <div #cadre class="media__cadre">
+      @if (lecture() && urlVideo(); as url) {
+        <iframe
+          class="media__video"
+          [src]="url"
+          [title]="'fiche.bandeAnnonceDe' | t: { titre: film.titre }"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      } @else {
+        <img class="media__image" [src]="film.photo ?? film.affiche" alt="" />
+        <div class="media__degrade"></div>
+        @if (urlVideo()) {
+          <button class="media__lecture" type="button" [attr.aria-label]="'fiche.lire' | t" (click)="lecture.set(true)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,2 22,12 5,22" /></svg>
+          </button>
+        }
+      }
+    </div>
+  </section>
+
+  <!-- 2. Titre (monte mot par mot), réalisateur, note -->
+  <section class="entete">
+    <p class="etiquette">
+      {{ enSalle() ? ('fiche.enSalle' | t) : ('fiche.sortieLe' | t: { date: dateSortie() }) }} · {{ film.genre }} · {{ duree() }}
+    </p>
+
+    <h1 class="titre" [attr.aria-label]="film.titre">
+      @for (mot of mots(); track id() + '-' + $index) {
+        <span class="titre__ligne" aria-hidden="true"><span [style.--i]="$index">{{ mot }}</span></span>
+      }
+    </h1>
+
+    <div class="entete__bas">
+      <p class="entete__realisateur">{{ 'fiche.unFilmDe' | t }} <strong>{{ film.realisateur }}</strong></p>
+      <p class="entete__note">
+        <span class="etoiles" role="img" [attr.aria-label]="'commun.surCinq' | t: { n: formaterNote(film.note) }">
+          {{ etoiles(film.note) }}
+        </span>
+        {{ formaterNote(film.note) }} / 5
+      </p>
+      @if (enSalle()) {
+        <button class="bouton bouton--plein" type="button" (click)="blocSeances.scrollIntoView({ behavior: 'smooth' })">
+          {{ 'fiche.voirSeances' | t }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <!-- 3. Séances : la barre des dates reste collée en haut -->
+  <section #blocSeances class="seances" aria-labelledby="titre-seances">
+    @if (enSalle()) {
+      <div class="section__entete">
+        <h2 id="titre-seances" class="grand-titre">{{ 'fiche.seances' | t }}</h2>
+        <p class="etiquette">{{ 'commun.salle' | t: { n: film.id } }}</p>
+      </div>
+
+      <div class="jours" [attr.aria-label]="'fiche.choisirJour' | t">
+        @for (jour of jours(); track jour.date) {
+          <button
+            type="button"
+            class="jour"
+            [class.jour--choisi]="jour.date === jourChoisi()"
+            [attr.aria-pressed]="jour.date === jourChoisi()"
+            [disabled]="!jour.nombre"
+            (click)="jourChoisi.set(jour.date)"
+          >
+            {{ jour.libelle }}
+          </button>
+        }
+      </div>
+
+      @if (seancesDuJour().length) {
+        <ul class="liste-seances">
+          @for (seance of seancesDuJour(); track seance.id) {
+            <li class="seance">
+              <p class="seance__heure">{{ seance.heure }}</p>
+              <p class="seance__infos">{{ 'version.' + seance.version | t }} · {{ 'commun.salle' | t: { n: seance.salle } }}</p>
+              <a class="bouton" [routerLink]="['/reservation', seance.id]">{{ 'commun.reserver' | t }}</a>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="vide">{{ 'fiche.plusDeSeance' | t }}</p>
+      }
+    } @else {
+      <div class="bientot">
+        <div>
+          <p class="etiquette bientot__etiquette">{{ 'fiche.prochainement' | t }}</p>
+          <h2 id="titre-seances" class="bientot__titre">{{ 'fiche.sortieLe' | t: { date: dateSortie() } }}</h2>
+          <p class="bientot__texte">{{ 'fiche.ouverture' | t }}</p>
+        </div>
+        <button class="bouton bouton--plein" type="button" [disabled]="prevenu()" (click)="prevenu.set(true)">
+          {{ (prevenu() ? 'fiche.prevenu' : 'commun.mePrevenir') | t }}
+        </button>
+      </div>
+    }
+  </section>
+
+  <!-- 4. Synopsis et fiche technique -->
+  <section class="histoire" aria-labelledby="titre-synopsis">
+    <div class="histoire__affiche" appApparition>
+      <img [src]="film.affiche" [alt]="'fiche.afficheDe' | t: { titre: film.titre }" width="600" height="900" loading="lazy" />
+    </div>
+
+    <div appApparition style="--delai: 0.1s">
+      <p id="titre-synopsis" class="etiquette etiquette--claire">{{ 'fiche.synopsis' | t }}</p>
+      <p class="histoire__synopsis">{{ film.synopsis }}</p>
+
+      <dl class="fiche">
+        <div>
+          <dt>{{ 'fiche.realisation' | t }}</dt>
+          <dd>{{ film.realisateur }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'fiche.genre' | t }}</dt>
+          <dd>{{ film.genre }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'fiche.duree' | t }}</dt>
+          <dd>{{ duree() }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'fiche.sortie' | t }}</dt>
+          <dd>{{ dateSortie() }}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 5. Avis des spectateurs -->
+  <section class="avis" aria-labelledby="titre-avis">
+    <div class="section__entete">
+      <h2 id="titre-avis" class="grand-titre" appApparition>{{ 'fiche.avis' | t }}</h2>
+      @if (avis().length) {
+        <p class="etiquette">{{ 'fiche.nbAvis' | t: { n: avis().length } }}</p>
+      }
+    </div>
+
+    @if (avis().length) {
+      <ul class="liste-avis">
+        @for (un of avis(); track un.id; let i = $index) {
+          <li class="un-avis" appApparition [style.--delai]="i * 0.08 + 's'">
+            <p class="etoiles" role="img" [attr.aria-label]="'commun.surCinq' | t: { n: un.noteFilm }">{{ etoiles(un.noteFilm) }}</p>
+            <blockquote>« {{ un.commentaire }} »</blockquote>
+            <p class="etiquette">{{ un.auteur }} · {{ dateAvis(un.date) }}</p>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="vide">{{ 'fiche.aucunAvis' | t }}</p>
+    }
+
+    @if (enSalle()) {
+      <a class="bouton bouton--or" routerLink="/mon-compte" [queryParams]="{ onglet: 'avis' }">{{ 'fiche.noter' | t }}</a>
+    }
+  </section>
+
+  <!-- 6. Autres films -->
+  @if (autresFilms().length) {
+    <section class="autres" aria-labelledby="titre-autres">
+      <div class="section__entete">
+        <h2 id="titre-autres" class="grand-titre" appApparition>
+          {{ (enSalle() ? 'fiche.aussiAffiche' : 'fiche.aussiProchainement') | t }}
+        </h2>
+      </div>
+      <div class="grille">
+        @for (autre of autresFilms(); track autre.id; let i = $index) {
+          <app-carte-film [film]="autre" appApparition [style.--delai]="i * 0.08 + 's'" />
+        }
+      </div>
+    </section>
+  }
+} @else {
+  <!-- Adresse avec un id qui n'existe pas -->
+  <section class="page introuvable">
+    <p class="etiquette">{{ 'commun.erreur404' | t }}</p>
+    <h1 class="grand-titre">{{ 'fiche.introuvable' | t }}</h1>
+    <p>{{ 'fiche.introuvableTexte' | t }}</p>
+    <a class="bouton" routerLink="/">{{ 'commun.retourFilms' | t }}</a>
+  </section>
+}
