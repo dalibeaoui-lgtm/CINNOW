@@ -1,0 +1,717 @@
+.majuscule::first-letter {
+  text-transform: uppercase;
+}
+
+// ---------- Tableau de bord ----------
+.compte {
+  padding: 112px var(--marge) 120px;
+}
+
+.compte__entete {
+  .grand-titre {
+    margin: 14px 0 28px;
+  }
+}
+
+.chiffres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  color: var(--gris);
+
+  strong {
+    margin-right: 4px;
+    font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: var(--noir);
+  }
+}
+
+// ---------- Onglets ----------
+.onglets {
+  display: flex;
+  gap: 28px;
+  margin: 48px 0 0;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--trait);
+  scrollbar-width: none;
+}
+
+.onglet {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  padding: 14px 0;
+  border: 0;
+  background: none;
+  color: var(--gris);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--noir);
+  }
+
+  // Trait sous l'onglet actif
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--noir);
+    transform: scaleX(0);
+    transition: transform 0.35s var(--courbe);
+  }
+}
+
+.onglet--actif {
+  color: var(--noir);
+
+  &::after {
+    transform: scaleX(1);
+  }
+}
+
+.onglet__pastille {
+  display: grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--or);
+  color: var(--noir);
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+.bloc {
+  margin-top: 56px;
+}
+
+.sous-titre {
+  margin: 0 0 24px;
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.vide {
+  margin: 0;
+  color: var(--gris);
+
+  p {
+    margin: 0 0 16px;
+  }
+}
+
+.etoiles {
+  margin: 0;
+  color: var(--or);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+// ---------- E-billet (forme de ticket) ----------
+.billet {
+  --encoche: 14px;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) 190px;
+  margin-bottom: 20px;
+  background: var(--noir);
+  color: var(--blanc);
+
+  // Les deux encoches rondes du ticket, au niveau de la ligne pointillée
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    right: calc(190px - var(--encoche));
+    width: calc(var(--encoche) * 2);
+    height: calc(var(--encoche) * 2);
+    border-radius: 50%;
+    background: var(--blanc);
+  }
+
+  &::before {
+    top: calc(var(--encoche) * -1);
+  }
+
+  &::after {
+    bottom: calc(var(--encoche) * -1);
+  }
+
+  .etiquette {
+    color: var(--sable);
+  }
+}
+
+.billet__affiche {
+  width: 100%;
+  height: 100%;
+  min-height: 165px;
+  object-fit: cover;
+}
+
+.billet__infos {
+  padding: 22px 28px;
+}
+
+.billet__titre {
+  margin: 8px 0 4px;
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.billet__date {
+  margin: 0 0 18px;
+  font-size: 15px;
+  opacity: 0.8;
+}
+
+.billet__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  margin: 0;
+
+  dt {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  dd {
+    margin: 4px 0 0;
+    font-size: 14px;
+  }
+}
+
+.billet__qr {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 8px;
+  padding: 20px;
+  border-left: 2px dashed rgba(255, 255, 255, 0.25);
+  text-align: center;
+
+  app-qr-code {
+    width: 104px;
+    padding: 6px;
+  }
+}
+
+.billet__numero {
+  margin: 4px 0 0;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+// ---------- Séances passées ----------
+.liste-passes,
+.liste-a-noter {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--trait);
+}
+
+.passe,
+.a-noter__entete {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+
+  img {
+    width: 44px;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+  }
+}
+
+.passe,
+.a-noter {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--trait);
+}
+
+// ---------- Commandes de la boutique ----------
+.liste-commandes {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--trait);
+}
+
+.commande {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--trait);
+
+  app-qr-code {
+    width: 72px;
+    padding: 4px;
+    border: 1px solid var(--trait);
+  }
+}
+
+.commande__statut {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--caramel);
+}
+
+.commande__total {
+  font-size: 17px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.passe__titre {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.passe__date {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--gris);
+}
+
+// ---------- Notation ----------
+.notation {
+  display: grid;
+  gap: 20px;
+  max-width: 560px;
+  margin: 20px 0 8px 62px;
+}
+
+.notation__ligne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    float: left; // place la légende sur la même ligne que les étoiles
+    width: 170px;
+    font-size: 14px;
+    font-weight: 600;
+
+    span {
+      display: block;
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--gris);
+    }
+  }
+}
+
+.choix-etoiles {
+  display: flex;
+  gap: 2px;
+
+  button {
+    padding: 2px;
+    border: 0;
+    background: none;
+    color: #d6d3cb;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      color 0.15s,
+      transform 0.15s;
+
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+
+  .allumee {
+    color: var(--or);
+  }
+
+  // Au survol, on allume toutes les étoiles jusqu'à celle sous la souris
+  &:hover button {
+    color: var(--or);
+  }
+
+  button:hover ~ button {
+    color: #d6d3cb;
+  }
+}
+
+.notation__actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.lien {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gris);
+  font: inherit;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--noir);
+  }
+}
+
+// ---------- Avis publiés ----------
+.liste-avis {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.un-avis {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--noir);
+
+  blockquote {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+}
+
+.un-avis__film {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.un-avis__notes {
+  display: flex;
+  gap: 28px;
+  margin: 0;
+
+  dt {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+
+  dd {
+    margin: 4px 0 0;
+  }
+}
+
+// ---------- Formulaires (profil et connexion) ----------
+.grille-champs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+
+.champ {
+  display: grid;
+  gap: 8px;
+
+  > span {
+    font-size: 13px;
+    font-weight: 600;
+
+    em {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--gris);
+    }
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cfcfc8;
+    border-radius: 0;
+    background: var(--blanc);
+    color: var(--noir);
+    font: inherit;
+    font-size: 15px;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--noir);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.erreur {
+  margin: 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--rouille);
+  background: #fdf3e6;
+  color: var(--rouille);
+  font-size: 14px;
+}
+
+.succes {
+  margin: 0;
+  color: #2f7a3a;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.profil {
+  max-width: 720px;
+}
+
+.profil__titre2 {
+  margin-top: 48px;
+}
+
+.choix {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin: 0 0 20px;
+  padding: 0;
+  border: 0;
+
+  legend {
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+}
+
+.case {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--noir);
+}
+
+.profil__actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.profil .erreur {
+  margin-top: 20px;
+}
+
+.deconnexion {
+  padding-top: 32px;
+  border-top: 1px solid var(--trait);
+}
+
+// ---------- Connexion / inscription ----------
+.connexion {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 96px);
+  min-height: 100vh;
+  padding: 112px var(--marge) 80px;
+}
+
+.connexion__texte {
+  .grand-titre {
+    margin: 14px 0 24px;
+  }
+
+  p:last-child {
+    max-width: 34ch;
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--gris);
+  }
+}
+
+.connexion__carte {
+  display: grid;
+  gap: 18px;
+  padding: clamp(24px, 3vw, 40px);
+  border: 1px solid var(--trait);
+}
+
+.bascule {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 8px;
+  border: 1px solid var(--noir);
+
+  button {
+    padding: 11px;
+    border: 0;
+    background: none;
+    color: var(--noir);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background 0.25s,
+      color 0.25s;
+  }
+
+  .bascule--active {
+    background: var(--noir);
+    color: var(--blanc);
+  }
+}
+
+.connexion__bouton {
+  justify-content: center;
+  margin-top: 6px;
+  padding: 15px 16px;
+}
+
+.aide {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--gris);
+}
+
+// ---------- Tablette ----------
+@media (max-width: 900px) {
+  .connexion {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .billet {
+    grid-template-columns: 90px minmax(0, 1fr);
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+
+  .billet__qr {
+    grid-column: 1 / -1;
+    grid-template-columns: auto 1fr;
+    justify-items: start;
+    text-align: left;
+    border-left: 0;
+    border-top: 2px dashed rgba(255, 255, 255, 0.25);
+
+    app-qr-code {
+      grid-row: span 2;
+      width: 84px;
+    }
+  }
+}
+
+// ---------- Téléphone ----------
+@media (max-width: 600px) {
+  .grille-champs {
+    grid-template-columns: 1fr;
+  }
+
+  .passe,
+  .a-noter__entete {
+    grid-template-columns: 44px minmax(0, 1fr);
+
+    > :last-child {
+      grid-column: 2;
+      justify-self: start;
+    }
+  }
+
+  .notation {
+    margin-left: 0;
+  }
+
+  .notation__ligne legend {
+    float: none;
+    width: auto;
+  }
+}
