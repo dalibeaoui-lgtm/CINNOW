@@ -1,5 +1,86 @@
-<section class="page">
-  <h1>Accueil</h1>
-  <p>Films à l’affiche, prochainement, boutique. (à construire)</p>
-  <a [routerLink]="'/film/1'">Voir un film →</a>
+<!-- 1. Films à la une : slides plein écran qui s'empilent au défilement -->
+<section class="hero" [attr.aria-label]="'accueil.aLaUne' | t">
+  @for (film of slides(); track film.id; let derniere = $last) {
+    <article #slide class="slide" [class.slide--derniere]="derniere">
+      <img class="slide__image" [src]="film.photo" alt="" />
+      <div class="slide__degrade"></div>
+      <div class="slide__ombre"></div>
+
+      <div class="slide__action">
+        <a class="bouton bouton--clair" [routerLink]="['/film', film.id]">
+          {{ (film.statut === 'a-l-affiche' ? 'commun.reserver' : 'commun.mePrevenir') | t }}
+        </a>
+      </div>
+
+      <h2 class="slide__titre">{{ film.titre }}</h2>
+    </article>
+  }
+</section>
+
+<!-- 2. Films à l'affiche -->
+<section class="section" aria-labelledby="titre-affiche">
+  <div class="section__entete">
+    <h2 id="titre-affiche" class="grand-titre" appApparition>{{ 'accueil.aLAffiche' | t }}</h2>
+  </div>
+  <div class="grille">
+    @for (film of aLAffiche(); track film.id; let i = $index) {
+      <app-carte-film [film]="film" appApparition [style.--delai]="i * 0.08 + 's'" />
+    }
+  </div>
+</section>
+
+<!-- 3. Prochainement : rangée qui défile horizontalement -->
+<section class="section" aria-labelledby="titre-prochainement">
+  <div class="section__entete">
+    <h2 id="titre-prochainement" class="grand-titre" appApparition>{{ 'accueil.prochainement' | t }}</h2>
+    <p class="etiquette">{{ 'accueil.faitesDefiler' | t }}</p>
+  </div>
+  <div class="rangee">
+    @for (film of prochainement(); track film.id; let i = $index) {
+      <app-carte-film [film]="film" appApparition [style.--delai]="i * 0.08 + 's'" />
+    }
+  </div>
+</section>
+
+<!-- 4. Boutique -->
+<section class="section boutique" aria-labelledby="titre-boutique">
+  <div class="boutique__visuel" appApparition aria-hidden="true">
+    <span>{{ 'accueil.boutique.popcorn' | t }}</span>
+    <span>{{ 'accueil.boutique.boissons' | t }}</span>
+    <span>{{ 'accueil.boutique.posters' | t }}</span>
+  </div>
+  <div class="boutique__texte" appApparition style="--delai: 0.1s">
+    <p class="etiquette">{{ 'accueil.boutique.etiquette' | t }}</p>
+    <h2 id="titre-boutique" class="grand-titre">{{ 'accueil.boutique.titre' | t }}</h2>
+    <p>{{ 'accueil.boutique.texte' | t }}</p>
+    <a class="bouton bouton--plein" routerLink="/boutique">{{ 'accueil.boutique.bouton' | t }}</a>
+  </div>
+</section>
+
+<!-- 5. Invitation à noter un film, sur un fond de photos des films qui défilent -->
+<section class="avis" aria-labelledby="titre-avis">
+  <!-- Fond animé (décoratif) : la liste est écrite 2 fois à la suite ; quand la 1re a fini de
+       passer, la 2e prend exactement sa place, donc le mouvement ne s'arrête jamais -->
+  <div class="defile" aria-hidden="true">
+    <div class="defile__piste">
+      @for (tour of [1, 2]; track tour) {
+        @for (film of filmsDefile(); track film.id) {
+          <img class="defile__photo" [src]="film.photo" alt="" width="1920" height="1080" loading="lazy" />
+        }
+      }
+    </div>
+  </div>
+  <div class="avis__voile"></div>
+
+  <div class="avis__contenu">
+    <div appApparition>
+      <p class="etiquette avis__etiquette">{{ 'accueil.avis.etiquette' | t }}</p>
+      <h2 id="titre-avis" class="avis__titre">{{ 'accueil.avis.titre' | t }}</h2>
+      <p class="avis__texte">{{ 'accueil.avis.texte' | t }}</p>
+    </div>
+    <div class="avis__action" appApparition style="--delai: 0.1s">
+      <p class="avis__etoiles" aria-hidden="true">★★★★★</p>
+      <a class="bouton bouton--or" routerLink="/mon-compte" [queryParams]="{ onglet: 'avis' }">{{ 'accueil.avis.bouton' | t }}</a>
+    </div>
+  </div>
 </section>
