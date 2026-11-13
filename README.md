@@ -1,59 +1,123 @@
-# Cinnow
+# CINNOW
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.29.
+Site de cinéma : découvrir les films à l'affiche, regarder leur bande-annonce, réserver sa place,
+commander ses snacks à l'avance, puis noter le film et le service.
 
-## Development server
+Projet Web — SUP'COM, Groupe 5 : Mouhamed Ali BEAOUI, Ghassen BENKAJI.
+Encadrante : Dr. Maroua Nouioua.
 
-To start a local development server, run:
+## Lancer le projet
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Il faut [Node.js](https://nodejs.org) (version 20 ou plus).
 
 ```bash
-ng generate component component-name
+npm install     # installe les dépendances du site ET du serveur (une seule fois)
+npm run dev     # lance le serveur (port 3000) et le site (http://localhost:4200) ensemble
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+On peut aussi les lancer séparément, dans deux terminaux : `npm run api` puis `npm start`.
+Pour créer la version de production : `npm run build` (le résultat va dans `dist/`).
 
-```bash
-ng generate --help
+**Pour tester sans vraies données :** tapez `admin` dans les champs de paiement, et `admin` / `admin`
+pour vous connecter dans « Mon compte ».
+
+## Choix du framework
+
+**Angular (TypeScript)**, imposé pour le projet. Il nous apporte :
+
+- des **composants** réutilisables (carte film, en-tête, pied de page) ;
+- le **routage** entre les pages, avec chargement de chaque page seulement quand on y va ;
+- les **signals** pour gérer l'état (places choisies, compte connecté…) ;
+- les **formulaires** (connexion, profil, avis).
+
+Pas de librairie de style : tout est en SCSS, avec la palette de la charte graphique (rapport Objectif 2).
+
+**Node.js + Express** pour le serveur : le même langage (JavaScript) que le site, et une seule
+dépendance (`express`).
+
+## Fonctionnalités
+
+| Page | Adresse | Ce qu'on peut faire |
+|---|---|---|
+| Accueil | `/` | Films à la une en plein écran (parallaxe), films à l'affiche, prochaines sorties |
+| Fiche film | `/film/:id` | Bande-annonce YouTube, séances des 7 prochains jours, synopsis, avis des spectateurs |
+| Réservation | `/reservation/:seanceId` | Choix des places sur le plan de la salle, snacks en option, total en dinars |
+| Paiement | `/paiement` | Carte bancaire, e-Dinar ou au comptoir ; vérification des champs ; récapitulatif |
+| Confirmation | `/confirmation` | E-billet avec QR code, téléchargement en PDF, ajout au calendrier (.ics) |
+| Boutique | `/boutique` | Filtres par catégorie, panier (gardé dans le navigateur), commande à retirer au comptoir |
+| Mon compte | `/mon-compte` | Connexion / inscription, e-billets, commandes, notation des films vus, profil |
+
+Parcours complet : fiche film → séance → places et snacks → paiement → confirmation → « Mes billets ».
+
+**Paiement simulé :** aucun argent n'est débité et les données de carte ne sont ni envoyées ni
+enregistrées. Il sera remplacé par Stripe en mode test.
+
+Le site s'adapte à l'ordinateur, à la tablette et au téléphone.
+
+**Deux langues, français et anglais :** le petit bouton rond « FR / EN » du menu change la langue de
+tout le site (textes, dates, prix, titres et synopsis des films, produits). Les textes sont dans
+`src/app/i18n/fr.ts` et `en.ts` ; dans le HTML, on écrit `{{ 'menu.films' | t }}`. Les traductions
+des films et des produits sont envoyées par le serveur (champ `traductions` des fichiers JSON).
+
+## Backend (Node.js + Express)
+
+Le dossier `backend/` contient une petite **API REST**. Le site lui demande les films, les séances,
+les produits et les avis, et lui envoie les réservations, les commandes et les nouveaux avis.
+
+| Méthode | Adresse | Rôle |
+|---|---|---|
+| GET | `/api/films`, `/api/films/:id` | Films |
+| GET | `/api/seances`, `/api/seances?filmId=3`, `/api/seances/:id` | Séances, avec les places occupées |
+| GET | `/api/produits` | Snacks, boissons, posters |
+| GET | `/api/salle` | Plan de la salle et prix d'une place |
+| GET | `/api/avis`, `/api/avis?filmId=3` | Avis des spectateurs |
+| POST | `/api/reservations` | Réserver des places (refusé avec le code 409 si une place est déjà prise) |
+| POST | `/api/commandes` | Commander à la boutique |
+| POST | `/api/avis` | Publier un avis (notes de 1 à 5 vérifiées) |
+
+Le serveur **vérifie tout** ce que le site lui envoie et **calcule lui-même les prix** : on ne peut ni
+réserver une place déjà vendue, ni changer un prix en modifiant la page.
+
+Les données de départ sont dans `backend/donnees/*.json`. Ce que les visiteurs créent est enregistré
+dans `backend/stockage/*.json` (créé au premier lancement, non envoyé sur GitHub). Prochaine étape
+prévue : remplacer ces fichiers par PostgreSQL, et la connexion simulée par JWT + bcrypt.
+
+Le compte (profil, liste de billets) et le panier restent gardés dans le navigateur (`localStorage`).
+
+## Organisation des dossiers
+
+```
+cinnow/
+├── backend/               Serveur Node.js + Express (l'API)
+│   ├── serveur.js         Point de départ : réglages et liste des routes
+│   ├── routes/            Une route par sujet (catalogue, achats, avis)
+│   ├── seances.js         Calcul du programme et des places occupées
+│   ├── stockage.js        Lecture / écriture des fichiers JSON
+│   ├── donnees/           Données de départ (films, produits, avis, salle)
+│   └── stockage/          Réservations, commandes et avis créés (non envoyé sur GitHub)
+├── public/images/         Images du site
+│   ├── affiches/          Affiches verticales des films
+│   └── hero/              Grandes photos horizontales
+├── src/
+│   ├── index.html         Page HTML de départ (polices, titre)
+│   ├── styles.scss        Styles communs : palette, textes, boutons
+│   └── app/
+│       ├── app.routes.ts  Liste des pages et de leurs adresses
+│       ├── app.config.ts  Réglages d'Angular (routeur…)
+│       ├── pages/         Une page = un dossier (accueil, fiche-film, reservation, mon-compte…)
+│       ├── components/    Morceaux réutilisés sur plusieurs pages (header, footer, carte-film, etapes, qr-code)
+│       ├── directives/    Comportements ajoutés aux balises (apparition au défilement)
+│       ├── services/      Appels à l'API (api, catalogue) et état partagé (compte, panier, avis…)
+│       ├── models/        Forme des données (Film, Seance, Avis, Reservation…)
+│       ├── data/          Billets de démonstration donnés aux nouveaux comptes
+│       ├── i18n/          Traductions : fr.ts, en.ts, langue choisie et filtre « | t »
+│       └── utils/         Petites fonctions (formats de date, prix, durée ; stockage ; mode test)
+├── proxy.conf.json        En développement, envoie les requêtes /api vers le serveur (port 3000)
+├── angular.json, tsconfig*.json, package.json   Configuration (ne pas supprimer)
+└── node_modules/          Dépendances installées par npm install (non envoyé sur GitHub)
 ```
 
-## Building
+Chaque page ou composant a 3 fichiers : `.ts` (logique), `.html` (structure), `.scss` (style).
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Conventions :** noms de fichiers en minuscules avec des tirets (`fiche-film`, `the-odyssey.jpeg`) ;
+code, commentaires et noms de variables en français.
