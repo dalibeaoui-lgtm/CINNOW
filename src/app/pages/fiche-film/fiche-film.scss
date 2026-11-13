@@ -1,0 +1,420 @@
+// ---------- 1. Bande-annonce ----------
+.media {
+  height: 82vh;
+  height: 82svh;
+  min-height: 380px;
+}
+
+.media__cadre {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: var(--noir);
+  will-change: clip-path;
+}
+
+.media__image {
+  position: absolute;
+  top: -15%;
+  left: 0;
+  width: 100%;
+  height: 130%; // plus haute que le cadre, pour la parallaxe
+  object-fit: cover;
+  object-position: center 30%;
+  will-change: transform;
+}
+
+.media__degrade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8, 8, 8, 0.55), transparent 55%);
+}
+
+.media__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.media__lecture {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 12px; // zone de clic plus grande que le triangle
+  border: 0;
+  background: none;
+  color: var(--blanc);
+  opacity: 0.7;
+  cursor: pointer;
+  transition:
+    opacity 0.25s,
+    transform 0.25s var(--courbe);
+
+  svg {
+    display: block;
+    width: 26px;
+    height: 26px;
+    fill: currentColor;
+    filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.4)); // reste visible sur une image claire
+  }
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+// ---------- 2. Titre ----------
+.entete {
+  padding: 48px var(--marge) 56px;
+}
+
+.titre {
+  margin: 16px 0 36px;
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: clamp(56px, 11vw, 200px);
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+}
+
+// Chaque mot est caché sous sa ligne puis remonte, l'un après l'autre
+.titre__ligne {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em; // ne pas couper les lettres qui descendent (p, y, g)
+  margin-right: 0.2em;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  > span {
+    display: inline-block;
+    animation: monter 1.1s var(--courbe) both;
+    animation-delay: calc(var(--i) * 0.09s + 0.15s);
+  }
+}
+
+@keyframes monter {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+.entete__bas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--trait);
+
+  p {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .bouton {
+    margin-left: auto;
+  }
+}
+
+.entete__note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.etoiles {
+  margin: 0;
+  color: var(--or);
+  letter-spacing: 0.1em;
+}
+
+// ---------- 3. Séances ----------
+.seances {
+  padding: 40px var(--marge) 96px;
+}
+
+.section__entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--trait);
+}
+
+// Barre des dates : reste collée en haut, juste sous le menu.
+// Quand le menu se cache (on descend), elle remonte tout en haut.
+.jours {
+  position: sticky;
+  top: 68px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  padding: 14px 0;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  background: var(--blanc);
+  border-bottom: 1px solid var(--trait);
+  scrollbar-width: none;
+  transition: top 0.5s var(--courbe);
+}
+
+:host-context(.menu-cache) .jours {
+  top: 0;
+}
+
+.jour {
+  flex: none;
+  padding: 9px 16px;
+  border: 1px solid var(--trait);
+  border-radius: 999px;
+  background: var(--blanc);
+  color: var(--noir);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    border-color 0.25s;
+
+  &:hover:not(:disabled) {
+    border-color: var(--noir);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+}
+
+.jour--choisi {
+  background: var(--noir);
+  border-color: var(--noir);
+  color: var(--blanc);
+}
+
+.liste-seances {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seance {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid var(--trait);
+  transition: border-color 0.25s;
+
+  &:hover {
+    border-color: var(--noir);
+  }
+}
+
+.seance__heure {
+  margin: 0;
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.seance__infos {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--gris);
+}
+
+.vide {
+  color: var(--gris);
+}
+
+// Film pas encore sorti
+.bientot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: clamp(24px, 4vw, 48px);
+  background: var(--creme);
+  color: var(--rouille);
+}
+
+.bientot__etiquette {
+  color: var(--rouille);
+}
+
+.bientot__titre {
+  margin: 10px 0;
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: clamp(30px, 4vw, 52px);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--noir);
+}
+
+.bientot__texte {
+  margin: 0;
+  font-size: 16px;
+}
+
+// ---------- 4. Synopsis ----------
+.histoire {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  align-items: start;
+  gap: clamp(32px, 5vw, 80px);
+  padding: 96px var(--marge);
+  background: var(--expresso);
+  color: var(--blanc);
+}
+
+.histoire__affiche img {
+  width: 100%;
+  height: auto; // sinon l'attribut height="900" du HTML garde l'image à 900 px de haut
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.histoire__synopsis {
+  max-width: 28ch;
+  margin: 16px 0 48px;
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: clamp(26px, 3.2vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.fiche {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 32px;
+  max-width: 560px;
+  margin: 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+  dt {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sable);
+  }
+
+  dd {
+    margin: 6px 0 0;
+    font-size: 17px;
+  }
+}
+
+// ---------- 5. Avis ----------
+.avis {
+  padding: 120px var(--marge) 40px;
+
+  .section__entete {
+    margin-bottom: 32px;
+  }
+}
+
+.liste-avis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  margin: 0 0 40px;
+  padding: 0;
+  list-style: none;
+}
+
+.un-avis {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--noir);
+
+  blockquote {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.45;
+  }
+}
+
+// ---------- 6. Autres films ----------
+.autres {
+  padding: 80px var(--marge) 120px;
+
+  .section__entete {
+    margin-bottom: 32px;
+  }
+}
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px 32px;
+}
+
+// ---------- Film introuvable ----------
+.introuvable {
+  display: grid;
+  justify-items: start;
+  align-content: center;
+  gap: 18px;
+  min-height: 70vh;
+}
+
+// Pas d'animation du titre si l'utilisateur a demandé à les réduire
+@media (prefers-reduced-motion: reduce) {
+  .titre__ligne > span {
+    animation: none;
+  }
+}
+
+// ---------- Tablette ----------
+@media (max-width: 1024px) {
+  .grille,
+  .liste-avis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// ---------- Téléphone ----------
+@media (max-width: 640px) {
+  .grille,
+  .liste-avis,
+  .histoire {
+    grid-template-columns: 1fr;
+  }
+
+  .histoire__affiche {
+    max-width: 220px;
+  }
+
+  .entete__bas .bouton {
+    margin-left: 0;
+  }
+
+  .jours {
+    top: 58px;
+  }
+}
