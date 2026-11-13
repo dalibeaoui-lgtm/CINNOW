@@ -1,12 +1,95 @@
-<header class="header">
-  <nav class="header__liens" aria-label="Menu principal">
-    <a routerLink="/" routerLinkActive="actif" [routerLinkActiveOptions]="{ exact: true }">Films</a>
-    <a routerLink="/boutique" routerLinkActive="actif">Boutique</a>
+<header class="header" [class.header--cache]="cache()">
+  <nav class="header__liens" [attr.aria-label]="'menu.principal' | t">
+    <a routerLink="/" routerLinkActive="actif" [routerLinkActiveOptions]="{ exact: true }">{{ 'menu.films' | t }}</a>
+    <a routerLink="/boutique" routerLinkActive="actif">{{ 'menu.boutique' | t }}</a>
   </nav>
 
-  <a routerLink="/" class="header__logo" aria-label="CINNOW, accueil">CINNOW</a>
+  <a routerLink="/" class="header__logo" [attr.aria-label]="'menu.logo' | t">
+    <svg viewBox="0 0 510 100" aria-hidden="true">
+      <path d="M76.9 23.1A38 38 0 1 0 76.9 76.9" fill="none" stroke="currentColor" stroke-width="24" />
+      <rect x="102" width="24" height="100" /><rect x="138" width="24" height="100" />
+      <rect x="190" width="24" height="100" /><rect x="242" width="24" height="100" />
+      <polygon points="138,0 162,0 214,100 190,100" /><polygon points="190,0 214,0 266,100 242,100" />
+      <circle cx="328" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="24" /><circle cx="328" cy="50" r="7" />
+      <polygon points="390,0 414,0 429,62 440,20 460,20 471,62 486,0 510,0 484,100 460,100 450,58 440,100 416,100" />
+    </svg>
+  </a>
 
-  <nav class="header__compte" aria-label="Mon espace">
-    <a routerLink="/mon-compte" routerLinkActive="actif">Mon compte</a>
-  </nav>
+  <div class="header__compte">
+    <!-- Recherche : les résultats s'affichent sous le menu pendant la frappe (voir plus bas) -->
+    <form class="recherche" role="search" (submit)="$event.preventDefault()">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+        <path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+      <label class="visuellement-cache" for="recherche-film">{{ 'menu.rechercherLabel' | t }}</label>
+      <input
+        id="recherche-film"
+        type="search"
+        autocomplete="off"
+        role="combobox"
+        aria-controls="resultats-recherche"
+        [attr.aria-expanded]="listeOuverte()"
+        [attr.aria-activedescendant]="listeOuverte() && resultats().length ? 'resultat-' + indexActif() : null"
+        [placeholder]="'menu.rechercher' | t"
+        [value]="recherche()"
+        (input)="taper($any($event.target).value)"
+        (focus)="ouverte.set(true)"
+        (blur)="ouverte.set(false)"
+        (keydown.arrowdown)="deplacer(1, $event)"
+        (keydown.arrowup)="deplacer(-1, $event)"
+        (keydown.escape)="fermer()"
+        (keydown.enter)="$event.preventDefault(); ouvrirResultat(indexActif())"
+      />
+    </form>
+    @if (panier.nombre()) {
+      <a routerLink="/boutique" [queryParams]="{ panier: 'ouvert' }">{{ 'menu.panier' | t: { n: panier.nombre() } }}</a>
+    }
+    <a routerLink="/mon-compte" routerLinkActive="actif">{{ 'menu.monCompte' | t }}</a>
+
+    <!-- Petit rond avec les 2 premières lettres de la langue : un clic passe à l'autre langue -->
+    <button
+      type="button"
+      class="langue"
+      [attr.aria-label]="'langue.changer' | t: { langue: nomLangue() }"
+      [title]="nomLangue()"
+      (click)="changerLangue()"
+    >
+      {{ langue().toUpperCase() }}
+    </button>
+  </div>
 </header>
+
+<!-- Résultats de la recherche. En dehors de <header> : le menu est en mode « différence »
+     (couleurs inversées), qui rendrait ce panneau illisible. -->
+@if (listeOuverte()) {
+  <div class="resultats" [class.resultats--cache]="cache()">
+    @if (resultats().length) {
+      <ul id="resultats-recherche" role="listbox" [attr.aria-label]="'recherche.resultats' | t">
+        @for (film of resultats(); track film.id; let i = $index) {
+          <!-- mousedown (et pas click) : le clic arrive avant que le champ perde le focus et ferme la liste -->
+          <li
+            [id]="'resultat-' + i"
+            role="option"
+            class="resultat"
+            [class.resultat--actif]="i === indexActif()"
+            [attr.aria-selected]="i === indexActif()"
+            (mousedown)="$event.preventDefault(); ouvrirResultat(i)"
+            (mouseenter)="indexActif.set(i)"
+          >
+            <img [src]="film.affiche" alt="" width="600" height="900" />
+            <div>
+              <p class="resultat__titre">{{ film.titre }}</p>
+              <p class="resultat__infos">{{ film.realisateur }} · {{ film.genre }}</p>
+            </div>
+            <span class="resultat__statut">
+              {{ (film.statut === 'a-l-affiche' ? 'carte.enSalle' : 'accueil.prochainement') | t }}
+            </span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p id="resultats-recherche" class="resultats__vide">{{ 'recherche.aucun' | t: { q: recherche().trim() } }}</p>
+    }
+  </div>
+}

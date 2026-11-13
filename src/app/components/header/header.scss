@@ -1,12 +1,22 @@
+// Menu fixé en haut. Le mode « différence » le rend lisible
+// sur les photos (texte clair) comme sur fond blanc (texte noir).
 .header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 20px 48px;
-  border-bottom: 1px solid #e4e4e4;
+  gap: 16px;
+  padding: 18px var(--marge);
+  color: #fff;
+  mix-blend-mode: difference;
+  transition:
+    transform 0.5s var(--courbe),
+    opacity 0.4s;
 
   a {
-    color: #080808;
+    color: inherit;
     text-decoration: none;
     font-size: 12px;
     font-weight: 500;
@@ -16,7 +26,20 @@
 
   a.actif {
     text-decoration: underline;
+    text-underline-offset: 4px;
   }
+}
+
+.header--cache {
+  transform: translateY(-110%);
+}
+
+// Bande-annonce en cours sur la fiche film (classe posée par la page sur <html>) :
+// le menu s'efface pour ne pas passer par-dessus la vidéo et ses boutons
+:host-context(.video-en-cours) .header {
+  opacity: 0;
+  transform: translateY(-110%);
+  pointer-events: none;
 }
 
 .header__liens {
@@ -24,12 +47,186 @@
   gap: 24px;
 }
 
-.header__logo {
-  font-size: 20px !important;
-  letter-spacing: 0.02em !important;
+.header__logo svg {
+  display: block;
+  height: 22px;
+  width: auto;
+  fill: currentColor;
 }
 
 .header__compte {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 24px;
+}
+
+// ---------- Bouton de langue : juste « FR » ou « EN », sans cadre ----------
+.langue {
+  flex: none;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+
+  // Souligné au survol, comme les liens du menu
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+// ---------- Barre de recherche ----------
+.recherche {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    flex: none;
+  }
+
+  input {
+    width: 150px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 13px;
+
+    &::placeholder {
+      color: inherit;
+      opacity: 0.75;
+    }
+  }
+}
+
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// ---------- Résultats de la recherche (panneau sous le menu, à droite) ----------
+.resultats {
+  position: fixed;
+  top: 64px;
+  right: var(--marge);
+  z-index: 55;
+  width: min(380px, calc(100vw - 2 * var(--marge)));
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  border: 1px solid var(--trait);
+  background: var(--blanc);
+  color: var(--noir);
+  box-shadow: 0 18px 40px rgba(8, 8, 8, 0.18);
+  animation: apparaitre 0.2s var(--courbe);
+  transition:
+    transform 0.5s var(--courbe),
+    opacity 0.3s;
+
+  ul {
+    margin: 0;
+    padding: 6px 0;
+    list-style: none;
+  }
+}
+
+@keyframes apparaitre {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+// Le menu se cache en descendant : le panneau part avec lui
+.resultats--cache {
+  opacity: 0;
+  transform: translateY(-120%);
+  pointer-events: none;
+}
+
+.resultat {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  cursor: pointer;
+
+  img {
+    width: 36px;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.resultat--actif {
+  background: #f4f1ea;
+}
+
+.resultat__titre {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.resultat__infos {
+  margin-top: 2px !important;
+  font-size: 12px;
+  color: var(--gris);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.resultat__statut {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--caramel);
+  white-space: nowrap;
+}
+
+.resultats__vide {
+  margin: 0;
+  padding: 16px;
+  font-size: 14px;
+  color: var(--gris);
+}
+
+// ---------- Téléphone : logo + compte seulement ----------
+@media (max-width: 760px) {
+  .header {
+    grid-template-columns: auto 1fr;
+  }
+
+  .header__liens,
+  .recherche,
+  .resultats {
+    display: none;
+  }
 }
