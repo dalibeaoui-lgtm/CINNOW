@@ -1,17 +1,192 @@
-/* You can add global styles to this file, and also import other style files */
+// =====================================================================
+// Styles communs à tout le site CINNOW
+// =====================================================================
 
-// Styles communs à tout le site
+// ---------- Palette (charte graphique, inspirée de Whiplash) ----------
+:root {
+  --noir: #080808;
+  --olive: #251e0b;
+  --expresso: #381501;
+  --cacao: #442207;
+  --rouille: #702b01;
+  --caramel: #8f4401;
+  --ambre: #c87608;
+  --or: #f6b501;
+  --sable: #eec166;
+  --creme: #fce188;
+  --blanc: #ffffff;
+  --gris: #6b6b63;
+  --trait: #e4e4e4;
+
+  --marge: clamp(16px, 3.3vw, 48px); // marge à gauche et à droite des pages
+  --courbe: cubic-bezier(0.2, 0.7, 0.2, 1); // courbe des animations
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: "Inter", Arial, sans-serif;
-  color: #080808;
-  background: #ffffff;
+  font-family: 'Inter', Arial, sans-serif;
+  color: var(--noir);
+  background: var(--blanc);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
 }
 
 main {
   min-height: 70vh;
 }
 
+// Pages autres que l'accueil : laisser la place au menu fixe
 .page {
-  padding: 48px;
+  padding: 112px var(--marge) 48px;
+}
+
+// ---------- Textes ----------
+.etiquette {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+
+.etiquette--claire {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.grand-titre {
+  margin: 0;
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: clamp(44px, 7vw, 104px);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+}
+
+// ---------- Boutons ----------
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border: 1px solid var(--noir);
+  background: transparent;
+  color: var(--noir);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--noir);
+    color: var(--blanc);
+  }
+}
+
+.bouton--plein {
+  background: var(--noir);
+  color: var(--blanc);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--or);
+    border-color: var(--or);
+    color: var(--noir);
+  }
+}
+
+.bouton--or {
+  background: var(--or);
+  border-color: var(--or);
+  color: var(--noir);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--blanc);
+    border-color: var(--blanc);
+    color: var(--noir);
+  }
+}
+
+.bouton--clair {
+  border-color: var(--blanc);
+  color: var(--blanc);
+  background: rgba(0, 0, 0, 0.2);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--blanc);
+    color: var(--noir);
+  }
+}
+
+// Bouton désactivé (ex. « Continuer » tant qu'aucune place n'est choisie)
+.bouton:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+// ---------- Accessibilité ----------
+// Texte lu par les lecteurs d'écran mais invisible à l'écran
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// ---------- Apparition au défilement (directive appApparition) ----------
+.apparition {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.9s var(--courbe),
+    transform 0.9s var(--courbe);
+  transition-delay: var(--delai, 0s);
+}
+
+.apparition.visible {
+  opacity: 1;
+  transform: none;
+}
+
+// Respecter le réglage « réduire les animations » du système
+@media (prefers-reduced-motion: reduce) {
+  .apparition {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+// Panneau ouvert (ex. panier de la boutique) : la page derrière ne défile plus
+body.sans-defilement {
+  overflow: hidden;
+}
+
+// ---------- Impression (ex. e-billet en PDF) : on garde seulement le contenu de la page ----------
+@media print {
+  app-header,
+  app-footer {
+    display: none !important;
+  }
+
+  .page {
+    padding-top: 24px;
+  }
 }

@@ -1,6 +1,55 @@
 .footer {
-  background: #080808;
-  color: #ffffff;
-  padding: 48px;
+  display: grid;
+  gap: 40px;
+  padding: 96px var(--marge) 32px;
+  background: var(--noir);
+  color: var(--blanc);
+}
+
+.footer__logo {
+  width: min(100%, 860px);
+  height: auto;
+  fill: currentColor;
+}
+
+// Sur l'accueil seulement (classe « page-accueil » posée par la page sur <html>) :
+// le logo prend le dégradé animé des couleurs de la charte, défini dans footer.html
+:host-context(.page-accueil) .footer__logo {
+  fill: url(#degrade-pied); // lettres pleines (I, N, W, point du O)
+
+  [stroke] {
+    stroke: url(#degrade-pied); // lettres tracées (C, anneau du O)
+  }
+}
+
+.footer__liens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    &:hover {
+      color: var(--or);
+    }
+  }
+}
+
+.footer__bas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
   font-size: 13px;
+  opacity: 0.6;
+
+  p {
+    margin: 0;
+  }
 }

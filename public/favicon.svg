@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="127 -25 150 150">
+  <!-- Icône de l'onglet : les deux « N » du logo CINNOW, en blanc sur noir écran.
+       Mêmes formes que dans le logo (header.html), cadrées dans un carré. -->
+  <rect x="127" y="-25" width="150" height="150" rx="22" fill="#080808" />
+  <g fill="#ffffff">
+    <rect x="138" width="24" height="100" />
+    <rect x="190" width="24" height="100" />
+    <rect x="242" width="24" height="100" />
+    <polygon points="138,0 162,0 214,100 190,100" />
+    <polygon points="190,0 214,0 266,100 242,100" />
+  </g>
+</svg>
