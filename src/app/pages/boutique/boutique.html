@@ -1,5 +1,131 @@
-<section class="page">
-  <h1>Boutique</h1>
-  <p>Snacks, boissons, posters, goodies. (à construire)</p>
-  <a [routerLink]="'/'">Retour à l’accueil →</a>
+<section class="page boutique" [class.boutique--avec-barre]="lePanier.nombre()">
+  <!-- Titre et filtres -->
+  <p class="etiquette">{{ 'bout.etiquette' | t }}</p>
+  <h1 class="grand-titre boutique__titre">{{ 'bout.titre' | t }}</h1>
+  <p class="boutique__intro">{{ 'bout.intro' | t }}</p>
+
+  <div class="filtres" role="group" [attr.aria-label]="'bout.filtrer' | t">
+    @for (f of filtres; track f.id) {
+      <button
+        type="button"
+        class="filtre"
+        [class.filtre--actif]="filtre() === f.id"
+        [attr.aria-pressed]="filtre() === f.id"
+        (click)="filtre.set(f.id)"
+      >
+        {{ f.libelle | t }} <span class="filtre__nombre">{{ nombreDans(f.id) }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- Produits, en 2 parties : snacks & boissons, puis posters (une partie vide n'est pas affichée) -->
+  @for (section of sections(); track section.id) {
+  <section class="partie" [attr.aria-labelledby]="'titre-' + section.id">
+    <div class="partie__entete">
+      <h2 class="partie__titre" [id]="'titre-' + section.id">{{ section.titre | t }}</h2>
+      <p class="etiquette">{{ 'bout.nbProduits' | tn: section.produits.length }}</p>
+    </div>
+
+  <ul class="produits">
+    @for (produit of section.produits; track produit.id) {
+      @let quantite = lePanier.quantite(produit.id);
+      <li class="produit">
+        <div class="produit__image" [class.produit__image--poster]="produit.categorie === 'poster' && produit.image">
+          @if (produit.categorie === 'poster' && produit.image) {
+            <!-- Poster : affiché en entier, debout dans la case -->
+            <img [src]="produit.image" [alt]="produit.nom" width="600" height="900" loading="lazy" />
+          } @else {
+            <!-- Snack ou boisson : photo détourée (ou le nom sur une vignette de couleur, sans photo) -->
+            <div class="vignette {{ vignette(produit) }}">
+              @if (produit.image) {
+                <img class="vignette__photo" [src]="produit.image" [alt]="produit.nom" width="800" height="800" loading="lazy" />
+              } @else {
+                <span aria-hidden="true">{{ produit.nom }}</span>
+              }
+            </div>
+          }
+        </div>
+
+        <h3 class="produit__nom">{{ produit.nom }}</h3>
+        <p class="produit__description">{{ produit.description }}</p>
+
+        <div class="produit__bas">
+          <span class="produit__prix">{{ formaterPrix(produit.prix) }}</span>
+
+          @if (quantite) {
+            <div class="quantite">
+              <button type="button" [attr.aria-label]="'commun.retirer' | t: { nom: produit.nom }" (click)="lePanier.changerQuantite(produit, -1)">−</button>
+              <span>{{ quantite }}</span>
+              <button type="button" [attr.aria-label]="'commun.ajouterNom' | t: { nom: produit.nom }" [disabled]="quantite >= 10" (click)="lePanier.changerQuantite(produit, 1)">+</button>
+            </div>
+          } @else {
+            <button class="bouton" type="button" (click)="ajouter(produit)">{{ 'bout.ajouter' | t }}</button>
+          }
+        </div>
+      </li>
+    }
+  </ul>
+  </section>
+  }
 </section>
+
+<!-- Barre du panier, fixée en bas de l'écran -->
+@if (lePanier.nombre()) {
+  <div class="barre">
+    <p class="barre__texte">
+      <strong>{{ 'bout.barre' | tn: lePanier.nombre() }}</strong>
+      <span>{{ 'bout.retrait' | t }}</span>
+    </p>
+    <div class="barre__droite">
+      <span class="barre__total">{{ formaterPrix(lePanier.total()) }}</span>
+      <button class="bouton bouton--clair" type="button" (click)="panierOuvert.set(true)">{{ 'bout.voirPanier' | t }}</button>
+    </div>
+  </div>
+}
+
+<!-- Panier (panneau qui glisse depuis la droite) -->
+@if (panierOuvert()) {
+  <div class="voile" (click)="panierOuvert.set(false)" aria-hidden="true"></div>
+  <aside class="tiroir" role="dialog" aria-modal="true" aria-labelledby="titre-panier">
+    <div class="tiroir__entete">
+      <h2 id="titre-panier" class="tiroir__titre">{{ 'bout.votrePanier' | t }}</h2>
+      <button class="tiroir__fermer" type="button" [attr.aria-label]="'bout.fermer' | t" (click)="panierOuvert.set(false)">✕</button>
+    </div>
+
+    @if (lePanier.nombre()) {
+      <ul class="lignes">
+        @for (ligne of lePanier.lignes(); track ligne.produit.id) {
+          <li class="ligne">
+            <div>
+              <p class="ligne__nom">{{ nomProduit(ligne.produit) }}</p>
+              <p class="ligne__prix">{{ 'bout.unite' | t: { prix: formaterPrix(ligne.produit.prix) } }}</p>
+            </div>
+            <div class="quantite">
+              <button type="button" [attr.aria-label]="'commun.retirer' | t: { nom: nomProduit(ligne.produit) }" (click)="lePanier.changerQuantite(ligne.produit, -1)">−</button>
+              <span>{{ ligne.quantite }}</span>
+              <button type="button" [attr.aria-label]="'commun.ajouterNom' | t: { nom: nomProduit(ligne.produit) }" [disabled]="ligne.quantite >= 10" (click)="lePanier.changerQuantite(ligne.produit, 1)">+</button>
+            </div>
+            <span class="ligne__total">{{ formaterPrix(ligne.produit.prix * ligne.quantite) }}</span>
+          </li>
+        }
+      </ul>
+
+      <div class="tiroir__bas">
+        <div class="tiroir__total">
+          <span>{{ 'commun.total' | t }}</span>
+          <span>{{ formaterPrix(lePanier.total()) }}</span>
+        </div>
+        <p class="tiroir__note">{{ 'bout.note' | t }}</p>
+        <button class="bouton bouton--plein tiroir__bouton" type="button" (click)="commander()">{{ 'bout.commander' | t }}</button>
+        <button class="lien" type="button" (click)="lePanier.vider()">{{ 'bout.vider' | t }}</button>
+      </div>
+    } @else {
+      <p class="tiroir__vide">{{ 'bout.vide' | t }}</p>
+    }
+  </aside>
+}
+
+<!-- Notification -->
+<p class="notification" [class.notification--visible]="notification()" role="status" aria-live="polite">
+  {{ notification() }}
+</p>
