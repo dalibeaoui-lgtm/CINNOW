@@ -1,0 +1,229 @@
+.majuscule::first-letter {
+  text-transform: uppercase;
+}
+
+.confirmation {
+  padding-bottom: 96px;
+}
+
+// ---------- Message de réussite ----------
+.succes {
+  display: grid;
+  justify-items: center;
+  margin: 56px auto 48px;
+  text-align: center;
+}
+
+.succes__rond {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--noir);
+  animation: apparaitre 0.6s var(--courbe) both;
+
+  svg {
+    width: 34px;
+    height: 34px;
+    fill: none;
+    stroke: var(--blanc);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    // la coche se dessine
+    stroke-dasharray: 24;
+    stroke-dashoffset: 24;
+    animation: dessiner 0.5s 0.35s var(--courbe) forwards;
+  }
+}
+
+@keyframes apparaitre {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+}
+
+@keyframes dessiner {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.succes__titre {
+  margin: 20px 0 16px;
+  font-size: clamp(40px, 5.5vw, 80px);
+}
+
+.succes__texte {
+  margin: 0;
+  font-size: clamp(16px, 1.5vw, 19px);
+  color: var(--gris);
+}
+
+.succes__a-regler {
+  margin: 14px 0 0;
+  padding: 10px 16px;
+  background: var(--creme);
+  font-size: 15px;
+}
+
+// ---------- Billet ----------
+.billet {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) 256px;
+  max-width: 900px;
+  margin: 0 auto;
+  border: 1px solid var(--trait);
+}
+
+.billet__affiche {
+  width: 180px;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  margin: 28px 0 28px 28px;
+  object-fit: cover;
+}
+
+.billet__infos {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 50px 32px 28px;
+
+  p {
+    margin: 0;
+    font-size: 17px;
+  }
+}
+
+.billet__titre {
+  margin: 4px 0 14px;
+  font-size: clamp(30px, 3vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.billet__snacks {
+  color: var(--gris);
+}
+
+.billet__numero {
+  margin-top: 28px !important;
+  font-size: 11px !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+
+.billet__qr {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 24px;
+  padding: 28px;
+  border-left: 1px solid var(--trait);
+  text-align: center;
+
+  app-qr-code {
+    width: 190px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--gris);
+  }
+}
+
+// ---------- Actions ----------
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 900px;
+  margin: 48px auto 0;
+}
+
+.actions__gauche {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.aide {
+  margin: 48px 0 0;
+  font-size: 14px;
+  text-align: center;
+  color: var(--gris);
+}
+
+// ---------- Rien à confirmer ----------
+.vide {
+  display: grid;
+  justify-items: start;
+  align-content: center;
+  gap: 18px;
+  min-height: 70vh;
+
+  p {
+    margin: 0;
+  }
+}
+
+// ---------- Tablette et téléphone ----------
+@media (max-width: 860px) {
+  .billet {
+    grid-template-columns: 110px minmax(0, 1fr);
+  }
+
+  .billet__affiche {
+    width: 110px;
+    margin: 20px 0 0 20px;
+  }
+
+  .billet__infos {
+    padding: 20px;
+  }
+
+  .billet__qr {
+    grid-column: 1 / -1;
+    border-left: 0;
+    border-top: 1px dashed var(--trait);
+  }
+}
+
+@media (max-width: 600px) {
+  .actions,
+  .actions__gauche {
+    flex-direction: column;
+    width: 100%;
+
+    .bouton {
+      justify-content: center;
+    }
+  }
+}
+
+// ---------- Impression (« Télécharger le billet (PDF) ») ----------
+@media print {
+  .sans-impression {
+    display: none !important;
+  }
+
+  .confirmation {
+    padding: 0;
+  }
+
+  .succes__rond {
+    display: none;
+  }
+
+  .billet {
+    break-inside: avoid;
+  }
+}

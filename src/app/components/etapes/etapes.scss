@@ -1,0 +1,77 @@
+// La couleur suit celle de la page (noir sur fond clair, blanc sur la page Réservation sombre).
+// --etapes-contraste : couleur du chiffre dans le rond plein (blanc par défaut, noir sur fond sombre).
+.etapes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.etape {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+
+  // Trait entre deux étapes
+  &:not(:last-child)::after {
+    content: '';
+    width: clamp(16px, 3vw, 40px);
+    height: 1px;
+    margin: 0 14px;
+    background: currentColor;
+    opacity: 0.2;
+  }
+}
+
+.etape__numero {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 12px;
+
+  svg {
+    width: 12px;
+    height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.etape--a-venir {
+  opacity: 0.5;
+}
+
+.etape--active .etape__numero,
+.etape--faite .etape__numero {
+  background: currentColor;
+
+  // le chiffre ou la coche, en couleur inverse dans le rond plein
+  color: var(--etapes-contraste, var(--blanc));
+}
+
+.etape--active {
+  font-weight: 600;
+}
+
+// Téléphone : on garde les ronds, on cache les traits
+@media (max-width: 520px) {
+  .etape {
+    font-size: 13px;
+
+    &:not(:last-child)::after {
+      width: 10px;
+      margin: 0 8px;
+    }
+  }
+}

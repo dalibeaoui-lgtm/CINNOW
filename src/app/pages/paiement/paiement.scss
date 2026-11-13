@@ -1,0 +1,312 @@
+.majuscule::first-letter {
+  text-transform: uppercase;
+}
+
+.paiement__titre {
+  margin: 40px 0 12px;
+}
+
+.paiement__sous-titre {
+  margin: 0 0 40px;
+  font-size: clamp(16px, 1.6vw, 20px);
+  color: var(--gris);
+}
+
+// Formulaire à gauche, récapitulatif à droite (comme la maquette)
+.colonnes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  align-items: start;
+  gap: 48px;
+}
+
+// Petit titre en majuscules au-dessus d'un champ
+.libelle {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+
+// ---------- Formulaire ----------
+.carte-form {
+  display: grid;
+  gap: 22px;
+  padding: clamp(24px, 3vw, 40px);
+  border: 1px solid var(--trait);
+}
+
+.moyens {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    margin-bottom: 14px;
+  }
+}
+
+.moyen {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1px solid var(--trait);
+  font-size: 15px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: var(--gris);
+  }
+
+  input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--noir);
+  }
+}
+
+.moyen--choisi {
+  border: 2px solid var(--noir);
+  padding: 15px 17px; // compense la bordure plus épaisse
+}
+
+.champ {
+  display: grid;
+  gap: 8px;
+
+  input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--trait);
+    border-radius: 0;
+    background: var(--blanc);
+    color: var(--noir);
+    font: inherit;
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--noir);
+    }
+
+    &[aria-invalid='true'] {
+      border-color: var(--rouille);
+    }
+  }
+}
+
+.deux-champs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.erreur {
+  font-size: 13px;
+  color: var(--rouille);
+}
+
+.info {
+  margin: 0;
+  padding: 18px 20px;
+  background: #faf8f3;
+  border-left: 3px solid var(--or);
+  font-size: 15px;
+  line-height: 1.5;
+
+  em {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--gris);
+  }
+}
+
+.case {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  cursor: pointer;
+
+  input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--noir);
+  }
+}
+
+.bouton-payer {
+  justify-content: center;
+  width: 100%;
+  padding: 15px 16px;
+}
+
+.bouton-payer--mobile {
+  display: none;
+}
+
+// ---------- Récapitulatif ----------
+.recap {
+  position: sticky;
+  top: 88px;
+  display: grid;
+  gap: 14px;
+  padding: 28px;
+  border: 1px solid var(--trait);
+}
+
+.recap__film {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 16px;
+  padding-bottom: 22px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--trait);
+
+  img {
+    width: 96px;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.recap__titre {
+  margin-bottom: 8px !important;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.recap__date {
+  font-size: 15px;
+  color: var(--gris);
+  line-height: 1.6;
+}
+
+.recap__places {
+  margin: -6px 0 6px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.recap__ligne {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 15px;
+
+  span:last-child {
+    white-space: nowrap;
+  }
+}
+
+.recap__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 8px 0 10px;
+  padding-top: 18px;
+  border-top: 1px solid var(--trait);
+  font-size: 20px;
+
+  span:last-child {
+    font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+}
+
+.erreur-serveur {
+  padding: 14px 16px;
+  border-left: 3px solid var(--rouille);
+  background: #fdf3e6;
+  color: var(--rouille);
+  font-size: 14px;
+  line-height: 1.45;
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    display: inline-block;
+    margin-top: 8px;
+    color: inherit;
+    font-weight: 600;
+  }
+}
+
+.recap__note {
+  margin: 4px 0 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--gris);
+}
+
+.recap__modifier {
+  justify-content: center;
+}
+
+// ---------- Rien à payer ----------
+.vide {
+  display: grid;
+  justify-items: start;
+  align-content: center;
+  gap: 18px;
+  min-height: 70vh;
+
+  p {
+    margin: 0;
+  }
+}
+
+// ---------- Tablette et téléphone : une seule colonne ----------
+@media (max-width: 960px) {
+  .colonnes {
+    grid-template-columns: 1fr;
+  }
+
+  // Le récapitulatif passe au-dessus du formulaire
+  .recap {
+    position: static;
+    order: -1;
+
+    .bouton-payer {
+      display: none;
+    }
+  }
+
+  .bouton-payer--mobile {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 600px) {
+  .moyens {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .deux-champs {
+    grid-template-columns: 1fr;
+  }
+}

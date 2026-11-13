@@ -1,5 +1,215 @@
-<section class="page">
-  <h1>Paiement</h1>
-  <p>Moyen de paiement et récapitulatif. (à construire)</p>
-  <a [routerLink]="'/confirmation'">Payer →</a>
-</section>
+@if (rienAPayer()) {
+  <!-- Arrivée sur /paiement sans rien à payer (adresse tapée, séance passée, panier vide…) -->
+  <section class="page vide">
+    <p class="etiquette">{{ 'pay.titre' | t }}</p>
+    <h1 class="grand-titre">{{ (estBoutique() ? 'pay.panierVide' : 'pay.aucuneResa') | t }}</h1>
+    <p>{{ (estBoutique() ? 'pay.panierVideTexte' : 'pay.aucuneResaTexte') | t }}</p>
+    <a class="bouton" [routerLink]="estBoutique() ? '/boutique' : '/'">
+      {{ (estBoutique() ? 'pay.allerBoutique' : 'commun.voirFilms') | t }}
+    </a>
+  </section>
+} @else {
+  <section class="page paiement">
+    <!-- En-tête -->
+    @if (estBoutique()) {
+      <p class="etiquette">{{ 'pay.boutiqueEtiquette' | t }}</p>
+    } @else {
+      <app-etapes [courantes]="[4]" />
+    }
+
+    <h1 class="grand-titre paiement__titre">{{ 'pay.titre' | t }}</h1>
+    @if (seance() && film()) {
+      <p class="paiement__sous-titre">
+        {{ film()!.titre }} · <span class="majuscule">{{ dateLongue(seance()!.date) }}</span> · {{ seance()!.heure }} ·
+        {{ 'commun.salle' | t: { n: seance()!.salle } }} · {{ 'version.' + seance()!.version | t }}
+      </p>
+    } @else {
+      <p class="paiement__sous-titre">{{ 'pay.commandeComptoir' | t }}</p>
+    }
+
+    <div class="colonnes">
+      <!-- Formulaire -->
+      <form class="carte-form" (ngSubmit)="payer()" novalidate>
+        <fieldset class="moyens">
+          <legend class="libelle">{{ 'pay.moyen' | t }}</legend>
+          @for (m of moyens; track m.id) {
+            <label class="moyen" [class.moyen--choisi]="moyen() === m.id">
+              <input type="radio" name="moyen" [value]="m.id" [ngModel]="moyen()" (ngModelChange)="moyen.set($event)" />
+              {{ m.libelle | t }}
+            </label>
+          }
+        </fieldset>
+
+        @switch (moyen()) {
+          @case ('carte') {
+            <label class="champ">
+              <span class="libelle">{{ 'pay.nomCarte' | t }}</span>
+              <input name="nom" autocomplete="cc-name" [(ngModel)]="nom" [attr.aria-invalid]="!!erreurs().nom" />
+              @if (erreurs().nom) {
+                <small class="erreur">{{ erreurs().nom! | t }}</small>
+              }
+            </label>
+
+            <label class="champ">
+              <span class="libelle">{{ 'pay.numero' | t }}</span>
+              <input
+                name="numero"
+                inputmode="numeric"
+                autocomplete="cc-number"
+                placeholder="1234 5678 9012 3456"
+                [ngModel]="numero()"
+                (ngModelChange)="changerNumero($event)"
+                [attr.aria-invalid]="!!erreurs().numero"
+              />
+              @if (erreurs().numero) {
+                <small class="erreur">{{ erreurs().numero! | t }}</small>
+              }
+            </label>
+
+            <div class="deux-champs">
+              <label class="champ">
+                <span class="libelle">{{ 'pay.expiration' | t }}</span>
+                <input
+                  name="expiration"
+                  inputmode="numeric"
+                  autocomplete="cc-exp"
+                  [placeholder]="'pay.formatExpiration' | t"
+                  [ngModel]="expiration()"
+                  (ngModelChange)="changerExpiration($event)"
+                  [attr.aria-invalid]="!!erreurs().expiration"
+                />
+                @if (erreurs().expiration) {
+                  <small class="erreur">{{ erreurs().expiration! | t }}</small>
+                }
+              </label>
+
+              <label class="champ">
+                <span class="libelle">{{ 'pay.cvc' | t }}</span>
+                <input
+                  name="cvc"
+                  inputmode="numeric"
+                  autocomplete="cc-csc"
+                  placeholder="123"
+                  [ngModel]="cvc()"
+                  (ngModelChange)="changerCvc($event)"
+                  [attr.aria-invalid]="!!erreurs().cvc"
+                />
+                @if (erreurs().cvc) {
+                  <small class="erreur">{{ erreurs().cvc! | t }}</small>
+                }
+              </label>
+            </div>
+          }
+          @case ('e-dinar') {
+            <p class="info">
+              {{ 'pay.edinarInfo' | t }}
+              <em>{{ 'pay.edinarDemo' | t }}</em>
+            </p>
+          }
+          @case ('comptoir') {
+            <p class="info">
+              {{ (estBoutique() ? 'pay.comptoirCommande' : 'pay.comptoirPlaces') | t: { total: formaterPrix(total()) } }}
+            </p>
+          }
+        }
+
+        <label class="case">
+          <input type="checkbox" name="envoyerEmail" [(ngModel)]="envoyerEmail" />
+          {{ (estBoutique() ? 'pay.recevoirRecu' : 'pay.recevoirBillet') | t }}
+        </label>
+
+        @if (envoyerEmail()) {
+          <label class="champ">
+            <span class="libelle">{{ 'pay.adresseEmail' | t }}</span>
+            <input
+              name="email"
+              type="email"
+              autocomplete="email"
+              [placeholder]="'commun.exempleEmail' | t"
+              [(ngModel)]="email"
+              [attr.aria-invalid]="!!erreurs().email"
+            />
+            @if (erreurs().email) {
+              <small class="erreur">{{ erreurs().email! | t }}</small>
+            }
+          </label>
+        }
+
+        <!-- Bouton visible seulement sur téléphone (sur ordinateur, il est dans le récapitulatif) -->
+        <button class="bouton bouton--plein bouton-payer bouton-payer--mobile" type="submit" [disabled]="paiementEnCours()">
+          {{ texteBoutonPayer() }}
+        </button>
+      </form>
+
+      <!-- Récapitulatif -->
+      <aside class="recap" [attr.aria-label]="'pay.recap' | t">
+        @if (film() && seance() && reservation()) {
+          <div class="recap__film">
+            <img [src]="film()!.affiche" alt="" width="600" height="900" />
+            <div>
+              <p class="recap__titre">{{ film()!.titre }}</p>
+              <p class="recap__date">
+                <span class="majuscule">{{ dateLongue(seance()!.date) }}</span> · {{ seance()!.heure }}
+              </p>
+              <p class="recap__date">{{ 'commun.salle' | t: { n: seance()!.salle } }} · {{ 'version.' + seance()!.version | t }}</p>
+            </div>
+          </div>
+
+          <p class="libelle">{{ 'pay.vosPlaces' | t }}</p>
+          <p class="recap__places">{{ reservation()!.places.join(' · ') }}</p>
+
+          <div class="recap__ligne">
+            <span>{{ 'pay.pleinTarif' | t: { n: reservation()!.places.length } }}</span>
+            <span>{{ formaterPrix(reservation()!.places.length * prixPlace) }}</span>
+          </div>
+        } @else {
+          <p class="libelle">{{ 'pay.votreCommande' | t }}</p>
+        }
+
+        @for (ligne of lignes(); track ligne.produit.id) {
+          <div class="recap__ligne">
+            <span>{{ ligne.quantite }} × {{ nomProduit(ligne.produit) }}</span>
+            <span>{{ formaterPrix(ligne.produit.prix * ligne.quantite) }}</span>
+          </div>
+        }
+
+        <div class="recap__total">
+          <span>{{ 'commun.total' | t }}</span>
+          <span>{{ formaterPrix(total()) }}</span>
+        </div>
+
+        <!-- Refus du serveur (place prise entre-temps, serveur arrêté…) -->
+        @if (erreurServeur()) {
+          <div class="erreur-serveur" role="alert">
+            <p>{{ erreurServeur() }}</p>
+            @if (!estBoutique() && seance()) {
+              <a [routerLink]="['/reservation', seance()!.id]">{{ 'pay.autresPlaces' | t }}</a>
+            }
+          </div>
+        }
+
+        <button
+          class="bouton bouton--plein bouton-payer"
+          type="button"
+          [disabled]="paiementEnCours()"
+          (click)="payer()"
+        >
+          {{ texteBoutonPayer() }}
+        </button>
+
+        <p class="recap__note">
+          {{ 'pay.demo' | t }}<br />
+          {{ (estBoutique() ? 'pay.recuEnvoye' : 'pay.billetEnvoye') | t }}
+        </p>
+
+        <a
+          class="bouton recap__modifier"
+          [routerLink]="estBoutique() ? '/boutique' : ['/reservation', seance()!.id]"
+          [queryParams]="estBoutique() ? { panier: 'ouvert' } : {}"
+        >
+          {{ (estBoutique() ? 'pay.modifierPanier' : 'pay.modifierResa') | t }}
+        </a>
+      </aside>
+    </div>
+  </section>
+}

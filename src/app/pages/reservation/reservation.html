@@ -1,5 +1,164 @@
-<section class="page">
-  <h1>Réservation</h1>
-  <p>Choix des places et des snacks. (à construire)</p>
-  <a [routerLink]="'/paiement'">Continuer vers le paiement →</a>
-</section>
+@if (seance() && film()) {
+  @let s = seance()!;
+  @let f = film()!;
+
+  <div class="reservation">
+    <div class="principal">
+      <!-- En-tête : retour, étapes, titre -->
+      <a class="retour" [routerLink]="['/film', f.id]">← {{ f.titre }}</a>
+
+      <app-etapes [courantes]="[2, 3]" />
+
+      <h1 class="grand-titre titre-page">{{ 'resa.titre' | t }}</h1>
+      <p class="infos">
+        <strong>{{ f.titre }}</strong> · <span class="majuscule">{{ 'resa.dateHeure' | t: { date: dateSeance(), heure: s.heure } }}</span> ·
+        {{ 'version.' + s.version | t }} · {{ 'commun.salle' | t: { n: s.salle } }}
+      </p>
+
+      <!-- Étape 2 : plan de la salle -->
+      <section class="salle" aria-labelledby="titre-salle">
+        <h2 id="titre-salle" class="visuellement-cache">{{ 'resa.plan' | t }}</h2>
+
+        <div class="ecran" aria-hidden="true"><span>{{ 'resa.ecran' | t }}</span></div>
+
+        <div class="plan-defilant">
+          <div class="plan">
+            @for (rangee of rangees; track rangee) {
+              <div class="rangee">
+                <span class="rangee__lettre" aria-hidden="true">{{ rangee }}</span>
+
+                @for (numero of numeros; track numero) {
+                  @let place = rangee + numero;
+                  @let occupee = occupees().has(place);
+                  @let choisie = places().includes(place);
+                  <button
+                    type="button"
+                    class="siege"
+                    [class.siege--occupe]="occupee"
+                    [class.siege--choisi]="choisie"
+                    [class.siege--allee]="allees.includes(numero)"
+                    [disabled]="occupee"
+                    [attr.aria-pressed]="choisie"
+                    [attr.aria-label]="(occupee ? 'resa.siegeOccupe' : 'resa.siege') | t: { rangee: rangee, numero: numero }"
+                    [title]="place"
+                    (click)="basculerPlace(place)"
+                  ></button>
+                }
+
+                <span class="rangee__lettre" aria-hidden="true">{{ rangee }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <ul class="legende">
+          <li><span class="siege siege--exemple"></span> {{ 'resa.libre' | t }}</li>
+          <li><span class="siege siege--exemple siege--occupe"></span> {{ 'resa.occupee' | t }}</li>
+          <li><span class="siege siege--exemple siege--choisi"></span> {{ 'resa.votreChoix' | t }}</li>
+          <li class="legende__max">{{ 'resa.max' | t: { n: maxPlaces } }}</li>
+        </ul>
+      </section>
+
+      <!-- Étape 3 : snacks en option -->
+      <section class="snacks" aria-labelledby="titre-snacks">
+        <div class="section__entete">
+          <h2 id="titre-snacks" class="sous-titre">{{ 'resa.snacksTitre' | t }}</h2>
+          <p class="etiquette">{{ 'resa.snacksOption' | t }}</p>
+        </div>
+
+        <ul class="produits">
+          @for (produit of produits(); track produit.id) {
+            @let q = quantite(produit.id);
+            <li class="produit" [class.produit--choisi]="q > 0">
+              @if (produit.image) {
+                <img class="produit__photo" [src]="produit.image" alt="" width="800" height="800" loading="lazy" />
+              }
+              <p class="etiquette">{{ 'cat.' + produit.categorie | t }}</p>
+              <h3 class="produit__nom">{{ produit.nom }}</h3>
+              <p class="produit__description">{{ produit.description }}</p>
+
+              <div class="produit__bas">
+                <span class="produit__prix">{{ formaterPrix(produit.prix) }}</span>
+                <div class="quantite">
+                  <button
+                    type="button"
+                    [disabled]="!q"
+                    [attr.aria-label]="'commun.retirer' | t: { nom: produit.nom }"
+                    (click)="changerQuantite(produit.id, -1)"
+                  >
+                    −
+                  </button>
+                  <span [attr.aria-label]="q + ' ' + produit.nom">{{ q }}</span>
+                  <button
+                    type="button"
+                    [disabled]="q >= maxParProduit"
+                    [attr.aria-label]="'commun.ajouterNom' | t: { nom: produit.nom }"
+                    (click)="changerQuantite(produit.id, 1)"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+      </section>
+    </div>
+
+    <!-- Récapitulatif (reste visible à droite sur ordinateur) -->
+    <aside class="recap" aria-labelledby="titre-recap">
+      <h2 id="titre-recap" class="visuellement-cache">{{ 'resa.recap' | t }}</h2>
+
+      <div class="recap__film">
+        <img [src]="f.affiche" alt="" width="600" height="900" />
+        <div>
+          <p class="etiquette">{{ 'version.' + s.version | t }} · {{ 'commun.salle' | t: { n: s.salle } }}</p>
+          <p class="recap__titre">{{ f.titre }}</p>
+          <p class="recap__date"><span class="majuscule">{{ dateSeance() }}</span> · {{ s.heure }}</p>
+        </div>
+      </div>
+
+      <div class="recap__lignes" aria-live="polite">
+        @if (places().length) {
+          <div class="recap__ligne">
+            <span>{{ 'resa.placesPrix' | tn: places().length : { prix: formaterPrix(prixPlace) } }}</span>
+            <span>{{ formaterPrix(totalPlaces()) }}</span>
+          </div>
+          <p class="recap__places">
+            @for (place of places(); track place) {
+              <button type="button" class="pastille" [attr.aria-label]="'resa.retirerPlace' | t: { place: place }" (click)="basculerPlace(place)">
+                {{ place }} <span aria-hidden="true">×</span>
+              </button>
+            }
+          </p>
+        } @else {
+          <p class="recap__vide">{{ 'resa.aucunePlace' | t }}</p>
+        }
+
+        @for (ligne of lignesSnacks(); track ligne.produit.id) {
+          <div class="recap__ligne">
+            <span>{{ ligne.quantite }} × {{ ligne.produit.nom }}</span>
+            <span>{{ formaterPrix(ligne.produit.prix * ligne.quantite) }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="recap__total">
+        <span>{{ 'commun.total' | t }}</span>
+        <span>{{ formaterPrix(total()) }}</span>
+      </div>
+
+      <button class="bouton bouton--or recap__bouton" type="button" [disabled]="!places().length" (click)="continuer()">
+        {{ 'resa.continuer' | t }}
+      </button>
+    </aside>
+  </div>
+} @else {
+  <!-- Adresse avec une séance qui n'existe pas -->
+  <section class="page introuvable">
+    <p class="etiquette">{{ 'commun.erreur404' | t }}</p>
+    <h1 class="grand-titre">{{ 'resa.introuvable' | t }}</h1>
+    <p>{{ 'resa.introuvableTexte' | t }}</p>
+    <a class="bouton bouton--clair" routerLink="/">{{ 'commun.retourFilms' | t }}</a>
+  </section>
+}

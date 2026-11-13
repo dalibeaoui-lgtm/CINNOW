@@ -1,0 +1,21 @@
+<ol class="etapes" [attr.aria-label]="'etapes.label' | t">
+  @for (nom of noms; track nom; let i = $index) {
+    @let e = etat(i + 1);
+    <li class="etape etape--{{ e }}" [attr.aria-current]="e === 'active' ? 'step' : null">
+      <!-- Rond seulement pour les étapes faites (coche) et en cours (numéro) ; rien pour les suivantes -->
+      @if (e !== 'a-venir') {
+        <span class="etape__numero" aria-hidden="true">
+          @if (e === 'faite') {
+            <svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-4.9" /></svg>
+          } @else {
+            {{ i + 1 }}
+          }
+        </span>
+      }
+      {{ nom | t }}
+      @if (e === 'faite') {
+        <span class="visuellement-cache">{{ 'etapes.terminee' | t }}</span>
+      }
+    </li>
+  }
+</ol>
