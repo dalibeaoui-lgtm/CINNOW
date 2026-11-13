@@ -1,0 +1,184 @@
+[
+  {
+    "id": 1,
+    "nom": "Popcorn moyen",
+    "description": "Sucré ou salé.",
+    "prix": 7.5,
+    "categorie": "snack",
+    "image": "images/produits/popcorn-moyen.webp",
+    "traductions": {
+      "en": {
+        "nom": "Medium popcorn",
+        "description": "Sweet or salted."
+      }
+    }
+  },
+  {
+    "id": 2,
+    "nom": "Popcorn grand",
+    "description": "Sucré ou salé.",
+    "prix": 9.5,
+    "categorie": "snack",
+    "image": "images/produits/popcorn-grand.webp",
+    "traductions": {
+      "en": {
+        "nom": "Large popcorn",
+        "description": "Sweet or salted."
+      }
+    }
+  },
+  {
+    "id": 3,
+    "nom": "Nachos & sauce",
+    "description": "Cheddar ou salsa.",
+    "prix": 8,
+    "categorie": "snack",
+    "image": "images/produits/nachos.webp",
+    "traductions": {
+      "en": {
+        "nom": "Nachos & dip",
+        "description": "Cheddar or salsa."
+      }
+    }
+  },
+  {
+    "id": 4,
+    "nom": "Bonbons",
+    "description": "Un sachet de 200 g au choix.",
+    "prix": 5,
+    "categorie": "snack",
+    "image": "images/produits/bonbons.webp",
+    "traductions": {
+      "en": {
+        "nom": "Sweets",
+        "description": "A 200 g bag of your choice."
+      }
+    }
+  },
+  {
+    "id": 5,
+    "nom": "Boisson 50 cl",
+    "description": "Soda, eau ou jus.",
+    "prix": 4,
+    "categorie": "boisson",
+    "image": "images/produits/boisson.webp",
+    "traductions": {
+      "en": {
+        "nom": "Drink 50 cl",
+        "description": "Soda, water or juice."
+      }
+    }
+  },
+  {
+    "id": 6,
+    "nom": "Menu duo",
+    "description": "2 popcorns moyens + 2 boissons.",
+    "prix": 22,
+    "categorie": "snack",
+    "image": "images/produits/menu-duo.webp",
+    "traductions": {
+      "en": {
+        "nom": "Duo meal",
+        "description": "2 medium popcorns + 2 drinks."
+      }
+    }
+  },
+  {
+    "id": 7,
+    "nom": "Poster The Batman",
+    "description": "40 × 60 cm, papier mat.",
+    "prix": 25,
+    "categorie": "poster",
+    "image": "images/produits/poster-the-batman.webp",
+    "traductions": {
+      "en": {
+        "nom": "The Batman poster",
+        "description": "40 × 60 cm, matte paper."
+      }
+    }
+  },
+  {
+    "id": 8,
+    "nom": "Poster Dune : Deuxième partie",
+    "description": "40 × 60 cm, papier mat.",
+    "prix": 25,
+    "categorie": "poster",
+    "image": "images/produits/poster-dune-part-two.webp",
+    "traductions": {
+      "en": {
+        "nom": "Dune: Part Two poster",
+        "description": "40 × 60 cm, matte paper."
+      }
+    }
+  },
+  {
+    "id": 9,
+    "nom": "Poster Oppenheimer",
+    "description": "40 × 60 cm, papier mat.",
+    "prix": 25,
+    "categorie": "poster",
+    "image": "images/produits/poster-oppenheimer.webp",
+    "traductions": {
+      "en": {
+        "nom": "Oppenheimer poster",
+        "description": "40 × 60 cm, matte paper."
+      }
+    }
+  },
+  {
+    "id": 10,
+    "nom": "Poster Marty Supreme",
+    "description": "40 × 60 cm, papier mat.",
+    "prix": 25,
+    "categorie": "poster",
+    "image": "images/produits/poster-marty-supreme.webp",
+    "traductions": {
+      "en": {
+        "nom": "Marty Supreme poster",
+        "description": "40 × 60 cm, matte paper."
+      }
+    }
+  },
+  {
+    "id": 13,
+    "nom": "Poster F1",
+    "description": "40 × 60 cm, papier mat.",
+    "prix": 25,
+    "categorie": "poster",
+    "image": "images/produits/poster-f1.webp",
+    "traductions": {
+      "en": {
+        "nom": "F1 poster",
+        "description": "40 × 60 cm, matte paper."
+      }
+    }
+  },
+  {
+    "id": 14,
+    "nom": "Poster Midsommar",
+    "description": "40 × 60 cm, papier mat.",
+    "prix": 25,
+    "categorie": "poster",
+    "image": "images/produits/poster-midsommar.webp",
+    "traductions": {
+      "en": {
+        "nom": "Midsommar poster",
+        "description": "40 × 60 cm, matte paper."
+      }
+    }
+  },
+  {
+    "id": 15,
+    "nom": "Poster The Witch",
+    "description": "40 × 60 cm, papier mat.",
+    "prix": 25,
+    "categorie": "poster",
+    "image": "images/produits/poster-the-witch.webp",
+    "traductions": {
+      "en": {
+        "nom": "The Witch poster",
+        "description": "40 × 60 cm, matte paper."
+      }
+    }
+  }
+]

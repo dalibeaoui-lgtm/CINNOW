@@ -1,0 +1,306 @@
+[
+  {
+    "id": 1,
+    "titre": "The Odyssey",
+    "realisateur": "Christopher Nolan",
+    "duree": 172,
+    "genre": "Aventure",
+    "synopsis": "Après la guerre de Troie, Ulysse affronte dix ans d’épreuves pour rentrer chez lui, à Ithaque.",
+    "affiche": "images/affiches/the-odyssey.jpeg",
+    "photo": "images/hero/the-odyssey.webp",
+    "aLaUne": true,
+    "bandeAnnonce": "https://www.youtube.com/watch?v=f_bKjZeJBBI",
+    "note": 4.4,
+    "statut": "a-l-affiche",
+    "dateSortie": "2026-07-17",
+    "traductions": {
+      "en": {
+        "synopsis": "After the Trojan War, Odysseus faces ten years of trials to return home to Ithaca.",
+        "genre": "Adventure"
+      }
+    }
+  },
+  {
+    "id": 2,
+    "titre": "Spider-Man: Brand New Day",
+    "realisateur": "Destin Daniel Cretton",
+    "duree": 144,
+    "genre": "Action",
+    "synopsis": "Peter Parker tente de reconstruire sa vie à New York, alors que plus personne ne connaît son secret.",
+    "affiche": "images/affiches/spider-man-brand-new-day.jpeg",
+    "photo": "images/hero/spider-man-brand-new-day.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=8TZMtslA3UY",
+    "note": 4.2,
+    "statut": "a-l-affiche",
+    "dateSortie": "2026-07-31",
+    "traductions": {
+      "en": {
+        "synopsis": "Peter Parker tries to rebuild his life in New York, now that nobody remembers his secret.",
+        "genre": "Action"
+      }
+    }
+  },
+  {
+    "id": 3,
+    "titre": "Project Hail Mary",
+    "realisateur": "Phil Lord et Christopher Miller",
+    "duree": 156,
+    "genre": "Science-fiction",
+    "synopsis": "Un professeur de sciences se réveille seul à bord d’un vaisseau, avec une mission : sauver la Terre.",
+    "affiche": "images/affiches/project-hail-mary.jpeg",
+    "photo": "images/hero/project-hail-mary.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=m08TxIsFTRI",
+    "note": 4.5,
+    "statut": "a-l-affiche",
+    "dateSortie": "2026-03-20",
+    "traductions": {
+      "en": {
+        "synopsis": "A science teacher wakes up alone aboard a spaceship, with one mission: save the Earth.",
+        "genre": "Science fiction"
+      }
+    }
+  },
+  {
+    "id": 4,
+    "titre": "Avatar : De feu et de cendres",
+    "realisateur": "James Cameron",
+    "duree": 197,
+    "genre": "Science-fiction",
+    "synopsis": "Sur Pandora, la famille Sully affronte un nouveau peuple Na’vi : le Peuple des Cendres.",
+    "affiche": "images/affiches/avatar-de-feu-et-de-cendres.jpeg",
+    "photo": "images/hero/avatar-de-feu-et-de-cendres.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=nb_fFj_0rq8",
+    "note": 4,
+    "statut": "a-l-affiche",
+    "dateSortie": "2025-12-17",
+    "traductions": {
+      "en": {
+        "titre": "Avatar: Fire and Ash",
+        "synopsis": "On Pandora, the Sully family faces a new Na’vi people: the Ash People.",
+        "genre": "Science fiction"
+      }
+    }
+  },
+  {
+    "id": 5,
+    "titre": "Whiplash",
+    "realisateur": "Damien Chazelle",
+    "duree": 107,
+    "genre": "Drame musical",
+    "synopsis": "Un jeune batteur de jazz pousse ses limites face à un professeur impitoyable.",
+    "affiche": "images/affiches/whiplash.jpeg",
+    "photo": "images/hero/whiplash.webp",
+    "aLaUne": true,
+    "bandeAnnonce": "https://www.youtube.com/watch?v=7d_jQycdQGo",
+    "note": 4.7,
+    "statut": "prochainement",
+    "dateSortie": "2026-12-02",
+    "traductions": {
+      "en": {
+        "synopsis": "A young jazz drummer pushes his limits under a ruthless teacher.",
+        "genre": "Musical drama"
+      }
+    }
+  },
+  {
+    "id": 6,
+    "titre": "La La Land",
+    "realisateur": "Damien Chazelle",
+    "duree": 128,
+    "genre": "Comédie musicale",
+    "synopsis": "À Los Angeles, une actrice et un pianiste de jazz tombent amoureux en poursuivant leurs rêves.",
+    "affiche": "images/affiches/la-la-land.jpeg",
+    "photo": "images/hero/la-la-land.webp",
+    "aLaUne": true,
+    "bandeAnnonce": "https://www.youtube.com/watch?v=0pdqf4P9MB8",
+    "note": 4.5,
+    "statut": "prochainement",
+    "dateSortie": "2026-12-09",
+    "traductions": {
+      "en": {
+        "synopsis": "In Los Angeles, an actress and a jazz pianist fall in love while chasing their dreams.",
+        "genre": "Musical"
+      }
+    }
+  },
+  {
+    "id": 7,
+    "titre": "The Batman",
+    "realisateur": "Matt Reeves",
+    "duree": 176,
+    "genre": "Policier",
+    "synopsis": "Batman enquête sur un tueur en série qui s’attaque à l’élite corrompue de Gotham.",
+    "affiche": "images/affiches/the-batman.jpeg",
+    "photo": "images/hero/the-batman.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=mqqft2x_Aa4",
+    "note": 4.3,
+    "statut": "prochainement",
+    "dateSortie": "2026-12-16",
+    "traductions": {
+      "en": {
+        "synopsis": "Batman investigates a serial killer who targets Gotham’s corrupt elite.",
+        "genre": "Crime"
+      }
+    }
+  },
+  {
+    "id": 8,
+    "titre": "Hereditary",
+    "realisateur": "Ari Aster",
+    "duree": 127,
+    "genre": "Horreur",
+    "synopsis": "Après la mort de la grand-mère, une famille découvre peu à peu de terribles secrets.",
+    "affiche": "images/affiches/hereditary.jpeg",
+    "photo": "images/hero/hereditary.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=V6wWKNij_1M",
+    "note": 4.1,
+    "statut": "prochainement",
+    "dateSortie": "2027-01-06",
+    "traductions": {
+      "en": {
+        "synopsis": "After the grandmother dies, a family slowly uncovers terrible secrets.",
+        "genre": "Horror"
+      }
+    }
+  },
+  {
+    "id": 9,
+    "titre": "Superman",
+    "realisateur": "James Gunn",
+    "duree": 129,
+    "genre": "Action",
+    "synopsis": "Superman cherche sa place entre ses origines kryptoniennes et sa famille humaine.",
+    "affiche": "images/affiches/superman.jpeg",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=Ox8ZLF6cGM0",
+    "note": 4,
+    "statut": "prochainement",
+    "dateSortie": "2027-01-13",
+    "traductions": {
+      "en": {
+        "synopsis": "Superman searches for his place between his Kryptonian origins and his human family.",
+        "genre": "Action"
+      }
+    }
+  },
+  {
+    "id": 10,
+    "titre": "Dune : Deuxième partie",
+    "realisateur": "Denis Villeneuve",
+    "duree": 166,
+    "genre": "Science-fiction",
+    "synopsis": "Paul Atréides s’unit aux Fremen pour venger sa famille, tout en cherchant à empêcher un avenir terrible qu’il est le seul à entrevoir.",
+    "affiche": "images/produits/poster-dune-part-two.webp",
+    "photo": "images/hero/dune-part-two.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=WUBQdC__fC4",
+    "note": 4.6,
+    "statut": "a-l-affiche",
+    "dateSortie": "2024-02-28",
+    "traductions": {
+      "en": {
+        "titre": "Dune: Part Two",
+        "synopsis": "Paul Atreides unites with the Fremen to avenge his family, while trying to prevent a terrible future that only he can foresee.",
+        "genre": "Science fiction"
+      }
+    }
+  },
+  {
+    "id": 11,
+    "titre": "Oppenheimer",
+    "realisateur": "Christopher Nolan",
+    "duree": 180,
+    "genre": "Drame historique",
+    "synopsis": "Le physicien J. Robert Oppenheimer dirige le projet Manhattan et met au point la première bombe atomique, au prix de lourds remords.",
+    "affiche": "images/produits/poster-oppenheimer.webp",
+    "photo": "images/hero/oppenheimer.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=LZq9kSRwfkg",
+    "note": 4.5,
+    "statut": "a-l-affiche",
+    "dateSortie": "2023-07-19",
+    "traductions": {
+      "en": {
+        "synopsis": "Physicist J. Robert Oppenheimer leads the Manhattan Project and builds the first atomic bomb, at the cost of deep remorse.",
+        "genre": "Historical drama"
+      }
+    }
+  },
+  {
+    "id": 12,
+    "titre": "F1",
+    "realisateur": "Joseph Kosinski",
+    "duree": 155,
+    "genre": "Action",
+    "synopsis": "Un ancien pilote de Formule 1 reprend le volant pour épauler une jeune recrue et sauver une écurie au bord de la faillite.",
+    "affiche": "images/produits/poster-f1.webp",
+    "photo": "images/hero/f1.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=8yh9BPUBbbQ",
+    "note": 4.2,
+    "statut": "a-l-affiche",
+    "dateSortie": "2025-06-25",
+    "traductions": {
+      "en": {
+        "synopsis": "A former Formula 1 driver gets back behind the wheel to mentor a young rookie and save a team on the brink of collapse.",
+        "genre": "Action"
+      }
+    }
+  },
+  {
+    "id": 13,
+    "titre": "Marty Supreme",
+    "realisateur": "Josh Safdie",
+    "duree": 149,
+    "genre": "Comédie dramatique",
+    "synopsis": "Dans le New York des années 1950, un jeune prodige du tennis de table est prêt à tout pour devenir le meilleur joueur du monde.",
+    "affiche": "images/produits/poster-marty-supreme.webp",
+    "photo": "images/hero/marty-supreme.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=s9gSuKaKcqM",
+    "note": 4.3,
+    "statut": "a-l-affiche",
+    "dateSortie": "2025-12-25",
+    "traductions": {
+      "en": {
+        "synopsis": "In 1950s New York, a young table tennis prodigy will do anything to become the best player in the world.",
+        "genre": "Comedy-drama"
+      }
+    }
+  },
+  {
+    "id": 14,
+    "titre": "Midsommar",
+    "realisateur": "Ari Aster",
+    "duree": 147,
+    "genre": "Horreur",
+    "synopsis": "Des amis assistent à la fête du solstice d’un village suédois isolé, où les festivités tournent peu à peu au cauchemar. De retour en salle.",
+    "affiche": "images/produits/poster-midsommar.webp",
+    "photo": "images/hero/midsommar.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=1Vnghdsjmd0",
+    "note": 4,
+    "statut": "prochainement",
+    "dateSortie": "2027-01-20",
+    "traductions": {
+      "en": {
+        "synopsis": "Friends attend a midsummer festival in a remote Swedish village, where the celebrations slowly turn into a nightmare. Back in cinemas.",
+        "genre": "Horror"
+      }
+    }
+  },
+  {
+    "id": 15,
+    "titre": "The Witch",
+    "realisateur": "Robert Eggers",
+    "duree": 92,
+    "genre": "Horreur",
+    "synopsis": "En Nouvelle-Angleterre, en 1630, une famille de colons bannie s’installe à l’orée d’une forêt où rôde une présence maléfique. De retour en salle.",
+    "affiche": "images/produits/poster-the-witch.webp",
+    "photo": "images/hero/the-witch.webp",
+    "bandeAnnonce": "https://www.youtube.com/watch?v=iQXmlf3Sefg",
+    "note": 3.9,
+    "statut": "prochainement",
+    "dateSortie": "2027-01-27",
+    "traductions": {
+      "en": {
+        "synopsis": "In 1630s New England, a banished settler family moves to the edge of a forest where an evil presence lurks. Back in cinemas.",
+        "genre": "Horror"
+      }
+    }
+  }
+]

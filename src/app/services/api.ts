@@ -1,0 +1,74 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { langueActive, t } from '../i18n/langue';
+import { Avis } from '../models/avis';
+import { Commande } from '../models/commande';
+import { Film } from '../models/film';
+import { Produit } from '../models/produit';
+import { Reservation } from '../models/reservation';
+import { Salle } from '../models/salle';
+import { Seance } from '../models/seance';
+
+// Adresse de l'API. En développement, « ng serve » redirige /api vers http://localhost:3000
+// (voir proxy.conf.json), donc le site et l'API semblent être au même endroit.
+const API = '/api';
+
+// Toutes les requêtes vers le serveur CINNOW (dossier backend/).
+// Chaque méthode renvoie une Promise : on peut l'utiliser avec « await ».
+@Injectable({ providedIn: 'root' })
+export class Api {
+  private readonly http = inject(HttpClient);
+
+  // ---------- Lecture ----------
+  films() {
+    return firstValueFrom(this.http.get<Film[]>(`${API}/films`));
+  }
+
+  seances() {
+    return firstValueFrom(this.http.get<Seance[]>(`${API}/seances`));
+  }
+
+  seance(id: number) {
+    return firstValueFrom(this.http.get<Seance>(`${API}/seances/${id}`));
+  }
+
+  produits() {
+    return firstValueFrom(this.http.get<Produit[]>(`${API}/produits`));
+  }
+
+  salle() {
+    return firstValueFrom(this.http.get<Salle>(`${API}/salle`));
+  }
+
+  avis() {
+    return firstValueFrom(this.http.get<Avis[]>(`${API}/avis`));
+  }
+
+  // ---------- Écriture ----------
+  // On envoie seulement les numéros (séance, produits) : le serveur vérifie tout et calcule le prix.
+  creerReservation(demande: { seanceId: number; places: string[]; snacks: { produitId: number; quantite: number }[] }) {
+    return firstValueFrom(this.http.post<Reservation>(`${API}/reservations`, demande));
+  }
+
+  creerCommande(articles: { produitId: number; quantite: number }[]) {
+    return firstValueFrom(this.http.post<Commande>(`${API}/commandes`, { articles }));
+  }
+
+  publierAvis(avis: Omit<Avis, 'id' | 'date'>) {
+    return firstValueFrom(this.http.post<Avis>(`${API}/avis`, avis));
+  }
+}
+
+// Message lisible (dans la langue choisie) à partir d'une erreur de requête.
+// Les messages du serveur sont en français : on traduit ici les cas les plus courants.
+export function messageErreur(erreur: unknown): string {
+  if (erreur instanceof HttpErrorResponse) {
+    if (erreur.status === 0 || erreur.status >= 502) return t('err.serveur');
+    if (erreur.status === 409 && Array.isArray(erreur.error?.placesPrises)) {
+      return t('err.placesPrises', { places: erreur.error.placesPrises.join(', ') });
+    }
+    if (erreur.error?.message && langueActive() === 'fr') return erreur.error.message;
+  }
+  return t('err.generique');
+}
