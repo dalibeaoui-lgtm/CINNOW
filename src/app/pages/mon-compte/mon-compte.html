@@ -1,5 +1,390 @@
-<section class="page">
-  <h1>Mon compte</h1>
-  <p>Mes billets, commandes et avis. (à construire)</p>
-  <a [routerLink]="'/'">Retour à l’accueil →</a>
-</section>
+@if (utilisateur(); as u) {
+  <section class="compte">
+    <!-- Tableau de bord -->
+    <header class="compte__entete">
+      <p class="etiquette">{{ 'compte.etiquette' | t }}</p>
+      <h1 class="grand-titre">{{ 'compte.bonjour' | t: { prenom: u.prenom } }}</h1>
+      <ul class="chiffres">
+        <li><strong>{{ aVenir().length }}</strong> {{ 'compte.seancesAVenir' | tn: aVenir().length }}</li>
+        <li><strong>{{ passes().length }}</strong> {{ 'compte.filmsVus' | tn: passes().length }}</li>
+        <li><strong>{{ mesAvis().length }}</strong> {{ 'compte.avisPublies' | tn: mesAvis().length }}</li>
+      </ul>
+    </header>
+
+    <div class="onglets" role="tablist" [attr.aria-label]="'compte.sections' | t">
+      @for (o of onglets; track o.id) {
+        <button
+          type="button"
+          role="tab"
+          class="onglet"
+          [class.onglet--actif]="ongletActif() === o.id"
+          [attr.aria-selected]="ongletActif() === o.id"
+          (click)="ongletActif.set(o.id)"
+        >
+          {{ o.libelle | t }}
+          @if (o.id === 'avis' && aNoter().length) {
+            <span class="onglet__pastille">{{ aNoter().length }}</span>
+          }
+        </button>
+      }
+    </div>
+
+    @switch (ongletActif()) {
+      <!-- ========== Mes billets ========== -->
+      @case ('billets') {
+        <section class="bloc" aria-labelledby="titre-a-venir">
+          <h2 id="titre-a-venir" class="sous-titre">{{ 'compte.aVenir' | t }}</h2>
+
+          @for (b of aVenir(); track b.billet.id) {
+            <article class="billet">
+              <img class="billet__affiche" [src]="b.film.affiche" alt="" width="600" height="900" />
+
+              <div class="billet__infos">
+                <p class="etiquette">{{ 'version.' + b.seance.version | t }} · {{ 'commun.salle' | t: { n: b.seance.salle } }}</p>
+                <h3 class="billet__titre">
+                  <a [routerLink]="['/film', b.film.id]">{{ b.film.titre }}</a>
+                </h3>
+                <p class="billet__date">
+                  <span class="majuscule">{{ 'resa.dateHeure' | t: { date: dateLongue(b.seance.date), heure: b.seance.heure } }}</span>
+                </p>
+                <dl class="billet__details">
+                  <div>
+                    <dt>{{ 'compte.places' | t }}</dt>
+                    <dd>{{ b.billet.places.join(', ') }}</dd>
+                  </div>
+                  @if (b.billet.snacks.length) {
+                    <div>
+                      <dt>{{ 'compte.snacks' | t }}</dt>
+                      <dd>{{ texteArticles(b.billet.snacks) }}</dd>
+                    </div>
+                  }
+                  <div>
+                    <dt>{{ 'compte.totalPaye' | t }}</dt>
+                    <dd>{{ formaterPrix(b.billet.total) }}</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div class="billet__qr">
+                <app-qr-code [numero]="b.billet.id" [label]="'compte.ebilletN' | t: { n: numeroCourt(b.billet.id) }" />
+                <p class="billet__numero">{{ 'compte.numero' | t: { n: numeroCourt(b.billet.id) } }}</p>
+                <p class="etiquette">{{ 'compte.presenter' | t }}</p>
+              </div>
+            </article>
+          } @empty {
+            <div class="vide">
+              <p>{{ 'compte.aucuneSeance' | t }}</p>
+              <a class="bouton" routerLink="/">{{ 'compte.voirAffiche' | t }}</a>
+            </div>
+          }
+        </section>
+
+        <section class="bloc" aria-labelledby="titre-passes">
+          <h2 id="titre-passes" class="sous-titre">{{ 'compte.dejaVus' | t }}</h2>
+
+          @if (passes().length) {
+            <ul class="liste-passes">
+              @for (b of passes(); track b.billet.id) {
+                @let avis = avisDuBillet(b.billet.id);
+                <li class="passe">
+                  <img [src]="b.film.affiche" alt="" width="600" height="900" loading="lazy" />
+                  <div>
+                    <p class="passe__titre">{{ b.film.titre }}</p>
+                    <p class="passe__date">
+                      <span class="majuscule">{{ dateLongue(b.seance.date) }}</span> · {{ b.billet.places.join(', ') }}
+                    </p>
+                  </div>
+                  @if (avis) {
+                    <p class="etoiles" role="img" [attr.aria-label]="'compte.votreNote' | t: { n: avis.noteFilm }">
+                      {{ etoiles(avis.noteFilm) }}
+                    </p>
+                  } @else {
+                    <button class="bouton bouton--or" type="button" (click)="ouvrirNotation(b.billet.id)">
+                      {{ 'compte.noterFilm' | t }}
+                    </button>
+                  }
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="vide">{{ 'compte.seancesPassees' | t }}</p>
+          }
+        </section>
+      }
+
+      <!-- ========== Mes commandes (boutique) ========== -->
+      @case ('commandes') {
+        <section class="bloc" aria-labelledby="titre-commandes">
+          <h2 id="titre-commandes" class="sous-titre">{{ 'compte.commandesTitre' | t }}</h2>
+
+          @if (commandes().length) {
+            <ul class="liste-commandes">
+              @for (c of commandes(); track c.id) {
+                <li class="commande">
+                  <app-qr-code [numero]="c.id" [label]="'compte.commandeN' | t: { n: numeroCourt(c.id) }" />
+                  <div>
+                    <p class="passe__titre">{{ 'compte.commandeN' | t: { n: numeroCourt(c.id) } }}</p>
+                    <p class="passe__date"><span class="majuscule">{{ dateLongue(c.date) }}</span> · {{ texteArticles(c.articles) }}</p>
+                    <p class="commande__statut">{{ 'compte.aRetirer' | t }}</p>
+                  </div>
+                  <span class="commande__total">{{ formaterPrix(c.total) }}</span>
+                </li>
+              }
+            </ul>
+          } @else {
+            <div class="vide">
+              <p>{{ 'compte.aucuneCommande' | t }}</p>
+              <a class="bouton" routerLink="/boutique">{{ 'compte.allerBoutique' | t }}</a>
+            </div>
+          }
+        </section>
+      }
+
+      <!-- ========== Mes avis ========== -->
+      @case ('avis') {
+        @if (aNoter().length) {
+          <section class="bloc" aria-labelledby="titre-a-noter">
+            <h2 id="titre-a-noter" class="sous-titre">{{ 'compte.question' | t }}</h2>
+
+            <ul class="liste-a-noter">
+              @for (b of aNoter(); track b.billet.id) {
+                <li class="a-noter" [class.a-noter--ouvert]="billetANoter() === b.billet.id">
+                  <div class="a-noter__entete">
+                    <img [src]="b.film.affiche" alt="" width="600" height="900" loading="lazy" />
+                    <div>
+                      <p class="passe__titre">{{ b.film.titre }}</p>
+                      <p class="passe__date"><span class="majuscule">{{ 'resa.dateHeure' | t: { date: dateLongue(b.seance.date), heure: b.seance.heure } }}</span></p>
+                    </div>
+                    @if (billetANoter() !== b.billet.id) {
+                      <button class="bouton" type="button" (click)="ouvrirNotation(b.billet.id)">{{ 'compte.noter' | t }}</button>
+                    }
+                  </div>
+
+                  @if (billetANoter() === b.billet.id) {
+                    <form class="notation" (ngSubmit)="publierAvis(b.billet.id, b.film.id)">
+                      <fieldset class="notation__ligne">
+                        <legend>{{ 'compte.leFilm' | t }}</legend>
+                        <div class="choix-etoiles">
+                          @for (n of notes; track n) {
+                            <button
+                              type="button"
+                              [class.allumee]="n <= noteFilm()"
+                              [attr.aria-label]="'commun.surCinq' | t: { n: n }"
+                              [attr.aria-pressed]="n === noteFilm()"
+                              (click)="noteFilm.set(n)"
+                            >
+                              ★
+                            </button>
+                          }
+                        </div>
+                      </fieldset>
+
+                      <fieldset class="notation__ligne">
+                        <legend>{{ 'compte.leService' | t }} <span>{{ 'compte.serviceDetail' | t }}</span></legend>
+                        <div class="choix-etoiles">
+                          @for (n of notes; track n) {
+                            <button
+                              type="button"
+                              [class.allumee]="n <= noteService()"
+                              [attr.aria-label]="'commun.surCinq' | t: { n: n }"
+                              [attr.aria-pressed]="n === noteService()"
+                              (click)="noteService.set(n)"
+                            >
+                              ★
+                            </button>
+                          }
+                        </div>
+                      </fieldset>
+
+                      <label class="champ">
+                        <span>{{ 'compte.votreAvis' | t }} <em>{{ 'commun.facultatif' | t }}</em></span>
+                        <textarea
+                          name="commentaire"
+                          rows="3"
+                          maxlength="400"
+                          [placeholder]="'compte.avisPlaceholder' | t"
+                          [(ngModel)]="commentaire"
+                        ></textarea>
+                      </label>
+
+                      @if (erreurAvis()) {
+                        <p class="erreur" role="alert">{{ erreurAvis() }}</p>
+                      }
+
+                      <div class="notation__actions">
+                        <button class="bouton bouton--plein" type="submit">{{ 'compte.publier' | t }}</button>
+                        <button class="lien" type="button" (click)="billetANoter.set(null)">{{ 'commun.annuler' | t }}</button>
+                      </div>
+                    </form>
+                  }
+                </li>
+              }
+            </ul>
+          </section>
+        }
+
+        <section class="bloc" aria-labelledby="titre-mes-avis">
+          <h2 id="titre-mes-avis" class="sous-titre">{{ 'compte.avisPubliesTitre' | t }}</h2>
+
+          @if (mesAvis().length) {
+            <ul class="liste-avis">
+              @for (a of mesAvis(); track a.avis.id) {
+                <li class="un-avis">
+                  <p class="un-avis__film">
+                    <a [routerLink]="['/film', a.avis.filmId]">{{ a.film?.titre }}</a>
+                  </p>
+                  <dl class="un-avis__notes">
+                    <div>
+                      <dt>{{ 'compte.film' | t }}</dt>
+                      <dd class="etoiles">{{ etoiles(a.avis.noteFilm) }}</dd>
+                    </div>
+                    <div>
+                      <dt>{{ 'compte.service' | t }}</dt>
+                      <dd class="etoiles">{{ etoiles(a.avis.noteService) }}</dd>
+                    </div>
+                  </dl>
+                  @if (a.avis.commentaire) {
+                    <blockquote>« {{ a.avis.commentaire }} »</blockquote>
+                  }
+                  <p class="etiquette">{{ 'compte.publieLe' | t: { date: dateLongue(a.avis.date) } }}</p>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="vide">{{ 'compte.aucunAvis' | t }}</p>
+          }
+        </section>
+      }
+
+      <!-- ========== Profil & préférences ========== -->
+      @case ('profil') {
+        <form class="bloc profil" (ngSubmit)="enregistrerProfil()" (input)="profilEnregistre.set(false)">
+          <h2 class="sous-titre">{{ 'compte.infos' | t }}</h2>
+
+          <div class="grille-champs">
+            <label class="champ">
+              <span>{{ 'commun.prenom' | t }}</span>
+              <input name="prenom" autocomplete="given-name" [(ngModel)]="profilPrenom" />
+            </label>
+            <label class="champ">
+              <span>{{ 'commun.nom' | t }}</span>
+              <input name="nom" autocomplete="family-name" [(ngModel)]="profilNom" />
+            </label>
+            <label class="champ">
+              <span>{{ 'commun.email' | t }}</span>
+              <input name="email" type="email" autocomplete="email" [(ngModel)]="profilEmail" />
+            </label>
+            <label class="champ">
+              <span>{{ 'compte.telephone' | t }} <em>{{ 'commun.facultatif' | t }}</em></span>
+              <input name="telephone" type="tel" autocomplete="tel" placeholder="+216 …" [(ngModel)]="profilTelephone" />
+            </label>
+          </div>
+
+          <h2 class="sous-titre profil__titre2">{{ 'compte.preferences' | t }}</h2>
+
+          <fieldset class="choix">
+            <legend>{{ 'compte.versionPreferee' | t }}</legend>
+            <label><input type="radio" name="version" value="VF" [(ngModel)]="profilVersion" /> {{ 'compte.vf' | t }}</label>
+            <label><input type="radio" name="version" value="VO" [(ngModel)]="profilVersion" /> {{ 'compte.vo' | t }}</label>
+            <label><input type="radio" name="version" value="peu-importe" [(ngModel)]="profilVersion" /> {{ 'compte.peuImporte' | t }}</label>
+          </fieldset>
+
+          <label class="case">
+            <input type="checkbox" name="newsletter" [(ngModel)]="profilNewsletter" />
+            {{ 'compte.newsletter' | t }}
+          </label>
+
+          @if (erreurProfil()) {
+            <p class="erreur" role="alert">{{ erreurProfil() }}</p>
+          }
+
+          <div class="profil__actions">
+            <button class="bouton bouton--plein" type="submit">{{ 'compte.enregistrer' | t }}</button>
+            @if (profilEnregistre()) {
+              <p class="succes" role="status">{{ 'compte.enregistre' | t }}</p>
+            }
+          </div>
+        </form>
+
+        <div class="bloc deconnexion">
+          <button class="bouton" type="button" (click)="deconnexion()">{{ 'compte.deconnexion' | t }}</button>
+        </div>
+      }
+    }
+  </section>
+} @else {
+  <!-- ========== Connexion / inscription ========== -->
+  <section class="connexion">
+    <div class="connexion__texte">
+      <p class="etiquette">{{ 'compte.etiquette' | t }}</p>
+      <h1 class="grand-titre">
+        {{ (mode() === 'connexion' ? 'compte.revoir' : 'compte.rejoindre') | t }}
+      </h1>
+      <p>{{ 'compte.intro' | t }}</p>
+    </div>
+
+    <form class="connexion__carte" (ngSubmit)="valider()" novalidate>
+      <div class="bascule" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          [class.bascule--active]="mode() === 'connexion'"
+          [attr.aria-selected]="mode() === 'connexion'"
+          (click)="changerMode('connexion')"
+        >
+          {{ 'compte.connexion' | t }}
+        </button>
+        <button
+          type="button"
+          role="tab"
+          [class.bascule--active]="mode() === 'inscription'"
+          [attr.aria-selected]="mode() === 'inscription'"
+          (click)="changerMode('inscription')"
+        >
+          {{ 'compte.inscription' | t }}
+        </button>
+      </div>
+
+      @if (mode() === 'inscription') {
+        <div class="grille-champs">
+          <label class="champ">
+            <span>{{ 'commun.prenom' | t }}</span>
+            <input name="prenom" autocomplete="given-name" [(ngModel)]="prenom" />
+          </label>
+          <label class="champ">
+            <span>{{ 'commun.nom' | t }}</span>
+            <input name="nom" autocomplete="family-name" [(ngModel)]="nom" />
+          </label>
+        </div>
+      }
+
+      <label class="champ">
+        <span>{{ 'commun.email' | t }}</span>
+        <input name="email" type="email" autocomplete="email" [placeholder]="'commun.exempleEmail' | t" [(ngModel)]="email" />
+      </label>
+
+      <label class="champ">
+        <span>{{ 'compte.motDePasse' | t }}</span>
+        <input
+          name="motDePasse"
+          type="password"
+          [attr.autocomplete]="mode() === 'connexion' ? 'current-password' : 'new-password'"
+          [placeholder]="'compte.mdpPlaceholder' | t"
+          [(ngModel)]="motDePasse"
+        />
+      </label>
+
+      @if (erreur()) {
+        <p class="erreur" role="alert">{{ erreur() }}</p>
+      }
+
+      <button class="bouton bouton--plein connexion__bouton" type="submit">
+        {{ (mode() === 'connexion' ? 'compte.seConnecter' : 'compte.creer') | t }}
+      </button>
+
+      <p class="aide">
+        {{ 'compte.aide' | t }}
+      </p>
+    </form>
+  </section>
+}
