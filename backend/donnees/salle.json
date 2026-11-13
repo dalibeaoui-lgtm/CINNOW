@@ -1,0 +1,19 @@
+{
+  "rangees": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H"
+  ],
+  "placesParRangee": 14,
+  "alleesApres": [
+    4,
+    10
+  ],
+  "prixPlace": 12,
+  "maxPlaces": 10
+}

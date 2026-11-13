@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "filmId": 1,
+    "auteur": "Yasmine B.",
+    "noteFilm": 5,
+    "noteService": 5,
+    "commentaire": "Des images à couper le souffle. À voir absolument sur grand écran.",
+    "date": "2026-11-08"
+  },
+  {
+    "id": 2,
+    "filmId": 1,
+    "auteur": "Karim T.",
+    "noteFilm": 4,
+    "noteService": 4,
+    "commentaire": "Un peu long au milieu, mais la dernière heure est incroyable.",
+    "date": "2026-11-06"
+  },
+  {
+    "id": 3,
+    "filmId": 1,
+    "auteur": "Sarra M.",
+    "noteFilm": 4,
+    "noteService": 5,
+    "commentaire": "Le son de la salle rend la mer vraiment impressionnante.",
+    "date": "2026-11-02"
+  },
+  {
+    "id": 4,
+    "filmId": 2,
+    "auteur": "Omar H.",
+    "noteFilm": 4,
+    "noteService": 4,
+    "commentaire": "Plus personnel que les précédents, et très drôle par moments.",
+    "date": "2026-11-09"
+  },
+  {
+    "id": 5,
+    "filmId": 2,
+    "auteur": "Ines K.",
+    "noteFilm": 5,
+    "noteService": 4,
+    "commentaire": "Les combats sont superbes. Toute la salle a applaudi à la fin.",
+    "date": "2026-11-04"
+  },
+  {
+    "id": 6,
+    "filmId": 3,
+    "auteur": "Mehdi R.",
+    "noteFilm": 5,
+    "noteService": 5,
+    "commentaire": "Drôle, touchant et passionnant. Le meilleur film de l’année pour moi.",
+    "date": "2026-11-07"
+  },
+  {
+    "id": 7,
+    "filmId": 3,
+    "auteur": "Lina G.",
+    "noteFilm": 4,
+    "noteService": 3,
+    "commentaire": "Très bonne histoire. Les snacks ont mis un peu de temps à arriver.",
+    "date": "2026-11-03"
+  },
+  {
+    "id": 8,
+    "filmId": 4,
+    "auteur": "Aziz F.",
+    "noteFilm": 4,
+    "noteService": 5,
+    "commentaire": "Visuellement magnifique, surtout en 3D.",
+    "date": "2026-11-05"
+  }
+]

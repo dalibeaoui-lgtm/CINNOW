@@ -1,5 +1,11 @@
 <app-header />
 
+@if (catalogue.etat() === 'erreur') {
+  <p class="alerte-serveur" role="alert">
+    {{ 'app.serveur1' | t }} <code>npm run dev</code> {{ 'app.serveur2' | t }}
+  </p>
+}
+
 <main>
   <router-outlet />
 </main>
