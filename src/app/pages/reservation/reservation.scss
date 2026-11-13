@@ -1,0 +1,450 @@
+// Page sombre, comme une salle de cinéma plongée dans le noir.
+// Sur fond noir, le « gris » et les « traits » doivent être plus clairs : on les redéfinit pour cette page.
+:host {
+  --gris: #a29e93;
+  --trait: rgba(255, 255, 255, 0.14);
+  --etapes-contraste: var(--noir); // chiffres noirs dans les ronds blancs de la barre des étapes
+
+  display: block;
+  min-height: 100vh;
+  background: var(--noir);
+  color: var(--blanc);
+}
+
+// Page en deux colonnes : choix à gauche, récapitulatif à droite
+.reservation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  align-items: start;
+  gap: clamp(32px, 4vw, 64px);
+  padding: 112px var(--marge) 120px;
+}
+
+.majuscule::first-letter {
+  text-transform: uppercase;
+}
+
+// ---------- En-tête ----------
+.retour {
+  display: inline-block;
+  margin-bottom: 28px;
+  color: var(--gris);
+  font-size: 13px;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--blanc);
+  }
+}
+
+.titre-page {
+  margin-top: 32px;
+}
+
+.infos {
+  margin: 20px 0 0;
+  font-size: 17px;
+  color: var(--gris);
+
+  strong {
+    color: var(--blanc);
+    font-weight: 600;
+  }
+}
+
+// ---------- Plan de la salle ----------
+.salle {
+  --siege: clamp(15px, 2.1vw, 30px); // taille d'un siège
+  --espace: clamp(3px, 0.5vw, 6px); // espace entre deux sièges
+
+  margin-top: 56px;
+}
+
+// L'écran : une ligne courbe lumineuse qui éclaire la salle
+.ecran {
+  width: 80%;
+  height: 56px;
+  margin: 0 auto 28px;
+  border-top: 3px solid var(--creme);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: linear-gradient(to bottom, rgba(252, 225, 136, 0.22), transparent);
+  box-shadow: 0 -8px 30px -6px rgba(252, 225, 136, 0.45); // halo au-dessus de l'écran
+  text-align: center;
+
+  span {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+}
+
+// Sur un petit téléphone, le plan défile sur le côté plutôt que d'écraser les sièges
+.plan-defilant {
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.plan {
+  display: grid;
+  gap: var(--espace);
+  width: max-content;
+  margin: 0 auto;
+}
+
+.rangee {
+  display: flex;
+  align-items: center;
+  gap: var(--espace);
+}
+
+.rangee__lettre {
+  width: 18px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--gris);
+}
+
+.siege {
+  width: var(--siege);
+  height: var(--siege);
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px 6px 3px 3px; // forme de fauteuil
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s var(--courbe);
+
+  &:hover:not(:disabled) {
+    border-color: var(--blanc);
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--blanc);
+    outline-offset: 2px;
+  }
+}
+
+// Allée : plus d'espace après certaines places
+.siege--allee {
+  margin-right: calc(var(--siege) * 0.8);
+}
+
+.siege--occupe {
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.14);
+  cursor: not-allowed;
+}
+
+.siege--choisi {
+  border-color: var(--or);
+  background: var(--or);
+  box-shadow: 0 0 14px rgba(246, 181, 1, 0.55); // le siège choisi « s'allume »
+}
+
+.legende {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 28px;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.siege--exemple {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  cursor: default;
+}
+
+.legende__max {
+  color: var(--gris);
+}
+
+// ---------- Snacks ----------
+.snacks {
+  margin-top: 96px;
+}
+
+.section__entete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px 16px;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--trait);
+}
+
+.sous-titre {
+  margin: 0;
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.produits {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.produit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid var(--trait);
+  transition:
+    border-color 0.25s,
+    background 0.25s;
+}
+
+// Photo détourée du snack, posée sur le fond sombre de la carte
+.produit__photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  max-width: 180px;
+  margin: 0 auto 8px;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.5));
+  transition: transform 0.4s var(--courbe);
+}
+
+.produit:hover .produit__photo,
+.produit--choisi .produit__photo {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.produit--choisi {
+  border-color: var(--or);
+  background: rgba(246, 181, 1, 0.08);
+}
+
+.produit__nom {
+  margin: 4px 0 0;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.produit__description {
+  flex: 1;
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--gris);
+}
+
+.produit__bas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.produit__prix {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.quantite {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  button {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    background: none;
+    color: var(--blanc);
+    font: inherit;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover:not(:disabled) {
+      background: var(--blanc);
+      color: var(--noir);
+    }
+
+    &:disabled {
+      opacity: 0.25;
+      cursor: default;
+    }
+  }
+
+  span {
+    min-width: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+  }
+}
+
+// ---------- Récapitulatif ----------
+.recap {
+  position: sticky;
+  top: 88px;
+  display: grid;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid var(--trait);
+  background: #121110;
+}
+
+.recap__film {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--trait);
+
+  img {
+    width: 64px;
+    height: auto; // sinon l'attribut height="900" du HTML garde l'image à 900 px de haut
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.recap__titre {
+  margin: 4px 0 !important;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.recap__date {
+  font-size: 14px;
+  color: var(--gris);
+}
+
+.recap__lignes {
+  display: grid;
+  gap: 12px;
+}
+
+.recap__ligne {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14px;
+
+  span:last-child {
+    white-space: nowrap;
+  }
+}
+
+.recap__places {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -4px 0 4px;
+}
+
+.pastille {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--creme);
+  color: var(--noir);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+
+  span {
+    opacity: 0.5;
+  }
+
+  &:hover span {
+    opacity: 1;
+  }
+}
+
+.recap__vide {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--gris);
+}
+
+.recap__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  font-size: 15px;
+  font-weight: 600;
+
+  span:last-child {
+    font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+}
+
+.recap__bouton {
+  justify-content: center;
+  width: 100%;
+  padding: 15px 16px;
+}
+
+// ---------- Séance introuvable ----------
+.introuvable {
+  display: grid;
+  justify-items: start;
+  align-content: center;
+  gap: 18px;
+  min-height: 70vh;
+}
+
+// ---------- Tablette et téléphone : une seule colonne ----------
+@media (max-width: 960px) {
+  .reservation {
+    grid-template-columns: 1fr;
+  }
+
+  .salle {
+    --siege: clamp(15px, 3.4vw, 30px);
+  }
+
+  .recap {
+    position: static;
+  }
+}
