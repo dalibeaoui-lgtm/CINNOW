@@ -194,3 +194,33 @@ body.sans-defilement {
     padding-top: 24px;
   }
 }
+
+// Boutons de filtre en forme de pastille (FAQ, Actualités). aria-pressed="true" : filtre choisi
+.filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filtre {
+  padding: 10px 18px;
+  border: 1px solid var(--noir);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--noir);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+
+  &:hover {
+    background: #faf6ec;
+  }
+
+  &[aria-pressed='true'] {
+    background: var(--noir);
+    color: var(--blanc);
+  }
+}
