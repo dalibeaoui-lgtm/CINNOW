@@ -1,0 +1,347 @@
+// ---------- Mise en page : infos à gauche, formulaire à droite ----------
+.contact {
+  padding-bottom: 120px;
+}
+
+.colonnes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  align-items: start;
+  gap: clamp(40px, 6vw, 96px);
+}
+
+.sous-titre {
+  margin: 0 0 18px;
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+// ---------- Infos ----------
+.infos__titre {
+  margin: 14px 0 20px;
+}
+
+.infos__intro {
+  max-width: 40ch;
+  margin: 0 0 48px;
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.45;
+  color: var(--gris);
+}
+
+.coordonnees,
+.horaires {
+  display: grid;
+  margin: 0 0 40px;
+  border-top: 1px solid var(--trait);
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--trait);
+  }
+
+  dt {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+
+  dd {
+    margin: 0;
+    font-size: 15px;
+    text-align: right;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--caramel);
+      text-decoration: underline;
+    }
+  }
+}
+
+.horaires dd {
+  font-variant-numeric: tabular-nums;
+}
+
+// ---------- Formulaire ----------
+.carte-formulaire {
+  padding: clamp(24px, 3vw, 44px);
+  background: #faf6ec;
+}
+
+.formulaire {
+  display: grid;
+  gap: 22px;
+}
+
+.deux-champs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.champ {
+  display: grid;
+  gap: 8px;
+
+  > span {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid transparent;
+    border-radius: 0;
+    background: var(--blanc);
+    color: var(--noir);
+    font: inherit;
+    font-size: 15px;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+
+    &:hover {
+      border-color: var(--sable);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--or);
+      box-shadow: 0 0 0 4px rgba(246, 181, 1, 0.18);
+    }
+
+    &[aria-invalid='true'] {
+      border-color: var(--rouille);
+    }
+  }
+}
+
+// Sujets : des boutons à choisir (et pas une liste déroulante)
+.sujets {
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+.sujets__liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sujet {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 16px;
+  border: 1px solid #ddd8cc;
+  border-radius: 999px;
+  background: var(--blanc);
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+
+  &:hover {
+    border-color: var(--noir);
+  }
+
+  // Le bouton radio est caché, la pastille entière sert de bouton
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--noir);
+    outline-offset: 2px;
+  }
+}
+
+.sujet--choisi {
+  border-color: var(--noir);
+  background: var(--noir);
+  color: var(--blanc);
+}
+
+// Message : zone qui grandit avec le texte, compteur de caractères dans le coin
+.zone-texte {
+  position: relative;
+
+  textarea {
+    display: block;
+    min-height: 160px;
+    max-height: 360px;
+    padding-bottom: 34px;
+    line-height: 1.55;
+    resize: none;
+    field-sizing: content;
+
+    &::placeholder {
+      color: #a8a399;
+      font-style: italic;
+    }
+  }
+}
+
+.zone-texte__compteur {
+  position: absolute;
+  right: 14px;
+  bottom: 10px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: #a8a399;
+  pointer-events: none;
+}
+
+.zone-texte--presque-pleine .zone-texte__compteur {
+  color: var(--caramel);
+  font-weight: 600;
+}
+
+.erreur {
+  font-size: 13px;
+  color: var(--rouille);
+}
+
+.erreur-serveur {
+  margin: 0;
+  padding: 12px 16px;
+  border-left: 3px solid var(--rouille);
+  background: #fdf3e6;
+  color: var(--rouille);
+  font-size: 14px;
+}
+
+.formulaire__bouton {
+  justify-self: start;
+  padding: 15px 22px;
+}
+
+// ---------- Message envoyé ----------
+.merci {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  padding: 24px 0;
+
+  p {
+    max-width: 44ch;
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+}
+
+.merci__rond {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--noir);
+  animation: apparaitre 0.5s var(--courbe) both;
+
+  svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: var(--or);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+@keyframes apparaitre {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+}
+
+.merci__titre {
+  margin: 0;
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+// ---------- Plan d'accès ----------
+.plan {
+  margin-top: 120px;
+}
+
+.plan__entete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px 32px;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--noir);
+}
+
+.plan__titre {
+  font-size: clamp(36px, 5vw, 64px);
+}
+
+.plan__acces {
+  max-width: 48ch;
+  margin: 0;
+  font-size: 14px;
+  color: var(--gris);
+}
+
+.plan__carte {
+  height: clamp(320px, 45vw, 480px);
+  background: #eceae4;
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: grayscale(0.35) contrast(1.05); // carte un peu adoucie, plus proche de la charte
+  }
+}
+
+.plan__lien {
+  margin-top: 20px;
+}
+
+// ---------- Tablette et téléphone ----------
+@media (max-width: 900px) {
+  .colonnes {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .deux-champs {
+    grid-template-columns: 1fr;
+  }
+}

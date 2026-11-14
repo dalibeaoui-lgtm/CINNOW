@@ -58,6 +58,11 @@ export class Api {
   publierAvis(avis: Omit<Avis, 'id' | 'date'>) {
     return firstValueFrom(this.http.post<Avis>(`${API}/avis`, avis));
   }
+
+  // Formulaire de la page Contact
+  envoyerMessage(message: { nom: string; email: string; sujet: string; message: string }) {
+    return firstValueFrom(this.http.post<{ id: number }>(`${API}/messages`, message));
+  }
 }
 
 // Message lisible (dans la langue choisie) à partir d'une erreur de requête.

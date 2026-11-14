@@ -1,0 +1,149 @@
+<section class="page contact">
+  <!-- 1. Coordonnées et horaires (à gauche) + formulaire (à droite) -->
+  <div class="colonnes">
+    <div class="infos" appApparition>
+      <p class="etiquette">{{ 'contact.etiquette' | t }}</p>
+      <h1 class="grand-titre infos__titre">{{ 'contact.titre' | t }}</h1>
+      <p class="infos__intro">{{ 'contact.intro' | t }}</p>
+
+      <h2 class="sous-titre">{{ 'contact.coordonnees' | t }}</h2>
+      <dl class="coordonnees">
+        <div>
+          <dt>{{ 'contact.adresse' | t }}</dt>
+          <dd>{{ 'contact.adresseValeur' | t }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'contact.telephone' | t }}</dt>
+          <dd><a href="tel:+21673234567">+216 73 234 567</a></dd>
+        </div>
+        <div>
+          <dt>{{ 'contact.email' | t }}</dt>
+          <dd><a href="mailto:contact@cinnow.tn">contact&#64;cinnow.tn</a></dd>
+        </div>
+      </dl>
+
+      <h2 class="sous-titre">{{ 'contact.horaires' | t }}</h2>
+      <dl class="horaires">
+        <div>
+          <dt>{{ 'contact.horaires.semaine' | t }}</dt>
+          <dd>13:00 – 23:30</dd>
+        </div>
+        <div>
+          <dt>{{ 'contact.horaires.weekend' | t }}</dt>
+          <dd>13:00 – 01:00</dd>
+        </div>
+        <div>
+          <dt>{{ 'contact.horaires.dimanche' | t }}</dt>
+          <dd>11:00 – 23:30</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="carte-formulaire" appApparition style="--delai: 0.1s">
+      @if (envoye(); as e) {
+        <!-- Message bien envoyé -->
+        <div class="merci" role="status">
+          <span class="merci__rond" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+          </span>
+          <h2 class="merci__titre">{{ 'contact.merciTitre' | t }}</h2>
+          <p>{{ 'contact.merci' | t: { nom: e.nom, email: e.email } }}</p>
+          <button class="bouton" type="button" (click)="nouveauMessage()">{{ 'contact.autreMessage' | t }}</button>
+        </div>
+      } @else {
+        <form class="formulaire" (ngSubmit)="envoyer()" novalidate>
+          <h2 class="sous-titre">{{ 'contact.formulaire' | t }}</h2>
+
+          <div class="deux-champs">
+            <label class="champ">
+              <span>{{ 'contact.nom' | t }}</span>
+              <input name="nom" autocomplete="name" [(ngModel)]="nom" [attr.aria-invalid]="!!erreurs().nom" />
+              @if (erreurs().nom) {
+                <small class="erreur">{{ erreurs().nom! | t }}</small>
+              }
+            </label>
+
+            <label class="champ">
+              <span>{{ 'commun.email' | t }}</span>
+              <input
+                name="email"
+                type="email"
+                autocomplete="email"
+                [placeholder]="'commun.exempleEmail' | t"
+                [(ngModel)]="email"
+                [attr.aria-invalid]="!!erreurs().email"
+              />
+              @if (erreurs().email) {
+                <small class="erreur">{{ erreurs().email! | t }}</small>
+              }
+            </label>
+          </div>
+
+          <fieldset class="sujets" [attr.aria-invalid]="!!erreurs().sujet">
+            <legend>{{ 'contact.sujet' | t }}</legend>
+            <div class="sujets__liste">
+              @for (s of sujets; track s.id) {
+                <label class="sujet" [class.sujet--choisi]="sujet() === s.id">
+                  <input type="radio" name="sujet" [value]="s.id" [ngModel]="sujet()" (ngModelChange)="sujet.set($event)" />
+                  {{ s.libelle | t }}
+                </label>
+              }
+            </div>
+            @if (erreurs().sujet) {
+              <small class="erreur">{{ erreurs().sujet! | t }}</small>
+            }
+          </fieldset>
+
+          <label class="champ">
+            <span>{{ 'contact.message' | t }}</span>
+            <div class="zone-texte" [class.zone-texte--presque-pleine]="presquePlein()">
+              <textarea
+                name="message"
+                rows="6"
+                [attr.maxlength]="maxMessage"
+                [placeholder]="'contact.messagePlaceholder' | t"
+                [(ngModel)]="message"
+                [attr.aria-invalid]="!!erreurs().message"
+              ></textarea>
+              <span class="zone-texte__compteur" aria-hidden="true">{{ message().length }} / {{ maxMessage }}</span>
+            </div>
+            @if (erreurs().message) {
+              <small class="erreur">{{ erreurs().message! | t }}</small>
+            }
+          </label>
+
+          @if (erreurServeur()) {
+            <p class="erreur-serveur" role="alert">{{ erreurServeur() }}</p>
+          }
+
+          <button class="bouton bouton--plein formulaire__bouton" type="submit" [disabled]="envoiEnCours()">
+            {{ (envoiEnCours() ? 'contact.envoiEnCours' : 'contact.envoyer') | t }}
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+
+  <!-- 2. Plan d'accès : Palm Lake Mall, Monastir (carte OpenStreetMap, lien Google Maps) -->
+  <section class="plan" aria-labelledby="titre-plan" appApparition>
+    <div class="plan__entete">
+      <h2 id="titre-plan" class="grand-titre plan__titre">{{ 'contact.plan' | t }}</h2>
+      <p class="plan__acces">{{ 'contact.acces' | t }}</p>
+    </div>
+    <div class="plan__carte">
+      <iframe
+        [title]="'contact.planTitre' | t"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=10.7256%2C35.7562%2C10.7397%2C35.7642&amp;layer=mapnik&amp;marker=35.76019%2C10.73267"
+        loading="lazy"
+      ></iframe>
+    </div>
+    <a
+      class="bouton plan__lien"
+      href="https://maps.app.goo.gl/2K2KbTyevFAJUDME7"
+      target="_blank"
+      rel="noopener"
+    >
+      {{ 'contact.itineraire' | t }}
+    </a>
+  </section>
+</section>
