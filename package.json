@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "postinstall": "npm install --prefix backend --no-audit --no-fund",
+    "postinstall": "cd backend && npm install --no-audit --no-fund",
     "dev": "concurrently --names api,site --prefix-colors yellow,cyan --kill-others \"npm run api\" \"ng serve\"",
     "api": "npm run dev --prefix backend",
     "start": "ng serve",
