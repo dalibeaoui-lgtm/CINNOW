@@ -28,6 +28,7 @@ export const routes: Routes = [
   { path: 'paiement', title: titre('titre.paiement'), loadComponent: () => import('./pages/paiement/paiement').then(m => m.Paiement) },
   { path: 'confirmation', title: titre('titre.confirmation'), loadComponent: () => import('./pages/confirmation/confirmation').then(m => m.Confirmation) },
   { path: 'boutique', title: titre('titre.boutique'), loadComponent: () => import('./pages/boutique/boutique').then(m => m.Boutique) },
+  { path: 'contact', title: titre('titre.contact'), loadComponent: () => import('./pages/contact/contact').then(m => m.Contact) },
   { path: 'mon-compte', title: titre('titre.monCompte'), loadComponent: () => import('./pages/mon-compte/mon-compte').then(m => m.MonCompte) },
   { path: '**', redirectTo: '' }, // adresse inconnue : retour à l'accueil
 ];

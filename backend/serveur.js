@@ -5,6 +5,7 @@ import express from 'express';
 import routesAchats from './routes/achats.js';
 import routesAvis from './routes/avis.js';
 import routesCatalogue from './routes/catalogue.js';
+import routesContact from './routes/contact.js';
 
 const PORT = process.env.PORT ?? 3000;
 const app = express();
@@ -25,6 +26,7 @@ app.get('/api/sante', (req, res) => res.json({ ok: true }));
 app.use('/api', routesCatalogue); // /api/films, /api/seances, /api/produits, /api/salle
 app.use('/api', routesAchats); //    /api/reservations, /api/commandes
 app.use('/api/avis', routesAvis); // /api/avis
+app.use('/api/messages', routesContact); // /api/messages (formulaire de contact)
 
 // Adresse inconnue
 app.use((req, res) => res.status(404).json({ message: `Aucune route ${req.method} ${req.path}.` }));
