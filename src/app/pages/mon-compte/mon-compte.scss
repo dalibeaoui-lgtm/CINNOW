@@ -508,6 +508,63 @@
   }
 }
 
+// ---------- Zone de texte de l'avis ----------
+// Fond crème léger, contour doré quand on écrit, compteur de caractères en bas à droite
+.zone-avis {
+  position: relative;
+
+  textarea {
+    display: block;
+    min-height: 128px;
+    padding: 16px 18px 34px; // place en bas pour le compteur
+    border: 1px solid transparent;
+    background: #faf6ec;
+    font-size: 16px;
+    line-height: 1.55;
+    resize: none;
+    field-sizing: content; // la zone grandit avec le texte (navigateurs récents)
+    max-height: 320px;
+    transition:
+      border-color 0.2s,
+      background 0.2s,
+      box-shadow 0.2s;
+
+    &::placeholder {
+      color: #a8a399;
+      font-style: italic;
+    }
+
+    &:hover {
+      border-color: var(--sable);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--or);
+      background: var(--blanc);
+      box-shadow: 0 0 0 4px rgba(246, 181, 1, 0.18);
+    }
+  }
+}
+
+.zone-avis__compteur {
+  position: absolute;
+  right: 14px;
+  bottom: 10px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: #a8a399;
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+// Plus de 360 caractères sur 400 : le compteur passe en couleur pour prévenir
+.zone-avis--presque-pleine .zone-avis__compteur {
+  color: var(--caramel);
+  font-weight: 600;
+}
+
 .erreur {
   margin: 0;
   padding: 10px 14px;
