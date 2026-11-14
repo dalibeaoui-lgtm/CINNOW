@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { langueActive, t } from '../i18n/langue';
+import { Actualite } from '../models/actualite';
 import { Avis } from '../models/avis';
 import { Commande } from '../models/commande';
 import { Film } from '../models/film';
@@ -39,6 +40,10 @@ export class Api {
 
   salle() {
     return firstValueFrom(this.http.get<Salle>(`${API}/salle`));
+  }
+
+  actualites() {
+    return firstValueFrom(this.http.get<Actualite[]>(`${API}/actualites`));
   }
 
   avis() {

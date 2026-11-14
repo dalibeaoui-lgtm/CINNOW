@@ -1,0 +1,56 @@
+<section class="page actualites">
+  <!-- En-tête -->
+  <header class="entete" appApparition>
+    <p class="etiquette">{{ 'actu.etiquette' | t }}</p>
+    <h1 class="grand-titre entete__titre">{{ 'actu.titre' | t }}</h1>
+    <p class="entete__intro">{{ 'actu.intro' | t }}</p>
+  </header>
+
+  @switch (etat()) {
+    @case ('chargement') {
+      <p class="message" role="status">{{ 'actu.chargement' | t }}</p>
+    }
+    @case ('erreur') {
+      <div class="message" role="alert">
+        <p>{{ 'actu.erreur' | t }}</p>
+        <button type="button" class="bouton bouton--plein" (click)="reessayer()">{{ 'actu.reessayer' | t }}</button>
+      </div>
+    }
+    @default {
+      <!-- 1. L'article à la une, en grand -->
+      @if (aLaUne(); as une) {
+        <section class="une" aria-labelledby="titre-une">
+          <h2 id="titre-une" class="visuellement-cache">{{ 'actu.aLaUne' | t }}</h2>
+          <app-carte-actualite [article]="une" [grande]="true" appApparition />
+        </section>
+      }
+
+      <!-- 2. Tous les articles, avec le filtre par thème -->
+      <section class="liste" aria-labelledby="titre-liste">
+        <div class="liste__entete">
+          <h2 id="titre-liste" class="liste__titre">{{ 'actu.toutes' | t }}</h2>
+          <div class="filtres" role="group" [attr.aria-label]="'actu.filtrer' | t">
+            <button type="button" class="filtre" [attr.aria-pressed]="filtre() === 'tous'" (click)="filtre.set('tous')">
+              {{ 'actu.tous' | t }}
+            </button>
+            @for (c of categories; track c.id) {
+              <button type="button" class="filtre" [attr.aria-pressed]="filtre() === c.id" (click)="filtre.set(c.id)">
+                {{ c.libelle | t }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <ul class="grille">
+          @for (article of liste(); track article.id; let i = $index) {
+            <li appApparition [style.--delai]="(i % 3) * 0.08 + 's'">
+              <app-carte-actualite [article]="article" />
+            </li>
+          } @empty {
+            <li class="message">{{ 'actu.aucun' | t }}</li>
+          }
+        </ul>
+      </section>
+    }
+  }
+</section>
