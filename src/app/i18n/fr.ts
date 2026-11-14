@@ -40,7 +40,8 @@ export const fr = {
   'menu.logo': 'CINNOW, retour à l’accueil',
   'menu.rechercher': 'Rechercher un film…',
   'menu.rechercherLabel': 'Rechercher un film',
-  'langue.changer': 'Langue : {langue}. Cliquer pour changer',
+  // Commence par le texte visible du bouton (« FR ») : la commande vocale « clique sur FR » le trouve
+  'langue.changer': '{code} — langue : {langue}. Cliquer pour changer',
   'recherche.resultats': 'Résultats de la recherche',
   'recherche.aucun': 'Aucun film trouvé pour « {q} »',
   'pied.liens': 'Liens du pied de page',

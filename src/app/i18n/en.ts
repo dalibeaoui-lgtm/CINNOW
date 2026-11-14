@@ -40,7 +40,7 @@ export const en: Record<keyof typeof fr, string> = {
   'menu.logo': 'CINNOW, back to home',
   'menu.rechercher': 'Search for a film…',
   'menu.rechercherLabel': 'Search for a film',
-  'langue.changer': 'Language: {langue}. Click to change',
+  'langue.changer': '{code} — language: {langue}. Click to change',
   'recherche.resultats': 'Search results',
   'recherche.aucun': 'No film found for “{q}”',
   'pied.liens': 'Footer links',
