@@ -35,6 +35,20 @@ Pas de librairie de style : tout est en SCSS, avec la palette de la charte graph
 **Node.js + Express** pour le serveur : le même langage (JavaScript) que le site, et une seule
 dépendance (`express`).
 
+### Dépendances
+
+| Outil | Version | Rôle |
+|---|---|---|
+| Angular (`@angular/*`) | 21 | Framework du site : composants, routage, formulaires, requêtes HTTP |
+| TypeScript | 5.9 | Langage du site (JavaScript avec des types vérifiés) |
+| RxJS | 7.8 | Utilisé par Angular pour les requêtes HTTP |
+| Express | 5 | Serveur de l'API (`backend/`) |
+| concurrently | 9 | Lance le site et le serveur avec une seule commande (`npm run dev`) |
+| Vitest + jsdom | 4 / 28 | Tests du site |
+| Prettier | 3 | Mise en forme automatique du code |
+
+Aucune librairie de style ni d'animation : tout est écrit en SCSS et en TypeScript.
+
 ## Fonctionnalités
 
 | Page | Adresse | Ce qu'on peut faire |
@@ -46,8 +60,17 @@ dépendance (`express`).
 | Confirmation | `/confirmation` | E-billet avec QR code, téléchargement en PDF, ajout au calendrier (.ics) |
 | Boutique | `/boutique` | Filtres par catégorie, panier (gardé dans le navigateur), commande à retirer au comptoir |
 | Mon compte | `/mon-compte` | Connexion / inscription, e-billets, commandes, notation des films vus, profil |
+| Actualités | `/actualites` | Article à la une, liste des articles, filtre par thème |
+| Article | `/actualites/:id` | Texte complet, lien vers le film concerné, 3 autres articles à lire |
+| À propos | `/a-propos` | Histoire du cinéma, salles et équipements, tarifs et abonnements, horaires |
+| FAQ | `/faq` | Questions fréquentes rangées par thème, qui s'ouvrent au clic |
+| Contact | `/contact` | Formulaire de contact (vérifié puis envoyé au serveur), coordonnées, plan d'accès |
 
 Parcours complet : fiche film → séance → places et snacks → paiement → confirmation → « Mes billets ».
+
+**Barre de recherche** (dans le menu, sur toutes les pages) : les films s'affichent pendant la frappe,
+par titre, réalisateur ou genre, sans tenir compte des accents ; flèches ↑ ↓ et Entrée pour ouvrir
+la fiche du film.
 
 **Paiement simulé :** aucun argent n'est débité et les données de carte ne sont ni envoyées ni
 enregistrées. Il sera remplacé par Stripe en mode test.
@@ -71,9 +94,11 @@ les produits et les avis, et lui envoie les réservations, les commandes et les 
 | GET | `/api/produits` | Snacks, boissons, posters |
 | GET | `/api/salle` | Plan de la salle et prix d'une place |
 | GET | `/api/avis`, `/api/avis?filmId=3` | Avis des spectateurs |
+| GET | `/api/actualites`, `/api/actualites/:id` | Articles des Actualités |
 | POST | `/api/reservations` | Réserver des places (refusé avec le code 409 si une place est déjà prise) |
 | POST | `/api/commandes` | Commander à la boutique |
 | POST | `/api/avis` | Publier un avis (notes de 1 à 5 vérifiées) |
+| POST | `/api/messages` | Envoyer un message depuis la page Contact (champs vérifiés) |
 
 Le serveur **vérifie tout** ce que le site lui envoie et **calcule lui-même les prix** : on ne peut ni
 réserver une place déjà vendue, ni changer un prix en modifiant la page.
@@ -116,11 +141,12 @@ Audit fait avec **axe-core** (règles WCAG 2.1 niveaux A et AA) sur les 8 pages,
 cinnow/
 ├── backend/               Serveur Node.js + Express (l'API)
 │   ├── serveur.js         Point de départ : réglages et liste des routes
-│   ├── routes/            Une route par sujet (catalogue, achats, avis)
+│   ├── routes/            Une route par sujet (catalogue, achats, avis, contact)
 │   ├── seances.js         Calcul du programme et des places occupées
 │   ├── stockage.js        Lecture / écriture des fichiers JSON
-│   ├── donnees/           Données de départ (films, produits, avis, salle)
-│   └── stockage/          Réservations, commandes et avis créés (non envoyé sur GitHub)
+│   ├── tests/             Tests de l'API
+│   ├── donnees/           Données de départ (films, produits, avis, actualités, salle)
+│   └── stockage/          Réservations, commandes, avis et messages créés (non envoyé sur GitHub)
 ├── public/images/         Images du site
 │   ├── affiches/          Affiches verticales des films
 │   └── hero/              Grandes photos horizontales
@@ -130,8 +156,9 @@ cinnow/
 │   └── app/
 │       ├── app.routes.ts  Liste des pages et de leurs adresses
 │       ├── app.config.ts  Réglages d'Angular (routeur…)
-│       ├── pages/         Une page = un dossier (accueil, fiche-film, reservation, mon-compte…)
-│       ├── components/    Morceaux réutilisés sur plusieurs pages (header, footer, carte-film, etapes, qr-code)
+│       ├── pages/         Une page = un dossier (12 pages : accueil, fiche-film, reservation, contact…)
+│       ├── components/    Morceaux réutilisés sur plusieurs pages (header, footer, carte-film,
+│       │                  carte-actualite, etapes, qr-code, fond-films)
 │       ├── directives/    Comportements ajoutés aux balises (apparition au défilement)
 │       ├── services/      Appels à l'API (api, catalogue) et état partagé (compte, panier, avis…)
 │       ├── models/        Forme des données (Film, Seance, Avis, Reservation…)
