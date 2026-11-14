@@ -1,0 +1,12 @@
+<!-- La liste est écrite 2 fois à la suite ; quand la 1re a fini de passer,
+     la 2e prend exactement sa place, donc le mouvement ne s'arrête jamais -->
+<div class="defile">
+  <div class="defile__piste">
+    @for (tour of [1, 2]; track tour) {
+      @for (film of films(); track film.id) {
+        <img class="defile__photo" [src]="film.photo" alt="" width="1920" height="1080" loading="lazy" />
+      }
+    }
+  </div>
+</div>
+<div class="voile"></div>

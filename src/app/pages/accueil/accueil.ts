@@ -1,6 +1,7 @@
 import { Component, DestroyRef, ElementRef, afterNextRender, computed, inject, viewChildren } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CarteFilm } from '../../components/carte-film/carte-film';
+import { FondFilms } from '../../components/fond-films/fond-films';
 import { Apparition } from '../../directives/apparition';
 import { Traduction } from '../../i18n/traduire.pipe';
 import { Catalogue } from '../../services/catalogue';
@@ -19,7 +20,7 @@ function melanger<T>(liste: T[]): T[] {
 
 @Component({
   selector: 'app-accueil',
-  imports: [RouterLink, CarteFilm, Apparition, Traduction],
+  imports: [RouterLink, CarteFilm, FondFilms, Apparition, Traduction],
   templateUrl: './accueil.html',
   styleUrl: './accueil.scss',
 })
@@ -36,8 +37,6 @@ export class Accueil {
   );
   protected readonly aLAffiche = computed(() => this.films().filter((film) => film.statut === 'a-l-affiche'));
   protected readonly prochainement = computed(() => this.films().filter((film) => film.statut === 'prochainement'));
-  // Bande qui défile en bas de page : tous les films qui ont une photo horizontale
-  protected readonly filmsDefile = computed(() => this.films().filter((film) => film.photo));
 
   private readonly slidesHtml = viewChildren<ElementRef<HTMLElement>>('slide');
 
