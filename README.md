@@ -84,6 +84,21 @@ prévue : remplacer ces fichiers par PostgreSQL, et la connexion simulée par JW
 
 Le compte (profil, liste de billets) et le panier restent gardés dans le navigateur (`localStorage`).
 
+## Tests
+
+```bash
+npm test            # tests du site (Angular + Vitest), relancés à chaque modification
+npm run test:api    # tests du serveur (outil de test intégré à Node.js)
+npm run test:tout   # les deux, une seule fois
+```
+
+- **Site (44 tests)** : fonctions de mise en forme (dates, prix, durées), traductions FR / EN,
+  panier, barre des étapes, QR code, barre de recherche, bouton de langue, formulaire de contact.
+  Les fichiers de test sont à côté du code qu'ils testent (`*.spec.ts`).
+- **Serveur (12 tests)** : catalogue, réservations (prix recalculé, **une place ne peut pas être
+  vendue deux fois**), avis et messages de contact refusés quand ils sont invalides.
+  Le serveur de test utilise un dossier temporaire : il ne touche pas aux vraies réservations.
+
 ## Organisation des dossiers
 
 ```
