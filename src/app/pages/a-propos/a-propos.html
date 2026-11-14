@@ -1,0 +1,110 @@
+<section class="page a-propos">
+  <!-- En-tête -->
+  <header class="entete" appApparition>
+    <p class="etiquette">{{ 'apropos.etiquette' | t }}</p>
+    <h1 class="grand-titre entete__titre">{{ 'apropos.titre' | t }}</h1>
+    <p class="entete__intro">{{ 'apropos.intro' | t }}</p>
+  </header>
+
+  <!-- 1. Notre histoire + chiffres -->
+  <section class="partie histoire" aria-labelledby="titre-histoire">
+    <div class="partie__entete">
+      <h2 id="titre-histoire" class="partie__titre">{{ 'apropos.histoire' | t }}</h2>
+    </div>
+    <div class="histoire__colonnes">
+      <div class="histoire__texte" appApparition>
+        <p>{{ 'apropos.histoire1' | t }}</p>
+        <p>{{ 'apropos.histoire2' | t }}</p>
+      </div>
+      <ul class="chiffres" appApparition style="--delai: 0.1s">
+        @for (c of chiffres(); track c.libelle) {
+          <li>
+            <strong>{{ c.valeur }}</strong>
+            <span>{{ c.libelle | t }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- 2. Salles & équipements -->
+  <section class="partie" aria-labelledby="titre-salles">
+    <div class="partie__entete">
+      <h2 id="titre-salles" class="partie__titre">{{ 'apropos.salles' | t }}</h2>
+      <p class="partie__intro">{{ 'apropos.salles.intro' | t }}</p>
+    </div>
+    <!-- Bandeau qui défile lentement de gauche à droite, sans fin.
+         La liste est répétée 4 fois : la piste glisse de la moitié de sa largeur puis recommence,
+         sans saut visible. Seule la 1re copie est lue par les lecteurs d'écran. -->
+    <div class="defile" appApparition>
+      <div class="defile__piste">
+        @for (copie of [0, 1, 2, 3]; track copie) {
+          <ul class="equipements" [attr.aria-hidden]="copie > 0 ? 'true' : null">
+            @for (e of equipements; track e.titre) {
+              <li class="equipement">
+                <svg class="equipement__icone" viewBox="0 0 24 24" aria-hidden="true"><path [attr.d]="e.icone" /></svg>
+                <h3 class="equipement__titre">{{ e.titre | t }}</h3>
+                <p>{{ e.texte | t }}</p>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Tarifs & abonnements -->
+  <section class="partie" aria-labelledby="titre-tarifs">
+    <div class="partie__entete">
+      <h2 id="titre-tarifs" class="partie__titre">{{ 'apropos.tarifs' | t }}</h2>
+      <p class="partie__intro">{{ 'apropos.tarifs.intro' | t }}</p>
+    </div>
+    <ul class="tarifs">
+      @for (tarif of tarifs(); track tarif.nom; let i = $index) {
+        <li class="tarif" [class.tarif--abonnement]="tarif.mensuel" appApparition [style.--delai]="i * 0.08 + 's'">
+          @if (tarif.mensuel) {
+            <p class="tarif__badge">{{ 'apropos.tarif.populaire' | t }}</p>
+          }
+          <h3 class="tarif__nom">{{ tarif.nom | t }}</h3>
+          <p class="tarif__prix">
+            {{ formaterPrix(tarif.prix) }}
+            @if (tarif.mensuel) {
+              <span>{{ 'apropos.tarif.parMois' | t }}</span>
+            }
+          </p>
+          <p class="tarif__detail">{{ tarif.detail | t }}</p>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <!-- 4. Horaires d'ouverture + lien vers Contact -->
+  <section class="partie horaires" aria-labelledby="titre-horaires">
+    <div class="partie__entete">
+      <h2 id="titre-horaires" class="partie__titre">{{ 'apropos.horaires' | t }}</h2>
+    </div>
+    <div class="horaires__colonnes">
+      <div>
+        <dl class="horaires__liste">
+          @for (h of horaires; track h.jours) {
+            <div>
+              <dt>{{ h.jours | t }}</dt>
+              <dd>{{ h.heures }}</dd>
+            </div>
+          }
+        </dl>
+        <p class="horaires__note">{{ 'apropos.horaires.note' | t }}</p>
+      </div>
+      <!-- Même fond animé que le bandeau « Avis » de l'accueil -->
+      <div class="horaires__contact" appApparition>
+        <app-fond-films />
+        <div class="horaires__contenu">
+          <p>{{ 'apropos.contact' | t }}</p>
+          <p class="horaires__adresse">{{ 'contact.adresseValeur' | t }}</p>
+          <a class="bouton bouton--or" routerLink="/contact">{{ 'apropos.contactBouton' | t }}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,150 @@
+.faq {
+  padding-bottom: 120px;
+}
+
+// ---------- En-tête (comme la page À propos) ----------
+.entete__titre {
+  max-width: 14ch;
+  margin: 14px 0 24px;
+}
+
+.entete__intro {
+  max-width: 52ch;
+  margin: 0;
+  font-size: clamp(18px, 1.7vw, 22px);
+  line-height: 1.45;
+  color: var(--gris);
+}
+
+// ---------- Filtres par thème ----------
+.filtres {
+  margin-top: 56px;
+}
+
+// ---------- Thèmes ----------
+.groupe {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
+  gap: 24px clamp(32px, 6vw, 96px);
+  margin-top: 80px;
+  padding-top: 16px;
+  border-top: 1px solid var(--noir);
+}
+
+.groupe__titre {
+  margin: 0;
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-size: clamp(26px, 2.6vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+// ---------- Questions (ouvertes au clic) ----------
+.question {
+  border-bottom: 1px solid var(--trait);
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 22px 4px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.35;
+    cursor: pointer;
+    list-style: none; // retire le triangle par défaut
+    transition: color 0.25s ease;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover {
+      color: var(--caramel);
+    }
+  }
+}
+
+// Signe + qui devient − quand la question est ouverte
+.question__signe {
+  position: relative;
+  flex: 0 0 18px;
+  height: 18px;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 0.3s ease;
+  }
+
+  &::after {
+    transform: rotate(90deg);
+  }
+}
+
+.question[open] .question__signe::after {
+  transform: rotate(0deg);
+}
+
+.question__reponse {
+  max-width: 62ch;
+  margin: 0;
+  padding: 0 4px 24px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--gris);
+}
+
+// ---------- Encadré « pas trouvé ? » ----------
+// Photos des films qui défilent en fond (composant FondFilms), texte au-dessus
+.encore {
+  position: relative;
+  overflow: hidden;
+  margin-top: 100px;
+  background: var(--noir);
+  color: var(--blanc);
+
+  p {
+    margin: 0;
+  }
+}
+
+.encore__contenu {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: clamp(40px, 5vw, 72px) clamp(24px, 4vw, 56px);
+}
+
+.encore__titre {
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.encore__texte {
+  margin-top: 8px !important;
+  font-size: 15px;
+  color: var(--sable);
+}
+
+// ---------- Tablette et téléphone ----------
+@media (max-width: 1024px) {
+  .groupe {
+    grid-template-columns: 1fr;
+  }
+}

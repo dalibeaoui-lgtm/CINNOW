@@ -1,0 +1,425 @@
+.a-propos {
+  padding-bottom: 120px;
+}
+
+// ---------- En-tête ----------
+.entete__titre {
+  max-width: 12ch;
+  margin: 14px 0 24px;
+}
+
+.entete__intro {
+  max-width: 52ch;
+  margin: 0;
+  font-size: clamp(18px, 1.7vw, 22px);
+  line-height: 1.45;
+  color: var(--gris);
+}
+
+// ---------- Parties (même style que la boutique) ----------
+.partie {
+  margin-top: 120px;
+}
+
+.partie__entete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px 40px;
+  padding-bottom: 16px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--noir);
+}
+
+.partie__titre {
+  margin: 0;
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.partie__intro {
+  max-width: 48ch;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--gris);
+}
+
+// ---------- 1. Histoire et chiffres ----------
+.histoire__colonnes {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+
+.histoire__texte p {
+  max-width: 56ch;
+  margin: 0 0 20px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+// Chiffres sur la bande expresso de la charte
+.chiffres {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  // Photo d'une salle, vue à travers un voile expresso un peu transparent
+  background:
+    linear-gradient(rgba(56, 21, 1, 0.8), rgba(56, 21, 1, 0.8)),
+    url('/images/hero/salle-cinema.webp') center / cover no-repeat,
+    var(--expresso);
+  color: var(--blanc);
+
+  li {
+    display: grid;
+    gap: 6px;
+    padding: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  strong {
+    font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+    font-size: clamp(44px, 5vw, 64px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--or);
+  }
+
+  span {
+    font-size: 14px;
+    color: var(--sable);
+  }
+}
+
+// ---------- 2. Équipements ----------
+// Bandeau défilant : les bords s'effacent en fondu
+.defile {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.defile__piste {
+  display: flex;
+  width: max-content;
+  animation: defiler 60s linear infinite;
+}
+
+// Pause au survol, pour pouvoir lire une carte
+.defile:hover .defile__piste {
+  animation-play-state: paused;
+}
+
+// De gauche à droite : on part de -50 % (2 copies sur 4) et on revient à 0
+@keyframes defiler {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+// Mouvement réduit demandé par le système : pas d'animation
+@media (prefers-reduced-motion: reduce) {
+  .defile__piste {
+    animation: none;
+  }
+}
+
+.equipements {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.equipement {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  flex: 0 0 340px;
+  margin-right: 16px; // marge (et pas gap) : chaque copie a exactement la même largeur
+  padding: 28px 24px;
+  background: #faf6ec;
+
+  p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--gris);
+  }
+}
+
+.equipement__icone {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+  fill: none;
+  stroke: var(--caramel);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.equipement__titre {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+// ---------- 3. Tarifs ----------
+.tarifs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tarif {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 28px 24px;
+  border: 1px solid var(--trait);
+
+  p,
+  h3 {
+    margin: 0;
+  }
+}
+
+.tarif__nom {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tarif__prix {
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-size: clamp(32px, 3vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+
+  span {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+}
+
+.tarif__detail {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--gris);
+}
+
+// L'abonnement est mis en avant : fond noir, accent or
+.tarif--abonnement {
+  border-color: var(--noir);
+  background: var(--noir);
+  color: var(--blanc);
+
+  .tarif__prix {
+    color: var(--or);
+  }
+
+  .tarif__detail {
+    color: var(--sable);
+  }
+}
+
+.tarif__badge {
+  justify-self: start;
+  margin-bottom: 4px !important;
+  padding: 4px 10px;
+  background: var(--or);
+  color: var(--noir);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+// ---------- Survol des blocs : changement de couleur (palette de la charte) ----------
+.chiffres li,
+.equipement,
+.tarif {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease;
+
+  strong,
+  span,
+  p,
+  h3,
+  .equipement__icone {
+    transition:
+      color 0.35s ease,
+      stroke 0.35s ease;
+  }
+}
+
+// Chiffres : expresso → or
+.chiffres li:hover {
+  background: var(--or);
+
+  strong {
+    color: var(--noir);
+  }
+
+  span {
+    color: var(--expresso);
+  }
+}
+
+// Équipements : crème → expresso
+.equipement:hover {
+  background: var(--expresso);
+
+  .equipement__titre {
+    color: var(--creme);
+  }
+
+  p {
+    color: var(--sable);
+  }
+
+  .equipement__icone {
+    stroke: var(--or);
+  }
+}
+
+// Tarifs : blanc → or (et l'abonnement, noir → expresso)
+.tarif:hover {
+  border-color: var(--or);
+  background: var(--or);
+  color: var(--noir);
+
+  .tarif__detail {
+    color: var(--expresso);
+  }
+}
+
+.tarif--abonnement:hover {
+  border-color: var(--expresso);
+  background: var(--expresso);
+  color: var(--blanc);
+
+  .tarif__detail {
+    color: var(--sable);
+  }
+}
+
+// ---------- 4. Horaires ----------
+.horaires__colonnes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+
+.horaires__liste {
+  display: grid;
+  margin: 0;
+  border-top: 1px solid var(--trait);
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--trait);
+  }
+
+  dt {
+    font-size: 15px;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.horaires__note {
+  margin: 16px 0 0;
+  font-size: 14px;
+  color: var(--gris);
+}
+
+// Photos des films qui défilent en fond (composant FondFilms), texte au-dessus
+.horaires__contact {
+  position: relative;
+  overflow: hidden;
+  background: var(--noir);
+  color: var(--blanc);
+}
+
+.horaires__contenu {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  padding: clamp(32px, 4vw, 56px) clamp(24px, 3vw, 40px);
+
+  p {
+    margin: 0;
+    font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+    font-size: clamp(24px, 2.4vw, 32px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .horaires__adresse {
+    margin-bottom: 8px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--sable);
+  }
+}
+
+// ---------- Tablette ----------
+@media (max-width: 1024px) {
+  .tarifs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .histoire__colonnes,
+  .horaires__colonnes {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ---------- Téléphone ----------
+@media (max-width: 560px) {
+  .equipement {
+    flex-basis: 270px;
+  }
+
+  .tarifs {
+    grid-template-columns: 1fr;
+  }
+}
