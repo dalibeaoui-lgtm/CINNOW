@@ -198,13 +198,17 @@
 
                       <label class="champ">
                         <span>{{ 'compte.votreAvis' | t }} <em>{{ 'commun.facultatif' | t }}</em></span>
-                        <textarea
-                          name="commentaire"
-                          rows="3"
-                          maxlength="400"
-                          [placeholder]="'compte.avisPlaceholder' | t"
-                          [(ngModel)]="commentaire"
-                        ></textarea>
+                        <!-- Zone de texte avec un compteur de caractères dans le coin -->
+                        <div class="zone-avis" [class.zone-avis--presque-pleine]="commentaire().length > 360">
+                          <textarea
+                            name="commentaire"
+                            rows="4"
+                            maxlength="400"
+                            [placeholder]="'compte.avisPlaceholder' | t"
+                            [(ngModel)]="commentaire"
+                          ></textarea>
+                          <span class="zone-avis__compteur" aria-hidden="true">{{ commentaire().length }} / 400</span>
+                        </div>
                       </label>
 
                       @if (erreurAvis()) {
