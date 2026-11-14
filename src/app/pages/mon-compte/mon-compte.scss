@@ -530,7 +530,7 @@
       box-shadow 0.2s;
 
     &::placeholder {
-      color: #a8a399;
+      color: var(--gris-doux);
       font-style: italic;
     }
 
@@ -554,7 +554,7 @@
   font-size: 11px;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
-  color: #a8a399;
+  color: var(--gris-doux);
   pointer-events: none;
   transition: color 0.2s;
 }

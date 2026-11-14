@@ -199,7 +199,7 @@
     field-sizing: content;
 
     &::placeholder {
-      color: #a8a399;
+      color: var(--gris-doux);
       font-style: italic;
     }
   }
@@ -211,7 +211,7 @@
   bottom: 10px;
   font-size: 11px;
   font-variant-numeric: tabular-nums;
-  color: #a8a399;
+  color: var(--gris-doux);
   pointer-events: none;
 }
 

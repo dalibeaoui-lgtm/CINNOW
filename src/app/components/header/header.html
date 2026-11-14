@@ -52,7 +52,7 @@
     <button
       type="button"
       class="langue"
-      [attr.aria-label]="'langue.changer' | t: { langue: nomLangue() }"
+      [attr.aria-label]="'langue.changer' | t: { code: langue().toUpperCase(), langue: nomLangue() }"
       [title]="nomLangue()"
       (click)="changerLangue()"
     >

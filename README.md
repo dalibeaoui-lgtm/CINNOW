@@ -99,6 +99,17 @@ npm run test:tout   # les deux, une seule fois
   vendue deux fois**), avis et messages de contact refusés quand ils sont invalides.
   Le serveur de test utilise un dossier temporaire : il ne touche pas aux vraies réservations.
 
+## Accessibilité
+
+Audit fait avec **axe-core** (règles WCAG 2.1 niveaux A et AA) sur les 8 pages, les 4 onglets de
+« Mon compte » et le panier ouvert : **aucune erreur**.
+
+- Contrastes : textes d'aide en `--gris-doux` (5,4:1 sur blanc) ; bouton « Réserver » sur les photos
+  de l'accueil avec un fond sombre flouté (au moins 8,6:1, mesuré sur les photos de tous les films).
+- Balises sémantiques (`header`, `nav`, `main`, `section`, `article`…), textes pour lecteurs d'écran
+  (`aria-label`, `visuellement-cache`), navigation au clavier (recherche, plan de salle, onglets).
+- Les animations s'arrêtent si l'ordinateur est réglé sur « réduire les animations ».
+
 ## Organisation des dossiers
 
 ```

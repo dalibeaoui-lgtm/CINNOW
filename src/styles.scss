@@ -16,6 +16,7 @@
   --creme: #fce188;
   --blanc: #ffffff;
   --gris: #6b6b63;
+  --gris-doux: #6e6a61; // textes d'aide (compteurs, exemples) : contraste 5,4:1 sur blanc, 4,9:1 sur crème (WCAG AA)
   --trait: #e4e4e4;
 
   --marge: clamp(16px, 3.3vw, 48px); // marge à gauche et à droite des pages
@@ -121,10 +122,13 @@ main {
   }
 }
 
+// Bouton blanc posé sur une photo : fond sombre semi-transparent + flou, pour que le texte blanc
+// reste lisible même sur une photo très claire (contraste ≥ 4,5:1, règle WCAG AA)
 .bouton--clair {
   border-color: var(--blanc);
   color: var(--blanc);
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(8, 8, 8, 0.55);
+  backdrop-filter: blur(6px);
 
   &:hover,
   &:focus-visible {
