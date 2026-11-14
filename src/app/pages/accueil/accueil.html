@@ -59,18 +59,8 @@
 
 <!-- 5. Invitation à noter un film, sur un fond de photos des films qui défilent -->
 <section class="avis" aria-labelledby="titre-avis">
-  <!-- Fond animé (décoratif) : la liste est écrite 2 fois à la suite ; quand la 1re a fini de
-       passer, la 2e prend exactement sa place, donc le mouvement ne s'arrête jamais -->
-  <div class="defile" aria-hidden="true">
-    <div class="defile__piste">
-      @for (tour of [1, 2]; track tour) {
-        @for (film of filmsDefile(); track film.id) {
-          <img class="defile__photo" [src]="film.photo" alt="" width="1920" height="1080" loading="lazy" />
-        }
-      }
-    </div>
-  </div>
-  <div class="avis__voile"></div>
+  <!-- Fond animé (décoratif) : photos des films qui défilent, sous un voile sombre -->
+  <app-fond-films />
 
   <div class="avis__contenu">
     <div appApparition>

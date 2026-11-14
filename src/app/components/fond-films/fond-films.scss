@@ -1,0 +1,57 @@
+// Le fond occupe tout le bloc qui le contient, sous son contenu
+:host {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.defile {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+// La piste contient la liste 2 fois. Elle part décalée de la moitié (-50 %) vers la gauche
+// et glisse jusqu'à 0 : les photos vont donc de gauche à droite. Arrivée au bout, l'animation
+// recommence au début, mais comme les 2 moitiés sont identiques, on ne voit aucun saut.
+.defile__piste {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  animation: defiler 80s linear infinite;
+}
+
+@keyframes defiler {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+// Chaque photo prend toute la hauteur du bloc, au format 16/9
+.defile__photo {
+  flex: none;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  aspect-ratio: 16 / 9;
+  margin-right: 6px; // marge (et pas « gap ») pour que les 2 moitiés aient exactement la même largeur
+  object-fit: cover;
+}
+
+// Voile sombre (teinte expresso de la charte) entre les photos et le texte, pour bien le lire
+.voile {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(20, 8, 1, 0.92) 0%, rgba(56, 21, 1, 0.72) 55%, rgba(20, 8, 1, 0.85) 100%);
+}
+
+// « Réduire les animations » activé : le fond reste immobile
+@media (prefers-reduced-motion: reduce) {
+  .defile__piste {
+    animation: none;
+  }
+}
