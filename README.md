@@ -4,7 +4,6 @@ Site de cinéma : découvrir les films à l'affiche, regarder leur bande-annonce
 commander ses snacks à l'avance, puis noter le film et le service.
 
 Projet Web — SUP'COM, Groupe 5 : Mouhamed Ali BEAOUI, Ghassen BENKAJI.
-Encadrante : Dr. Maroua Nouioua.
 
 ## Lancer le projet
 
@@ -23,14 +22,14 @@ pour vous connecter dans « Mon compte ».
 
 ## Choix du framework
 
-**Angular (TypeScript)**, imposé pour le projet. Il nous apporte :
+**Angular (TypeScript)**. Il nous apporte :
 
 - des **composants** réutilisables (carte film, en-tête, pied de page) ;
 - le **routage** entre les pages, avec chargement de chaque page seulement quand on y va ;
 - les **signals** pour gérer l'état (places choisies, compte connecté…) ;
 - les **formulaires** (connexion, profil, avis).
 
-Pas de librairie de style : tout est en SCSS, avec la palette de la charte graphique (rapport Objectif 2).
+Tout est en SCSS, avec la palette de la charte graphique (rapport Objectif 2).
 
 **Node.js + Express** pour le serveur : le même langage (JavaScript) que le site, et une seule
 dépendance (`express`).
