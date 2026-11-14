@@ -1,0 +1,111 @@
+:host {
+  display: block;
+}
+
+.carte {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  color: inherit;
+  text-decoration: none;
+}
+
+// Photo au format 16/9, qui grossit doucement au survol
+.carte__image {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--expresso);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+}
+
+.carte:hover .carte__image img,
+.carte:focus-visible .carte__image img {
+  transform: scale(1.05);
+}
+
+.carte__texte {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.carte__infos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--gris);
+}
+
+.carte__categorie {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--caramel);
+}
+
+.carte__titre {
+  margin: 0;
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  transition: color 0.25s ease;
+}
+
+.carte:hover .carte__titre {
+  color: var(--caramel);
+}
+
+.carte__chapo {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--gris);
+  // 3 lignes maximum dans les petites cartes
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.carte__lire {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+// ---------- Grande carte (article à la une) ----------
+.carte--grande {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+
+  .carte__titre {
+    font-size: clamp(30px, 3.4vw, 48px);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .carte__chapo {
+    font-size: 17px;
+    -webkit-line-clamp: unset;
+  }
+}
+
+@media (max-width: 1024px) {
+  .carte--grande {
+    grid-template-columns: 1fr;
+  }
+}

@@ -38,6 +38,18 @@ routeur.get('/produits', (req, res) => {
   res.json(lireDonnees('produits'));
 });
 
+// GET /api/actualites → les articles, du plus récent au plus ancien
+routeur.get('/actualites', (req, res) => {
+  res.json(lireDonnees('actualites').sort((a, b) => b.date.localeCompare(a.date)));
+});
+
+// GET /api/actualites/2 → un article
+routeur.get('/actualites/:id', (req, res) => {
+  const article = lireDonnees('actualites').find((a) => a.id === Number(req.params.id));
+  if (!article) return res.status(404).json({ message: 'Article introuvable.' });
+  res.json(article);
+});
+
 // GET /api/salle → rangées, places par rangée, allées, prix d'une place
 routeur.get('/salle', (req, res) => {
   res.json(lireDonnees('salle'));

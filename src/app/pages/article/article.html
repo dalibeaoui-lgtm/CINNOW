@@ -1,0 +1,68 @@
+@let a = article();
+@if (a) {
+  <article class="page article">
+    <a class="retour" routerLink="/actualites">{{ 'actu.retour' | t }}</a>
+
+    <header class="article__entete" appApparition>
+      <p class="article__infos">
+        <span class="article__categorie">{{ categorie() | t }}</span>
+        <span aria-hidden="true">·</span>
+        <time [attr.datetime]="a.date">{{ date() }}</time>
+      </p>
+      <h1 class="grand-titre article__titre">{{ a.titre }}</h1>
+      <p class="article__chapo">{{ a.chapo }}</p>
+    </header>
+
+    <div class="article__image" appApparition>
+      <img [src]="a.image" alt="" width="1600" height="900" />
+    </div>
+
+    <div class="article__corps">
+      <div class="article__texte">
+        @for (paragraphe of a.paragraphes; track $index) {
+          <p>{{ paragraphe }}</p>
+        }
+      </div>
+
+      <!-- Le film dont parle l'article -->
+      @if (film(); as f) {
+        <aside class="film" [attr.aria-label]="'actu.leFilm' | t">
+          <img class="film__affiche" [src]="f.affiche" alt="" width="600" height="900" />
+          <div class="film__texte">
+            <p class="etiquette">{{ 'actu.leFilm' | t }}</p>
+            <p class="film__titre">{{ f.titre }}</p>
+            <p class="film__infos">{{ f.realisateur }} · {{ f.genre }}</p>
+            <a class="bouton bouton--plein" [routerLink]="['/film', f.id]">
+              {{ (f.statut === 'a-l-affiche' ? 'actu.reserver' : 'actu.voirFilm') | t }}
+            </a>
+          </div>
+        </aside>
+      }
+    </div>
+
+    <!-- À lire aussi -->
+    @if (autres().length) {
+      <section class="autres" aria-labelledby="titre-autres">
+        <h2 id="titre-autres" class="autres__titre">{{ 'actu.aLireAussi' | t }}</h2>
+        <ul class="grille">
+          @for (autre of autres(); track autre.id; let i = $index) {
+            <li appApparition [style.--delai]="i * 0.08 + 's'">
+              <app-carte-actualite [article]="autre" />
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  </article>
+} @else if (etat() === 'chargement') {
+  <section class="page">
+    <p class="chargement" role="status">{{ 'actu.chargement' | t }}</p>
+  </section>
+} @else {
+  <section class="page introuvable">
+    <p class="etiquette">{{ 'commun.erreur404' | t }}</p>
+    <h1 class="grand-titre">{{ 'actu.introuvable' | t }}</h1>
+    <p>{{ 'actu.introuvableTexte' | t }}</p>
+    <a class="bouton bouton--plein" routerLink="/actualites">{{ 'actu.retour' | t }}</a>
+  </section>
+}

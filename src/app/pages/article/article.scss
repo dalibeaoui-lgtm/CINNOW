@@ -1,0 +1,182 @@
+.article {
+  padding-bottom: 120px;
+}
+
+.retour {
+  display: inline-block;
+  margin-bottom: 40px;
+  color: var(--gris);
+  font-size: 14px;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--noir);
+  }
+}
+
+// ---------- En-tête ----------
+.article__entete {
+  max-width: 980px;
+}
+
+.article__infos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--gris);
+
+  time::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.article__categorie {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--caramel);
+}
+
+.article__titre {
+  margin: 18px 0 24px;
+}
+
+.article__chapo {
+  max-width: 56ch;
+  margin: 0;
+  font-size: clamp(19px, 1.8vw, 24px);
+  line-height: 1.45;
+  color: var(--gris);
+}
+
+// ---------- Photo ----------
+.article__image {
+  overflow: hidden;
+  aspect-ratio: 21 / 9;
+  margin-top: 56px;
+  background: var(--expresso);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// ---------- Texte + film ----------
+.article__corps {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: start;
+  margin-top: 56px;
+}
+
+.article__texte p {
+  max-width: 62ch;
+  margin: 0 0 22px;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+// Encadré du film : reste visible pendant qu'on lit
+.film {
+  position: sticky;
+  top: 112px;
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  padding: 20px;
+  background: #faf6ec;
+
+  p {
+    margin: 0;
+  }
+}
+
+.film__affiche {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.film__texte {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+
+  .bouton {
+    margin-top: 8px;
+  }
+}
+
+.film__titre {
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.film__infos {
+  font-size: 14px;
+  color: var(--gris);
+}
+
+// ---------- À lire aussi ----------
+.autres {
+  margin-top: 120px;
+}
+
+.autres__titre {
+  margin: 0 0 40px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--noir);
+  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 56px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chargement {
+  color: var(--gris);
+}
+
+// ---------- Tablette et téléphone ----------
+@media (max-width: 1024px) {
+  .article__corps {
+    grid-template-columns: 1fr;
+  }
+
+  .film {
+    position: static;
+  }
+
+  .grille {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .article__image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .grille {
+    grid-template-columns: 1fr;
+  }
+}

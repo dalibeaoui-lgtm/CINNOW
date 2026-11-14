@@ -1,0 +1,153 @@
+[
+  {
+    "id": 1,
+    "categorie": "evenement",
+    "date": "2026-11-13",
+    "aLaUne": true,
+    "titre": "Nuit de l’horreur : Hereditary, Midsommar et The Witch",
+    "chapo": "Le vendredi 28 novembre, trois films, une seule nuit. Pour les plus courageux, la salle 1 reste ouverte jusqu’au lever du soleil.",
+    "paragraphes": [
+      "Pour sa première Nuit de l’horreur, CINNOW réunit trois films qui ont changé le cinéma d’épouvante : Hereditary à 20 h, Midsommar à 22 h 30 et The Witch à 1 h du matin.",
+      "Entre chaque film, une pause de 20 minutes permet de se ravitailler au comptoir. Les menus commandés à l’avance sur la boutique vous attendent, sans faire la queue.",
+      "Le billet est valable pour les trois séances. Le nombre de places est limité à une salle : réservez tôt."
+    ],
+    "image": "images/hero/midsommar.webp",
+    "filmId": 14,
+    "traductions": {
+      "en": {
+        "titre": "Horror night: Hereditary, Midsommar and The Witch",
+        "chapo": "Friday 28 November: three films, one night. For the bravest, screen 1 stays open until sunrise.",
+        "paragraphes": [
+          "For its first Horror Night, CINNOW brings together three films that changed horror cinema: Hereditary at 8 pm, Midsommar at 10:30 pm and The Witch at 1 am.",
+          "Between each film, a 20-minute break lets you stock up at the counter. Menus ordered in advance from the shop are waiting for you, no queuing.",
+          "One ticket covers all three screenings. Seats are limited to a single screen: book early."
+        ]
+      }
+    }
+  },
+  {
+    "id": 2,
+    "categorie": "avant-premiere",
+    "date": "2026-11-10",
+    "titre": "The Batman en avant-première le 5 décembre",
+    "chapo": "Gotham s’invite à Monastir une semaine avant la sortie officielle. Une seule séance, à 21 h.",
+    "paragraphes": [
+      "Robert Pattinson enfile la cape dans la vision la plus sombre du justicier, signée Matt Reeves : une enquête au cœur d’une ville rongée par la corruption.",
+      "L’avant-première a lieu le vendredi 5 décembre à 21 h, en salle 1, avec le son Dolby Atmos. Les places s’ouvrent à la réservation le 20 novembre.",
+      "Les spectateurs repartiront avec une affiche du film, offerte à la sortie de la séance."
+    ],
+    "image": "images/hero/the-batman.webp",
+    "filmId": 7,
+    "traductions": {
+      "en": {
+        "titre": "The Batman preview screening on 5 December",
+        "chapo": "Gotham comes to Monastir one week before the official release. One screening only, at 9 pm.",
+        "paragraphes": [
+          "Robert Pattinson puts on the cape in Matt Reeves’ darkest take on the vigilante: an investigation at the heart of a city eaten away by corruption.",
+          "The preview takes place on Friday 5 December at 9 pm, in screen 1, with Dolby Atmos sound. Booking opens on 20 November.",
+          "Everyone in the audience will leave with a free film poster."
+        ]
+      }
+    }
+  },
+  {
+    "id": 3,
+    "categorie": "evenement",
+    "date": "2026-11-06",
+    "titre": "Cycle Christopher Nolan : Oppenheimer revient en salle",
+    "chapo": "Avant The Odyssey, (re)découvrez le film qui a valu à Nolan l’Oscar du meilleur réalisateur.",
+    "paragraphes": [
+      "Tout le mois de novembre, CINNOW consacre un cycle à Christopher Nolan. Oppenheimer ouvre le bal, en version originale sous-titrée.",
+      "Trois heures d’histoire, de physique et de tension, pensées pour le plus grand écran possible : c’est l’occasion de voir le film comme il a été conçu.",
+      "Le billet d’Oppenheimer donne droit à une réduction de 2 DT sur une séance de The Odyssey dans la même semaine, au comptoir."
+    ],
+    "image": "images/hero/oppenheimer.webp",
+    "filmId": 11,
+    "traductions": {
+      "en": {
+        "titre": "Christopher Nolan season: Oppenheimer is back on the big screen",
+        "chapo": "Before The Odyssey, (re)discover the film that won Nolan the Oscar for best director.",
+        "paragraphes": [
+          "Throughout November, CINNOW is running a Christopher Nolan season. Oppenheimer kicks it off, in original version with subtitles.",
+          "Three hours of history, physics and suspense, made for the biggest screen possible: a chance to see the film the way it was meant to be seen.",
+          "An Oppenheimer ticket gives you 2 DT off a screening of The Odyssey in the same week, at the counter."
+        ]
+      }
+    }
+  },
+  {
+    "id": 5,
+    "categorie": "evenement",
+    "date": "2026-10-30",
+    "titre": "Ciné-chant : La La Land, en chantant avec la salle",
+    "chapo": "Paroles à l’écran, lumières tamisées et toute la salle qui chante : une séance spéciale le dimanche 14 décembre.",
+    "paragraphes": [
+      "Pour la sortie de La La Land en version restaurée, CINNOW organise sa première séance « ciné-chant » : les paroles des chansons s’affichent en bas de l’écran.",
+      "La séance a lieu le dimanche 14 décembre à 17 h. Elle est ouverte à tous, et les moins de 12 ans bénéficient du tarif enfant.",
+      "Fredonner est autorisé, chanter est encouragé, danser dans les allées est toléré."
+    ],
+    "image": "images/hero/la-la-land.webp",
+    "filmId": 6,
+    "traductions": {
+      "en": {
+        "titre": "Sing-along: La La Land, singing with the whole room",
+        "chapo": "Lyrics on screen, dimmed lights and everyone singing: a special screening on Sunday 14 December.",
+        "paragraphes": [
+          "For the restored release of La La Land, CINNOW is holding its first sing-along screening: the song lyrics appear at the bottom of the screen.",
+          "The screening is on Sunday 14 December at 5 pm. It is open to everyone, and under-12s get the child price.",
+          "Humming is allowed, singing is encouraged, dancing in the aisles is tolerated."
+        ]
+      }
+    }
+  },
+  {
+    "id": 6,
+    "categorie": "cinema",
+    "date": "2026-10-24",
+    "titre": "Toutes nos salles passent au Dolby Atmos",
+    "chapo": "Pour la sortie de F1, toutes nos salles ont reçu un nouveau système son. Vous allez entendre les moteurs passer au-dessus de vous.",
+    "paragraphes": [
+      "Des haut-parleurs ont été ajoutés tout autour de la salle et au plafond : le son ne vient plus seulement de l’écran, il se déplace avec l’action.",
+      "F1, tourné en partie pendant de vrais Grands Prix, est le film idéal pour l’essayer : chaque dépassement se fait aussi entendre.",
+      "Le prix des places ne change pas : le Dolby Atmos est inclus dans toutes les séances."
+    ],
+    "image": "images/hero/f1.webp",
+    "filmId": 12,
+    "traductions": {
+      "en": {
+        "titre": "All our screens now have Dolby Atmos",
+        "chapo": "For the release of F1, all our screens got a new sound system. You’ll hear the engines pass right over your head.",
+        "paragraphes": [
+          "Speakers have been added all around the room and on the ceiling: sound no longer comes only from the screen, it moves with the action.",
+          "F1, partly filmed during real Grands Prix, is the perfect film to try it: you hear every overtake too.",
+          "Ticket prices don’t change: Dolby Atmos is included in every screening."
+        ]
+      }
+    }
+  },
+  {
+    "id": 7,
+    "categorie": "avant-premiere",
+    "date": "2026-10-18",
+    "titre": "Whiplash de retour sur grand écran",
+    "chapo": "Le film culte de Damien Chazelle revient en salle en janvier. Nous vous le montrons en avance, le 19 décembre.",
+    "paragraphes": [
+      "Un jeune batteur, un professeur impitoyable et une dernière scène qui reste dans toutes les mémoires : Whiplash n’a rien perdu de sa puissance.",
+      "La séance du vendredi 19 décembre à 20 h 30 est proposée en avant-première de la ressortie nationale, en version originale sous-titrée.",
+      "Conseil : asseyez-vous au centre de la salle. La batterie est mixée pour ça."
+    ],
+    "image": "images/hero/whiplash.webp",
+    "filmId": 5,
+    "traductions": {
+      "en": {
+        "titre": "Whiplash back on the big screen",
+        "chapo": "Damien Chazelle’s cult film returns to cinemas in January. We’re showing it early, on 19 December.",
+        "paragraphes": [
+          "A young drummer, a ruthless teacher and a final scene nobody forgets: Whiplash hasn’t lost any of its power.",
+          "The Friday 19 December screening at 8:30 pm is a preview of the national re-release, in original version with subtitles.",
+          "Tip: sit in the middle of the room. The drums are mixed for it."
+        ]
+      }
+    }
+  }
+]

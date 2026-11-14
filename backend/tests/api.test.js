@@ -55,6 +55,15 @@ describe('Catalogue', () => {
     assert.ok(films.every((f) => f.titre && f.traductions?.en?.synopsis));
   });
 
+  it('GET /actualites renvoie les articles du plus récent au plus ancien, traduits', async () => {
+    const articles = await (await fetch(`${API}/actualites`)).json();
+    assert.ok(articles.length >= 3);
+    assert.ok(articles.every((a) => a.titre && a.image && a.traductions?.en?.titre));
+    const dates = articles.map((a) => a.date);
+    assert.deepEqual(dates, [...dates].sort().reverse());
+    assert.equal((await fetch(`${API}/actualites/999`)).status, 404);
+  });
+
   it('GET /films/999 répond 404', async () => {
     assert.equal((await fetch(`${API}/films/999`)).status, 404);
   });
