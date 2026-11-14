@@ -9,7 +9,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:api": "npm test --prefix backend",
+    "test:tout": "ng test --watch=false && npm test --prefix backend"
   },
   "private": true,
   "packageManager": "npm@10.9.4",

@@ -12,7 +12,9 @@ import { fileURLToPath } from 'node:url';
 
 const dossier = dirname(fileURLToPath(import.meta.url));
 const DONNEES = join(dossier, 'donnees');
-const STOCKAGE = join(dossier, 'stockage');
+// CINNOW_STOCKAGE : autre dossier possible (les tests en utilisent un temporaire, pour ne pas
+// mélanger leurs réservations avec les vraies)
+const STOCKAGE = process.env.CINNOW_STOCKAGE ?? join(dossier, 'stockage');
 
 // Données de départ (lecture seule)
 export function lireDonnees(nom) {
