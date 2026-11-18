@@ -224,3 +224,10 @@ body.sans-defilement {
     color: var(--blanc);
   }
 }
+
+// Menu du téléphone ouvert (classe posée par le menu sur <html>) : la page derrière ne défile plus
+@media (max-width: 760px) {
+  html.menu-mobile-ouvert {
+    overflow: hidden;
+  }
+}

@@ -37,6 +37,8 @@ export const en: Record<keyof typeof fr, string> = {
   'menu.boutique': 'Shop',
   'menu.monCompte': 'My account',
   'menu.panier': 'Cart ({n})',
+  'menu.ouvrirMenu': 'Open the menu',
+  'menu.fermerMenu': 'Close the menu',
   'menu.logo': 'CINNOW, back to home',
   'menu.rechercher': 'Search for a film…',
   'menu.rechercherLabel': 'Search for a film',

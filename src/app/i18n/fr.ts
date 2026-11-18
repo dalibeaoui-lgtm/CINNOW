@@ -37,6 +37,8 @@ export const fr = {
   'menu.boutique': 'Boutique',
   'menu.monCompte': 'Mon compte',
   'menu.panier': 'Panier ({n})',
+  'menu.ouvrirMenu': 'Ouvrir le menu',
+  'menu.fermerMenu': 'Fermer le menu',
   'menu.logo': 'CINNOW, retour à l’accueil',
   'menu.rechercher': 'Rechercher un film…',
   'menu.rechercherLabel': 'Rechercher un film',

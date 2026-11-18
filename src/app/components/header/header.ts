@@ -1,6 +1,6 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { infosLangue, langueActive } from '../../i18n/langue';
+import { CleTraduction, infosLangue, langueActive } from '../../i18n/langue';
 import { Traduction } from '../../i18n/traduire.pipe';
 import { Catalogue } from '../../services/catalogue';
 import { Panier } from '../../services/panier';
@@ -14,16 +14,66 @@ const simplifier = (texte: string) =>
 
 const MAX_RESULTATS = 6;
 
+// Les pages du menu (ordinateur et téléphone)
+const LIENS: { route: string; cle: CleTraduction }[] = [
+  { route: '/', cle: 'menu.films' },
+  { route: '/boutique', cle: 'menu.boutique' },
+  { route: '/actualites', cle: 'menu.actualites' },
+  { route: '/a-propos', cle: 'menu.aPropos' },
+  { route: '/faq', cle: 'menu.faq' },
+  { route: '/contact', cle: 'menu.contact' },
+];
+
 @Component({
   selector: 'app-header',
   imports: [RouterLink, RouterLinkActive, Traduction],
   templateUrl: './header.html',
   styleUrl: './header.scss',
-  host: { '(window:scroll)': 'auDefilement()' },
+  host: { '(window:scroll)': 'auDefilement()', '(document:keydown.escape)': 'fermerMenu(true)' },
 })
 export class Header {
   private readonly router = inject(Router);
   private readonly catalogue = inject(Catalogue);
+
+  protected readonly liens = LIENS;
+
+  // ---------- Menu du téléphone (bouton ☰) ----------
+  // Sur petit écran, les liens sont remplacés par un bouton qui ouvre un panneau plein écran
+  protected readonly menuOuvert = signal(false);
+  private readonly bouton = viewChild<ElementRef<HTMLButtonElement>>('bouton');
+  private readonly panneau = viewChild<ElementRef<HTMLElement>>('panneau');
+
+  constructor() {
+    // Menu ouvert : la page derrière ne défile plus (voir styles.scss) et ne reçoit plus
+    // le focus du clavier (inert) : la touche Tab reste dans le menu
+    effect(() => {
+      const ouvert = this.menuOuvert();
+      document.documentElement.classList.toggle('menu-mobile-ouvert', ouvert);
+      document.querySelectorAll('main, app-footer').forEach((e) => e.toggleAttribute('inert', ouvert));
+    });
+    // L'écran s'élargit (téléphone tourné, fenêtre agrandie) : le bouton ☰ disparaît, on ferme le menu
+    window.matchMedia?.('(min-width: 761px)').addEventListener('change', (e) => e.matches && this.fermerMenu());
+  }
+
+  protected basculerMenu(): void {
+    if (this.menuOuvert()) {
+      this.fermerMenu();
+      return;
+    }
+    this.menuOuvert.set(true);
+    this.cache.set(false);
+    // Le focus va sur le premier lien du panneau, une fois celui-ci affiché
+    // (pas sur la recherche : sur un téléphone, le clavier s'ouvrirait tout de suite)
+    setTimeout(() => this.panneau()?.nativeElement.querySelector<HTMLElement>('.menu-mobile__liens a')?.focus(), 60);
+  }
+
+  // rendreFocus : après Échap, le focus revient sur le bouton ☰ (on ne perd pas sa place au clavier)
+  fermerMenu(rendreFocus = false): void {
+    if (!this.menuOuvert()) return;
+    this.menuOuvert.set(false);
+    this.recherche.set('');
+    if (rendreFocus) this.bouton()?.nativeElement.focus();
+  }
 
   // Nombre d'articles dans le panier de la boutique (lien « Panier (2) »)
   protected readonly panier = inject(Panier);
@@ -82,6 +132,7 @@ export class Header {
     this.router.navigate(['/film', film.id]);
     this.recherche.set('');
     this.fermer();
+    this.fermerMenu();
     (document.activeElement as HTMLElement | null)?.blur();
   }
 

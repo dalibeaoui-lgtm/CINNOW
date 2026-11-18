@@ -1,12 +1,27 @@
 <header class="header" [class.header--cache]="cache()">
+  <!-- Ordinateur et tablette : les liens. Téléphone : le bouton ☰ à la place (voir header.scss) -->
   <nav class="header__liens" [attr.aria-label]="'menu.principal' | t">
-    <a routerLink="/" routerLinkActive="actif" [routerLinkActiveOptions]="{ exact: true }">{{ 'menu.films' | t }}</a>
-    <a routerLink="/boutique" routerLinkActive="actif">{{ 'menu.boutique' | t }}</a>
-    <a routerLink="/actualites" routerLinkActive="actif">{{ 'menu.actualites' | t }}</a>
-    <a routerLink="/a-propos" routerLinkActive="actif">{{ 'menu.aPropos' | t }}</a>
-    <a routerLink="/faq" routerLinkActive="actif">{{ 'menu.faq' | t }}</a>
-    <a routerLink="/contact" routerLinkActive="actif">{{ 'menu.contact' | t }}</a>
+    @for (lien of liens; track lien.route) {
+      <a [routerLink]="lien.route" routerLinkActive="actif" [routerLinkActiveOptions]="{ exact: lien.route === '/' }">{{
+        lien.cle | t
+      }}</a>
+    }
   </nav>
+
+  <button
+    #bouton
+    type="button"
+    class="burger"
+    [class.burger--ouvert]="menuOuvert()"
+    aria-controls="menu-mobile"
+    [attr.aria-expanded]="menuOuvert()"
+    [attr.aria-label]="(menuOuvert() ? 'menu.fermerMenu' : 'menu.ouvrirMenu') | t"
+    (click)="basculerMenu()"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
   <a routerLink="/" class="header__logo" [attr.aria-label]="'menu.logo' | t">
     <svg viewBox="0 0 510 100" aria-hidden="true">
@@ -49,7 +64,7 @@
     @if (panier.nombre()) {
       <a routerLink="/boutique" [queryParams]="{ panier: 'ouvert' }">{{ 'menu.panier' | t: { n: panier.nombre() } }}</a>
     }
-    <a routerLink="/mon-compte" routerLinkActive="actif">{{ 'menu.monCompte' | t }}</a>
+    <a class="header__mon-compte" routerLink="/mon-compte" routerLinkActive="actif">{{ 'menu.monCompte' | t }}</a>
 
     <!-- Petit rond avec les 2 premières lettres de la langue : un clic passe à l'autre langue -->
     <button
@@ -97,3 +112,66 @@
     }
   </div>
 }
+
+<!-- Menu du téléphone : panneau plein écran ouvert par le bouton ☰.
+     Toujours présent dans la page (pour l'animation), mais caché et « inert » quand il est fermé. -->
+<div
+  #panneau
+  id="menu-mobile"
+  class="menu-mobile"
+  [class.menu-mobile--ouvert]="menuOuvert()"
+  [attr.inert]="menuOuvert() ? null : ''"
+>
+  <form class="menu-mobile__recherche" role="search" (submit)="$event.preventDefault(); ouvrirResultat(0)">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+      <path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+    <label class="visuellement-cache" for="recherche-mobile">{{ 'menu.rechercherLabel' | t }}</label>
+    <input
+      id="recherche-mobile"
+      type="search"
+      autocomplete="off"
+      enterkeyhint="go"
+      [placeholder]="'menu.rechercher' | t"
+      [value]="recherche()"
+      (input)="taper($any($event.target).value)"
+    />
+  </form>
+
+  @if (recherche().trim()) {
+    <!-- Pendant la frappe : les films trouvés à la place des liens -->
+    <ul class="menu-mobile__films" [attr.aria-label]="'recherche.resultats' | t">
+      @for (film of resultats(); track film.id) {
+        <li>
+          <a [routerLink]="['/film', film.id]" (click)="fermerMenu()">
+            <img [src]="film.affiche" alt="" width="600" height="900" />
+            <span>
+              <span class="menu-mobile__titre">{{ film.titre }}</span>
+              <span class="menu-mobile__infos">{{ film.realisateur }} · {{ film.genre }}</span>
+            </span>
+          </a>
+        </li>
+      } @empty {
+        <li class="menu-mobile__vide">{{ 'recherche.aucun' | t: { q: recherche().trim() } }}</li>
+      }
+    </ul>
+  } @else {
+    <nav [attr.aria-label]="'menu.principal' | t">
+      <ul class="menu-mobile__liens">
+        @for (lien of liens; track lien.route; let i = $index) {
+          <li [style.--i]="i">
+            <a
+              [routerLink]="lien.route"
+              routerLinkActive="actif"
+              [routerLinkActiveOptions]="{ exact: lien.route === '/' }"
+              (click)="fermerMenu()"
+              >{{ lien.cle | t }}</a
+            >
+          </li>
+        }
+      </ul>
+    </nav>
+    <a class="menu-mobile__compte" routerLink="/mon-compte" (click)="fermerMenu()">{{ 'menu.monCompte' | t }} →</a>
+  }
+</div>
