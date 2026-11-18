@@ -95,4 +95,58 @@ describe('components/Header', () => {
     expect(bouton.textContent?.trim()).toBe('EN');
     expect(page.querySelector('.header__liens')?.textContent).toContain('Shop');
   });
+
+  // ---------- Menu du téléphone ----------
+  describe('menu du téléphone (bouton ☰)', () => {
+    const bouton = () => page.querySelector<HTMLButtonElement>('.burger')!;
+    const panneau = () => page.querySelector<HTMLElement>('#menu-mobile')!;
+    const ouvrir = async () => {
+      bouton().click();
+      await fixture.whenStable();
+    };
+
+    afterEach(() => document.documentElement.classList.remove('menu-mobile-ouvert'));
+
+    it('est fermé au départ : panneau inerte, bouton « Ouvrir le menu »', () => {
+      expect(bouton().getAttribute('aria-expanded')).toBe('false');
+      expect(bouton().getAttribute('aria-label')).toBe('Ouvrir le menu');
+      expect(panneau().hasAttribute('inert')).toBe(true);
+    });
+
+    it('s’ouvre au clic, avec toutes les pages, et bloque le défilement de la page', async () => {
+      await ouvrir();
+      expect(bouton().getAttribute('aria-expanded')).toBe('true');
+      expect(bouton().getAttribute('aria-label')).toBe('Fermer le menu');
+      expect(panneau().hasAttribute('inert')).toBe(false);
+      expect(document.documentElement.classList).toContain('menu-mobile-ouvert');
+      const liens = [...panneau().querySelectorAll('.menu-mobile__liens a')].map((a) => a.textContent?.trim());
+      expect(liens).toEqual(['Films', 'Boutique', 'Actualités', 'À propos', 'FAQ', 'Contact']);
+    });
+
+    it('se ferme avec Échap et rend le focus au bouton', async () => {
+      await ouvrir();
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+      await fixture.whenStable();
+      expect(bouton().getAttribute('aria-expanded')).toBe('false');
+      expect(document.documentElement.classList).not.toContain('menu-mobile-ouvert');
+      expect(document.activeElement).toBe(bouton());
+    });
+
+    it('se ferme quand on choisit une page', async () => {
+      await ouvrir();
+      panneau().querySelector<HTMLAnchorElement>('.menu-mobile__liens a')!.click();
+      await fixture.whenStable();
+      expect(bouton().getAttribute('aria-expanded')).toBe('false');
+    });
+
+    it('cherche un film depuis le panneau', async () => {
+      await ouvrir();
+      const champ = panneau().querySelector<HTMLInputElement>('#recherche-mobile')!;
+      champ.value = 'nolan';
+      champ.dispatchEvent(new Event('input'));
+      await fixture.whenStable();
+      const films = [...panneau().querySelectorAll('.menu-mobile__titre')].map((e) => e.textContent?.trim());
+      expect(films).toEqual(['The Odyssey', 'Oppenheimer']);
+    });
+  });
 });
