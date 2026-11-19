@@ -447,7 +447,7 @@ export const fr = {
   'menu.contact': 'Contact',
   'titre.contact': 'Contact — CINNOW',
   'contact.etiquette': 'Contact',
-  'contact.titre': 'Une question ? Écrivez-nous', //   : espace insécable, le « ? » reste avec « question »
+  'contact.titre': 'Une question ? Écrivez-nous', // espace insécable (U+00A0) avant le « ? » : il reste sur la même ligne que « question »
   'contact.intro': 'Réservation, paiement, boutique, événement privé… notre équipe vous répond sous 48 heures.',
   'contact.coordonnees': 'Coordonnées',
   'contact.adresse': 'Adresse',

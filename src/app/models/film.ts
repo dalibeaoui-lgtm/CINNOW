@@ -6,7 +6,7 @@ export interface Film {
   duree: number; // en minutes
   genre: string;
   synopsis: string;
-  affiche: string; // affiche verticale, ex. "images/affiches/whiplash.jpeg"
+  affiche: string; // affiche verticale, ex. "images/affiches/whiplash.webp"
   photo?: string; // grande photo horizontale (haut de la fiche film, slides de l'accueil)
   aLaUne?: boolean; // true : le film a une slide plein écran en haut de l'accueil (il lui faut une photo)
   bandeAnnonce: string; // lien de la vidéo
