@@ -6,7 +6,13 @@ import { Film } from '../../models/film';
 import { Catalogue } from '../../services/catalogue';
 import { Header } from './header';
 
-const film = (id: number, titre: string, realisateur: string, genre: string, titreEn?: string): Film => ({
+const film = (
+  id: number,
+  titre: string,
+  realisateur: string,
+  genre: string,
+  titreEn?: string,
+): Film => ({
   id,
   titre,
   realisateur,
@@ -34,7 +40,8 @@ describe('components/Header', () => {
     champ.dispatchEvent(new Event('input'));
     await fixture.whenStable();
   };
-  const titres = () => [...page.querySelectorAll('.resultat__titre')].map((e) => e.textContent?.trim());
+  const titres = () =>
+    [...page.querySelectorAll('.resultat__titre')].map((e) => e.textContent?.trim());
 
   beforeEach(async () => {
     langueActive.set('fr');
@@ -119,7 +126,9 @@ describe('components/Header', () => {
       expect(bouton().getAttribute('aria-label')).toBe('Fermer le menu');
       expect(panneau().hasAttribute('inert')).toBe(false);
       expect(document.documentElement.classList).toContain('menu-mobile-ouvert');
-      const liens = [...panneau().querySelectorAll('.menu-mobile__liens a')].map((a) => a.textContent?.trim());
+      const liens = [...panneau().querySelectorAll('.menu-mobile__liens a')].map((a) =>
+        a.textContent?.trim(),
+      );
       expect(liens).toEqual(['Films', 'Boutique', 'Actualités', 'À propos', 'FAQ', 'Contact']);
     });
 
@@ -145,7 +154,9 @@ describe('components/Header', () => {
       champ.value = 'nolan';
       champ.dispatchEvent(new Event('input'));
       await fixture.whenStable();
-      const films = [...panneau().querySelectorAll('.menu-mobile__titre')].map((e) => e.textContent?.trim());
+      const films = [...panneau().querySelectorAll('.menu-mobile__titre')].map((e) =>
+        e.textContent?.trim(),
+      );
       expect(films).toEqual(['The Odyssey', 'Oppenheimer']);
     });
   });

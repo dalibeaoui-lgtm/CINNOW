@@ -1,4 +1,13 @@
-import { Component, computed, effect, inject, input, linkedSignal, signal, untracked } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  linkedSignal,
+  signal,
+  untracked,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Etapes } from '../../components/etapes/etapes';
 import { Traduction } from '../../i18n/traduire.pipe';
@@ -9,7 +18,8 @@ import { dateLongue, formaterPrix, seanceEstPassee } from '../../utils/formats';
 const MAX_PAR_PRODUIT = 10;
 
 // « F12 » et « F7 » → F7 avant F12 (tri par rangée, puis par numéro)
-const triPlaces = (a: string, b: string) => a[0].localeCompare(b[0]) || Number(a.slice(1)) - Number(b.slice(1));
+const triPlaces = (a: string, b: string) =>
+  a[0].localeCompare(b[0]) || Number(a.slice(1)) - Number(b.slice(1));
 
 @Component({
   selector: 'app-reservation',
@@ -87,7 +97,9 @@ export class Reservation {
   // ---------- Snacks ----------
   // Quantité choisie pour chaque produit : { idProduit: quantité }
   protected readonly quantites = linkedSignal<Record<number, number>>(() =>
-    Object.fromEntries((this.brouillon()?.snacks ?? []).map((ligne) => [ligne.produit.id, ligne.quantite])),
+    Object.fromEntries(
+      (this.brouillon()?.snacks ?? []).map((ligne) => [ligne.produit.id, ligne.quantite]),
+    ),
   );
 
   protected quantite(idProduit: number): number {
@@ -111,7 +123,9 @@ export class Reservation {
   // Total affiché pendant le choix. Au paiement, c'est le serveur qui recalcule le vrai prix.
   protected readonly totalPlaces = computed(() => this.places().length * this.prixPlace);
   protected readonly total = computed(
-    () => this.totalPlaces() + this.lignesSnacks().reduce((somme, l) => somme + l.produit.prix * l.quantite, 0),
+    () =>
+      this.totalPlaces() +
+      this.lignesSnacks().reduce((somme, l) => somme + l.produit.prix * l.quantite, 0),
   );
 
   protected readonly formaterPrix = formaterPrix;

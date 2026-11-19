@@ -15,7 +15,12 @@ export class Etapes {
   readonly courantes = input.required<number[]>();
 
   // Clés des textes (traduits dans le HTML avec « | t »)
-  protected readonly noms: CleTraduction[] = ['etapes.seance', 'etapes.places', 'etapes.snacks', 'etapes.paiement'];
+  protected readonly noms: CleTraduction[] = [
+    'etapes.seance',
+    'etapes.places',
+    'etapes.snacks',
+    'etapes.paiement',
+  ];
 
   protected etat(numero: number): 'faite' | 'active' | 'a-venir' {
     const courantes = this.courantes();

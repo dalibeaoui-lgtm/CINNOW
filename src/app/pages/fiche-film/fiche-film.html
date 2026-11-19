@@ -14,7 +14,12 @@
         <img class="media__image" [src]="film.photo ?? film.affiche" alt="" />
         <div class="media__degrade"></div>
         @if (urlVideo()) {
-          <button class="media__lecture" type="button" [attr.aria-label]="'fiche.lire' | t" (click)="lecture.set(true)">
+          <button
+            class="media__lecture"
+            type="button"
+            [attr.aria-label]="'fiche.lire' | t"
+            (click)="lecture.set(true)"
+          >
             <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,2 22,12 5,22" /></svg>
           </button>
         }
@@ -25,25 +30,38 @@
   <!-- 2. Titre (monte mot par mot), réalisateur, note -->
   <section class="entete">
     <p class="etiquette">
-      {{ enSalle() ? ('fiche.enSalle' | t) : ('fiche.sortieLe' | t: { date: dateSortie() }) }} · {{ film.genre }} · {{ duree() }}
+      {{ enSalle() ? ('fiche.enSalle' | t) : ('fiche.sortieLe' | t: { date: dateSortie() }) }} ·
+      {{ film.genre }} · {{ duree() }}
     </p>
 
     <h1 class="titre" [attr.aria-label]="film.titre">
       @for (mot of mots(); track id() + '-' + $index) {
-        <span class="titre__ligne" aria-hidden="true"><span [style.--i]="$index">{{ mot }}</span></span>
+        <span class="titre__ligne" aria-hidden="true"
+          ><span [style.--i]="$index">{{ mot }}</span></span
+        >
       }
     </h1>
 
     <div class="entete__bas">
-      <p class="entete__realisateur">{{ 'fiche.unFilmDe' | t }} <strong>{{ film.realisateur }}</strong></p>
+      <p class="entete__realisateur">
+        {{ 'fiche.unFilmDe' | t }} <strong>{{ film.realisateur }}</strong>
+      </p>
       <p class="entete__note">
-        <span class="etoiles" role="img" [attr.aria-label]="'commun.surCinq' | t: { n: formaterNote(film.note) }">
+        <span
+          class="etoiles"
+          role="img"
+          [attr.aria-label]="'commun.surCinq' | t: { n: formaterNote(film.note) }"
+        >
           {{ etoiles(film.note) }}
         </span>
         {{ formaterNote(film.note) }} / 5
       </p>
       @if (enSalle()) {
-        <button class="bouton bouton--plein" type="button" (click)="blocSeances.scrollIntoView({ behavior: 'smooth' })">
+        <button
+          class="bouton bouton--plein"
+          type="button"
+          (click)="blocSeances.scrollIntoView({ behavior: 'smooth' })"
+        >
           {{ 'fiche.voirSeances' | t }}
         </button>
       }
@@ -78,8 +96,13 @@
           @for (seance of seancesDuJour(); track seance.id) {
             <li class="seance">
               <p class="seance__heure">{{ seance.heure }}</p>
-              <p class="seance__infos">{{ 'version.' + seance.version | t }} · {{ 'commun.salle' | t: { n: seance.salle } }}</p>
-              <a class="bouton" [routerLink]="['/reservation', seance.id]">{{ 'commun.reserver' | t }}</a>
+              <p class="seance__infos">
+                {{ 'version.' + seance.version | t }} ·
+                {{ 'commun.salle' | t: { n: seance.salle } }}
+              </p>
+              <a class="bouton" [routerLink]="['/reservation', seance.id]">{{
+                'commun.reserver' | t
+              }}</a>
             </li>
           }
         </ul>
@@ -90,10 +113,17 @@
       <div class="bientot">
         <div>
           <p class="etiquette bientot__etiquette">{{ 'fiche.prochainement' | t }}</p>
-          <h2 id="titre-seances" class="bientot__titre">{{ 'fiche.sortieLe' | t: { date: dateSortie() } }}</h2>
+          <h2 id="titre-seances" class="bientot__titre">
+            {{ 'fiche.sortieLe' | t: { date: dateSortie() } }}
+          </h2>
           <p class="bientot__texte">{{ 'fiche.ouverture' | t }}</p>
         </div>
-        <button class="bouton bouton--plein" type="button" [disabled]="prevenu()" (click)="prevenu.set(true)">
+        <button
+          class="bouton bouton--plein"
+          type="button"
+          [disabled]="prevenu()"
+          (click)="prevenu.set(true)"
+        >
           {{ (prevenu() ? 'fiche.prevenu' : 'commun.mePrevenir') | t }}
         </button>
       </div>
@@ -103,7 +133,13 @@
   <!-- 4. Synopsis et fiche technique -->
   <section class="histoire" aria-labelledby="titre-synopsis">
     <div class="histoire__affiche" appApparition>
-      <img [src]="film.affiche" [alt]="'fiche.afficheDe' | t: { titre: film.titre }" width="600" height="900" loading="lazy" />
+      <img
+        [src]="film.affiche"
+        [alt]="'fiche.afficheDe' | t: { titre: film.titre }"
+        width="600"
+        height="900"
+        loading="lazy"
+      />
     </div>
 
     <div appApparition style="--delai: 0.1s">
@@ -144,7 +180,13 @@
       <ul class="liste-avis">
         @for (un of avis(); track un.id; let i = $index) {
           <li class="un-avis" appApparition [style.--delai]="i * 0.08 + 's'">
-            <p class="etoiles" role="img" [attr.aria-label]="'commun.surCinq' | t: { n: un.noteFilm }">{{ etoiles(un.noteFilm) }}</p>
+            <p
+              class="etoiles"
+              role="img"
+              [attr.aria-label]="'commun.surCinq' | t: { n: un.noteFilm }"
+            >
+              {{ etoiles(un.noteFilm) }}
+            </p>
             <blockquote>« {{ un.commentaire }} »</blockquote>
             <p class="etiquette">{{ un.auteur }} · {{ dateAvis(un.date) }}</p>
           </li>
@@ -155,7 +197,9 @@
     }
 
     @if (enSalle()) {
-      <a class="bouton bouton--or" routerLink="/mon-compte" [queryParams]="{ onglet: 'avis' }">{{ 'fiche.noter' | t }}</a>
+      <a class="bouton bouton--or" routerLink="/mon-compte" [queryParams]="{ onglet: 'avis' }">{{
+        'fiche.noter' | t
+      }}</a>
     }
   </section>
 

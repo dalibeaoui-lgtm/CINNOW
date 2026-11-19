@@ -18,7 +18,11 @@ const avis = (id: number, noteFilm: number): Avis => ({
 describe('services/AvisService', () => {
   let service: AvisService;
   const fausseApi = {
-    modifierAvis: vi.fn(async (id: number, m: Partial<Avis>) => ({ ...avis(id, 0), ...m, modifieLe: '2026-11-20' })),
+    modifierAvis: vi.fn(async (id: number, m: Partial<Avis>) => ({
+      ...avis(id, 0),
+      ...m,
+      modifieLe: '2026-11-20',
+    })),
     supprimerAvis: vi.fn(async () => undefined),
   };
 
@@ -30,9 +34,23 @@ describe('services/AvisService', () => {
   });
 
   it('modifie un avis et envoie le numéro du billet comme preuve', async () => {
-    await service.modifier(service.tous()[0], { noteFilm: 5, noteService: 5, commentaire: 'Revu : génial' });
-    expect(fausseApi.modifierAvis).toHaveBeenCalledWith(1, { noteFilm: 5, noteService: 5, commentaire: 'Revu : génial', billetId: 10 });
-    expect(service.tous()[0]).toMatchObject({ id: 1, noteFilm: 5, commentaire: 'Revu : génial', modifieLe: '2026-11-20' });
+    await service.modifier(service.tous()[0], {
+      noteFilm: 5,
+      noteService: 5,
+      commentaire: 'Revu : génial',
+    });
+    expect(fausseApi.modifierAvis).toHaveBeenCalledWith(1, {
+      noteFilm: 5,
+      noteService: 5,
+      commentaire: 'Revu : génial',
+      billetId: 10,
+    });
+    expect(service.tous()[0]).toMatchObject({
+      id: 1,
+      noteFilm: 5,
+      commentaire: 'Revu : génial',
+      modifieLe: '2026-11-20',
+    });
     expect(service.tous()[1].noteFilm).toBe(5); // l'autre avis ne change pas
   });
 

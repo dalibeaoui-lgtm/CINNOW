@@ -8,7 +8,9 @@ import { Contact } from './contact';
 describe('pages/Contact', () => {
   // Faux serveur : on note ce qui lui est envoyé
   const envoyes: unknown[] = [];
-  const fausseApi = { envoyerMessage: async (message: unknown) => (envoyes.push(message), { id: 1 }) };
+  const fausseApi = {
+    envoyerMessage: async (message: unknown) => (envoyes.push(message), { id: 1 }),
+  };
   const fauxCompte = { utilisateur: () => null };
 
   let page: HTMLElement;

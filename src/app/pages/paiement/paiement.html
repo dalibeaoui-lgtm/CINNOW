@@ -20,8 +20,9 @@
     <h1 class="grand-titre paiement__titre">{{ 'pay.titre' | t }}</h1>
     @if (seance() && film()) {
       <p class="paiement__sous-titre">
-        {{ film()!.titre }} · <span class="majuscule">{{ dateLongue(seance()!.date) }}</span> · {{ seance()!.heure }} ·
-        {{ 'commun.salle' | t: { n: seance()!.salle } }} · {{ 'version.' + seance()!.version | t }}
+        {{ film()!.titre }} · <span class="majuscule">{{ dateLongue(seance()!.date) }}</span> ·
+        {{ seance()!.heure }} · {{ 'commun.salle' | t: { n: seance()!.salle } }} ·
+        {{ 'version.' + seance()!.version | t }}
       </p>
     } @else {
       <p class="paiement__sous-titre">{{ 'pay.commandeComptoir' | t }}</p>
@@ -34,7 +35,13 @@
           <legend class="libelle">{{ 'pay.moyen' | t }}</legend>
           @for (m of moyens; track m.id) {
             <label class="moyen" [class.moyen--choisi]="moyen() === m.id">
-              <input type="radio" name="moyen" [value]="m.id" [ngModel]="moyen()" (ngModelChange)="moyen.set($event)" />
+              <input
+                type="radio"
+                name="moyen"
+                [value]="m.id"
+                [ngModel]="moyen()"
+                (ngModelChange)="moyen.set($event)"
+              />
               {{ m.libelle | t }}
             </label>
           }
@@ -44,7 +51,12 @@
           @case ('carte') {
             <label class="champ">
               <span class="libelle">{{ 'pay.nomCarte' | t }}</span>
-              <input name="nom" autocomplete="cc-name" [(ngModel)]="nom" [attr.aria-invalid]="!!erreurs().nom" />
+              <input
+                name="nom"
+                autocomplete="cc-name"
+                [(ngModel)]="nom"
+                [attr.aria-invalid]="!!erreurs().nom"
+              />
               @if (erreurs().nom) {
                 <small class="erreur">{{ erreurs().nom! | t }}</small>
               }
@@ -108,7 +120,10 @@
           }
           @case ('comptoir') {
             <p class="info">
-              {{ (estBoutique() ? 'pay.comptoirCommande' : 'pay.comptoirPlaces') | t: { total: formaterPrix(total()) } }}
+              {{
+                (estBoutique() ? 'pay.comptoirCommande' : 'pay.comptoirPlaces')
+                  | t: { total: formaterPrix(total()) }
+              }}
             </p>
           }
         }
@@ -136,8 +151,12 @@
         }
 
         <!-- Bouton visible seulement sur téléphone (sur ordinateur, il est dans le récapitulatif) -->
-        <button class="bouton bouton--plein bouton-payer bouton-payer--mobile" type="submit" [disabled]="paiementEnCours()"
-          [attr.aria-busy]="paiementEnCours() || null">
+        <button
+          class="bouton bouton--plein bouton-payer bouton-payer--mobile"
+          type="submit"
+          [disabled]="paiementEnCours()"
+          [attr.aria-busy]="paiementEnCours() || null"
+        >
           {{ texteBoutonPayer() }}
         </button>
       </form>
@@ -150,9 +169,13 @@
             <div>
               <p class="recap__titre">{{ film()!.titre }}</p>
               <p class="recap__date">
-                <span class="majuscule">{{ dateLongue(seance()!.date) }}</span> · {{ seance()!.heure }}
+                <span class="majuscule">{{ dateLongue(seance()!.date) }}</span> ·
+                {{ seance()!.heure }}
               </p>
-              <p class="recap__date">{{ 'commun.salle' | t: { n: seance()!.salle } }} · {{ 'version.' + seance()!.version | t }}</p>
+              <p class="recap__date">
+                {{ 'commun.salle' | t: { n: seance()!.salle } }} ·
+                {{ 'version.' + seance()!.version | t }}
+              </p>
             </div>
           </div>
 

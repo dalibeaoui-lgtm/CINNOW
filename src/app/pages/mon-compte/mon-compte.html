@@ -5,9 +5,15 @@
       <p class="etiquette">{{ 'compte.etiquette' | t }}</p>
       <h1 class="grand-titre">{{ 'compte.bonjour' | t: { prenom: u.prenom } }}</h1>
       <ul class="chiffres">
-        <li><strong>{{ aVenir().length }}</strong> {{ 'compte.seancesAVenir' | tn: aVenir().length }}</li>
-        <li><strong>{{ passes().length }}</strong> {{ 'compte.filmsVus' | tn: passes().length }}</li>
-        <li><strong>{{ mesAvis().length }}</strong> {{ 'compte.avisPublies' | tn: mesAvis().length }}</li>
+        <li>
+          <strong>{{ aVenir().length }}</strong> {{ 'compte.seancesAVenir' | tn: aVenir().length }}
+        </li>
+        <li>
+          <strong>{{ passes().length }}</strong> {{ 'compte.filmsVus' | tn: passes().length }}
+        </li>
+        <li>
+          <strong>{{ mesAvis().length }}</strong> {{ 'compte.avisPublies' | tn: mesAvis().length }}
+        </li>
       </ul>
     </header>
 
@@ -42,12 +48,17 @@
               <img class="billet__affiche" [src]="b.film.affiche" alt="" width="600" height="900" />
 
               <div class="billet__infos">
-                <p class="etiquette">{{ 'version.' + b.seance.version | t }} · {{ 'commun.salle' | t: { n: b.seance.salle } }}</p>
+                <p class="etiquette">
+                  {{ 'version.' + b.seance.version | t }} ·
+                  {{ 'commun.salle' | t: { n: b.seance.salle } }}
+                </p>
                 <h3 class="billet__titre">
                   <a [routerLink]="['/film', b.film.id]">{{ b.film.titre }}</a>
                 </h3>
                 <p class="billet__date">
-                  <span class="majuscule">{{ 'resa.dateHeure' | t: { date: dateLongue(b.seance.date), heure: b.seance.heure } }}</span>
+                  <span class="majuscule">{{
+                    'resa.dateHeure' | t: { date: dateLongue(b.seance.date), heure: b.seance.heure }
+                  }}</span>
                 </p>
                 <dl class="billet__details">
                   <div>
@@ -69,8 +80,16 @@
                 <!-- Annulation : jusqu'à 2 h avant la séance, avec une étape de confirmation -->
                 <div class="annulation">
                   @if (billetAAnnuler() === b.billet.id) {
-                    <div class="annulation__confirmation" role="group" [attr.aria-label]="'compte.annulerReservation' | t">
-                      <p>{{ 'compte.annulerQuestion' | t: { montant: formaterPrix(b.billet.total) } }}</p>
+                    <div
+                      class="annulation__confirmation"
+                      role="group"
+                      [attr.aria-label]="'compte.annulerReservation' | t"
+                    >
+                      <p>
+                        {{
+                          'compte.annulerQuestion' | t: { montant: formaterPrix(b.billet.total) }
+                        }}
+                      </p>
                       @if (erreurAnnulation()) {
                         <p class="erreur" role="alert">{{ erreurAnnulation() }}</p>
                       }
@@ -84,7 +103,9 @@
                         >
                           {{ 'compte.annulerOui' | t }}
                         </button>
-                        <button class="lien" type="button" (click)="billetAAnnuler.set(null)">{{ 'compte.annulerGarder' | t }}</button>
+                        <button class="lien" type="button" (click)="billetAAnnuler.set(null)">
+                          {{ 'compte.annulerGarder' | t }}
+                        </button>
                       </div>
                     </div>
                   } @else if (annulable(b.seance)) {
@@ -98,8 +119,13 @@
               </div>
 
               <div class="billet__qr">
-                <app-qr-code [numero]="b.billet.id" [label]="'compte.ebilletN' | t: { n: numeroCourt(b.billet.id) }" />
-                <p class="billet__numero">{{ 'compte.numero' | t: { n: numeroCourt(b.billet.id) } }}</p>
+                <app-qr-code
+                  [numero]="b.billet.id"
+                  [label]="'compte.ebilletN' | t: { n: numeroCourt(b.billet.id) }"
+                />
+                <p class="billet__numero">
+                  {{ 'compte.numero' | t: { n: numeroCourt(b.billet.id) } }}
+                </p>
                 <p class="etiquette">{{ 'compte.presenter' | t }}</p>
               </div>
             </article>
@@ -123,15 +149,24 @@
                   <div>
                     <p class="passe__titre">{{ b.film.titre }}</p>
                     <p class="passe__date">
-                      <span class="majuscule">{{ dateLongue(b.seance.date) }}</span> · {{ b.billet.places.join(', ') }}
+                      <span class="majuscule">{{ dateLongue(b.seance.date) }}</span> ·
+                      {{ b.billet.places.join(', ') }}
                     </p>
                   </div>
                   @if (avis) {
-                    <p class="etoiles" role="img" [attr.aria-label]="'compte.votreNote' | t: { n: avis.noteFilm }">
+                    <p
+                      class="etoiles"
+                      role="img"
+                      [attr.aria-label]="'compte.votreNote' | t: { n: avis.noteFilm }"
+                    >
                       {{ etoiles(avis.noteFilm) }}
                     </p>
                   } @else {
-                    <button class="bouton bouton--or" type="button" (click)="ouvrirNotation(b.billet.id)">
+                    <button
+                      class="bouton bouton--or"
+                      type="button"
+                      (click)="ouvrirNotation(b.billet.id)"
+                    >
                       {{ 'compte.noterFilm' | t }}
                     </button>
                   }
@@ -153,10 +188,18 @@
             <ul class="liste-commandes">
               @for (c of commandes(); track c.id) {
                 <li class="commande">
-                  <app-qr-code [numero]="c.id" [label]="'compte.commandeN' | t: { n: numeroCourt(c.id) }" />
+                  <app-qr-code
+                    [numero]="c.id"
+                    [label]="'compte.commandeN' | t: { n: numeroCourt(c.id) }"
+                  />
                   <div>
-                    <p class="passe__titre">{{ 'compte.commandeN' | t: { n: numeroCourt(c.id) } }}</p>
-                    <p class="passe__date"><span class="majuscule">{{ dateLongue(c.date) }}</span> · {{ texteArticles(c.articles) }}</p>
+                    <p class="passe__titre">
+                      {{ 'compte.commandeN' | t: { n: numeroCourt(c.id) } }}
+                    </p>
+                    <p class="passe__date">
+                      <span class="majuscule">{{ dateLongue(c.date) }}</span> ·
+                      {{ texteArticles(c.articles) }}
+                    </p>
                     <p class="commande__statut">{{ 'compte.aRetirer' | t }}</p>
                   </div>
                   <span class="commande__total">{{ formaterPrix(c.total) }}</span>
@@ -185,10 +228,17 @@
                     <img [src]="b.film.affiche" alt="" width="600" height="900" loading="lazy" />
                     <div>
                       <p class="passe__titre">{{ b.film.titre }}</p>
-                      <p class="passe__date"><span class="majuscule">{{ 'resa.dateHeure' | t: { date: dateLongue(b.seance.date), heure: b.seance.heure } }}</span></p>
+                      <p class="passe__date">
+                        <span class="majuscule">{{
+                          'resa.dateHeure'
+                            | t: { date: dateLongue(b.seance.date), heure: b.seance.heure }
+                        }}</span>
+                      </p>
                     </div>
                     @if (billetANoter() !== b.billet.id) {
-                      <button class="bouton" type="button" (click)="ouvrirNotation(b.billet.id)">{{ 'compte.noter' | t }}</button>
+                      <button class="bouton" type="button" (click)="ouvrirNotation(b.billet.id)">
+                        {{ 'compte.noter' | t }}
+                      </button>
                     }
                   </div>
 
@@ -235,7 +285,11 @@
                   @if (avisEnModification() === a.avis.id) {
                     <ng-container [ngTemplateOutlet]="formulaireAvis" />
                   } @else if (avisASupprimer() === a.avis.id) {
-                    <div class="annulation__confirmation" role="group" [attr.aria-label]="'compte.supprimer' | t">
+                    <div
+                      class="annulation__confirmation"
+                      role="group"
+                      [attr.aria-label]="'compte.supprimer' | t"
+                    >
                       <p>{{ 'compte.supprimerQuestion' | t }}</p>
                       @if (erreurSuppression()) {
                         <p class="erreur" role="alert">{{ erreurSuppression() }}</p>
@@ -250,13 +304,19 @@
                         >
                           {{ 'compte.supprimerOui' | t }}
                         </button>
-                        <button class="lien" type="button" (click)="avisASupprimer.set(null)">{{ 'commun.annuler' | t }}</button>
+                        <button class="lien" type="button" (click)="avisASupprimer.set(null)">
+                          {{ 'commun.annuler' | t }}
+                        </button>
                       </div>
                     </div>
                   } @else {
                     <div class="un-avis__actions">
-                      <button class="lien" type="button" (click)="ouvrirModification(a.avis)">{{ 'compte.modifier' | t }}</button>
-                      <button class="lien" type="button" (click)="demanderSuppression(a.avis.id)">{{ 'compte.supprimer' | t }}</button>
+                      <button class="lien" type="button" (click)="ouvrirModification(a.avis)">
+                        {{ 'compte.modifier' | t }}
+                      </button>
+                      <button class="lien" type="button" (click)="demanderSuppression(a.avis.id)">
+                        {{ 'compte.supprimer' | t }}
+                      </button>
                     </div>
                   }
                 </li>
@@ -270,7 +330,11 @@
 
       <!-- ========== Profil & préférences ========== -->
       @case ('profil') {
-        <form class="bloc profil" (ngSubmit)="enregistrerProfil()" (input)="profilEnregistre.set(false)">
+        <form
+          class="bloc profil"
+          (ngSubmit)="enregistrerProfil()"
+          (input)="profilEnregistre.set(false)"
+        >
           <h2 class="sous-titre">{{ 'compte.infos' | t }}</h2>
 
           <div class="grille-champs">
@@ -287,8 +351,16 @@
               <input name="email" type="email" autocomplete="email" [(ngModel)]="profilEmail" />
             </label>
             <label class="champ">
-              <span>{{ 'compte.telephone' | t }} <em>{{ 'commun.facultatif' | t }}</em></span>
-              <input name="telephone" type="tel" autocomplete="tel" placeholder="+216 …" [(ngModel)]="profilTelephone" />
+              <span
+                >{{ 'compte.telephone' | t }} <em>{{ 'commun.facultatif' | t }}</em></span
+              >
+              <input
+                name="telephone"
+                type="tel"
+                autocomplete="tel"
+                placeholder="+216 …"
+                [(ngModel)]="profilTelephone"
+              />
             </label>
           </div>
 
@@ -296,9 +368,18 @@
 
           <fieldset class="choix">
             <legend>{{ 'compte.versionPreferee' | t }}</legend>
-            <label><input type="radio" name="version" value="VF" [(ngModel)]="profilVersion" /> {{ 'compte.vf' | t }}</label>
-            <label><input type="radio" name="version" value="VO" [(ngModel)]="profilVersion" /> {{ 'compte.vo' | t }}</label>
-            <label><input type="radio" name="version" value="peu-importe" [(ngModel)]="profilVersion" /> {{ 'compte.peuImporte' | t }}</label>
+            <label
+              ><input type="radio" name="version" value="VF" [(ngModel)]="profilVersion" />
+              {{ 'compte.vf' | t }}</label
+            >
+            <label
+              ><input type="radio" name="version" value="VO" [(ngModel)]="profilVersion" />
+              {{ 'compte.vo' | t }}</label
+            >
+            <label
+              ><input type="radio" name="version" value="peu-importe" [(ngModel)]="profilVersion" />
+              {{ 'compte.peuImporte' | t }}</label
+            >
           </fieldset>
 
           <label class="case">
@@ -311,7 +392,9 @@
           }
 
           <div class="profil__actions">
-            <button class="bouton bouton--plein" type="submit">{{ 'compte.enregistrer' | t }}</button>
+            <button class="bouton bouton--plein" type="submit">
+              {{ 'compte.enregistrer' | t }}
+            </button>
             @if (profilEnregistre()) {
               <p class="succes" role="status">{{ 'compte.enregistre' | t }}</p>
             }
@@ -319,7 +402,9 @@
         </form>
 
         <div class="bloc deconnexion">
-          <button class="bouton" type="button" (click)="deconnexion()">{{ 'compte.deconnexion' | t }}</button>
+          <button class="bouton" type="button" (click)="deconnexion()">
+            {{ 'compte.deconnexion' | t }}
+          </button>
         </div>
       }
     }
@@ -345,7 +430,9 @@
         </fieldset>
 
         <fieldset class="notation__ligne">
-          <legend>{{ 'compte.leService' | t }} <span>{{ 'compte.serviceDetail' | t }}</span></legend>
+          <legend>
+            {{ 'compte.leService' | t }} <span>{{ 'compte.serviceDetail' | t }}</span>
+          </legend>
           <div class="choix-etoiles">
             @for (n of notes; track n) {
               <button
@@ -362,7 +449,9 @@
         </fieldset>
 
         <label class="champ">
-          <span>{{ 'compte.votreAvis' | t }} <em>{{ 'commun.facultatif' | t }}</em></span>
+          <span
+            >{{ 'compte.votreAvis' | t }} <em>{{ 'commun.facultatif' | t }}</em></span
+          >
           <!-- Zone de texte avec un compteur de caractères dans le coin -->
           <div class="zone-avis" [class.zone-avis--presque-pleine]="commentaire().length > 360">
             <textarea
@@ -372,7 +461,9 @@
               [placeholder]="'compte.avisPlaceholder' | t"
               [(ngModel)]="commentaire"
             ></textarea>
-            <span class="zone-avis__compteur" aria-hidden="true">{{ commentaire().length }} / 400</span>
+            <span class="zone-avis__compteur" aria-hidden="true"
+              >{{ commentaire().length }} / 400</span
+            >
           </div>
         </label>
 
@@ -389,7 +480,9 @@
           >
             {{ (avisEnModification() ? 'compte.enregistrerAvis' : 'compte.publier') | t }}
           </button>
-          <button class="lien" type="button" (click)="fermerFormulaire()">{{ 'commun.annuler' | t }}</button>
+          <button class="lien" type="button" (click)="fermerFormulaire()">
+            {{ 'commun.annuler' | t }}
+          </button>
         </div>
       </form>
     </ng-template>
@@ -442,7 +535,13 @@
 
       <label class="champ">
         <span>{{ 'commun.email' | t }}</span>
-        <input name="email" type="email" autocomplete="email" [placeholder]="'commun.exempleEmail' | t" [(ngModel)]="email" />
+        <input
+          name="email"
+          type="email"
+          autocomplete="email"
+          [placeholder]="'commun.exempleEmail' | t"
+          [(ngModel)]="email"
+        />
       </label>
 
       <label class="champ">

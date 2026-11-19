@@ -51,7 +51,10 @@ export function formaterNote(note: number): string {
 
 // 9.5 → « 9,500 DT » / « 9.500 TND » (le dinar s'écrit avec 3 décimales)
 export function formaterPrix(prix: number): string {
-  const montant = prix.toLocaleString(locale(), { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+  const montant = prix.toLocaleString(locale(), {
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3,
+  });
   return `${montant} ${t('format.devise')}`;
 }
 

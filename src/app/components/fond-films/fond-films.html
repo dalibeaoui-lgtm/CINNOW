@@ -4,7 +4,14 @@
   <div class="defile__piste">
     @for (tour of [1, 2]; track tour) {
       @for (photo of photos(); track photo.id) {
-        <img class="defile__photo" [src]="photo.src" alt="" width="800" height="450" loading="lazy" />
+        <img
+          class="defile__photo"
+          [src]="photo.src"
+          alt=""
+          width="800"
+          height="450"
+          loading="lazy"
+        />
       }
     }
   </div>

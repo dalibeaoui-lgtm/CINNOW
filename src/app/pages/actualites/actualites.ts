@@ -37,7 +37,9 @@ export class Actualites {
   protected readonly liste = computed(() =>
     this.service
       .articles()
-      .filter((a) => a !== this.aLaUne() && (this.filtre() === 'tous' || a.categorie === this.filtre())),
+      .filter(
+        (a) => a !== this.aLaUne() && (this.filtre() === 'tous' || a.categorie === this.filtre()),
+      ),
   );
 
   constructor() {

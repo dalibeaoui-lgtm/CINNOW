@@ -1,4 +1,12 @@
-import { Component, DestroyRef, ElementRef, afterNextRender, computed, inject, viewChildren } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  computed,
+  inject,
+  viewChildren,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CarteFilm } from '../../components/carte-film/carte-film';
 import { FondFilms } from '../../components/fond-films/fond-films';
@@ -31,12 +39,20 @@ export class Accueil {
   // Les 3 films à la une, tirés au hasard parmi ceux qui ont une photo horizontale.
   // Le tirage est fait une seule fois, à l'ouverture de la page : chaque rechargement donne
   // 3 autres films, mais changer de langue ne relance pas le tirage.
-  private readonly idsALaUne = melanger(this.films().filter((film) => film.photo).map((film) => film.id)).slice(0, 3);
+  private readonly idsALaUne = melanger(
+    this.films()
+      .filter((film) => film.photo)
+      .map((film) => film.id),
+  ).slice(0, 3);
   protected readonly slides = computed(() =>
     this.idsALaUne.map((id) => this.films().find((film) => film.id === id)!).filter(Boolean),
   );
-  protected readonly aLAffiche = computed(() => this.films().filter((film) => film.statut === 'a-l-affiche'));
-  protected readonly prochainement = computed(() => this.films().filter((film) => film.statut === 'prochainement'));
+  protected readonly aLAffiche = computed(() =>
+    this.films().filter((film) => film.statut === 'a-l-affiche'),
+  );
+  protected readonly prochainement = computed(() =>
+    this.films().filter((film) => film.statut === 'prochainement'),
+  );
 
   private readonly slidesHtml = viewChildren<ElementRef<HTMLElement>>('slide');
 

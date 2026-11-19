@@ -36,17 +36,47 @@ export class Faq {
   ];
 
   private readonly questions: Question[] = [
-    { id: 'reserver', categorie: 'reservation', question: 'faq.q.reserver', reponse: 'faq.r.reserver' },
-    { id: 'combien', categorie: 'reservation', question: 'faq.q.combien', reponse: 'faq.r.combien' },
-    { id: 'annuler', categorie: 'reservation', question: 'faq.q.annuler', reponse: 'faq.r.annuler' },
+    {
+      id: 'reserver',
+      categorie: 'reservation',
+      question: 'faq.q.reserver',
+      reponse: 'faq.r.reserver',
+    },
+    {
+      id: 'combien',
+      categorie: 'reservation',
+      question: 'faq.q.combien',
+      reponse: 'faq.r.combien',
+    },
+    {
+      id: 'annuler',
+      categorie: 'reservation',
+      question: 'faq.q.annuler',
+      reponse: 'faq.r.annuler',
+    },
     { id: 'compte', categorie: 'reservation', question: 'faq.q.compte', reponse: 'faq.r.compte' },
     { id: 'imprimer', categorie: 'billets', question: 'faq.q.imprimer', reponse: 'faq.r.imprimer' },
     { id: 'payer', categorie: 'billets', question: 'faq.q.payer', reponse: 'faq.r.payer' },
     { id: 'arriver', categorie: 'billets', question: 'faq.q.arriver', reponse: 'faq.r.arriver' },
-    { id: 'boutique', categorie: 'boutique', question: 'faq.q.boutique', reponse: 'faq.r.boutique' },
-    { id: 'apporter', categorie: 'boutique', question: 'faq.q.apporter', reponse: 'faq.r.apporter' },
+    {
+      id: 'boutique',
+      categorie: 'boutique',
+      question: 'faq.q.boutique',
+      reponse: 'faq.r.boutique',
+    },
+    {
+      id: 'apporter',
+      categorie: 'boutique',
+      question: 'faq.q.apporter',
+      reponse: 'faq.r.apporter',
+    },
     { id: 'reduits', categorie: 'tarifs', question: 'faq.q.reduits', reponse: 'faq.r.reduits' },
-    { id: 'abonnement', categorie: 'tarifs', question: 'faq.q.abonnement', reponse: 'faq.r.abonnement' },
+    {
+      id: 'abonnement',
+      categorie: 'tarifs',
+      question: 'faq.q.abonnement',
+      reponse: 'faq.r.abonnement',
+    },
     { id: 'ou', categorie: 'acces', question: 'faq.q.ou', reponse: 'faq.r.ou' },
     { id: 'fauteuil', categorie: 'acces', question: 'faq.q.fauteuil', reponse: 'faq.r.fauteuil' },
   ];

@@ -12,7 +12,7 @@ import { ecrireStockage } from './utils/stockage';
   selector: 'app-root',
   imports: [RouterOutlet, BarreNavigation, Header, Footer, Traduction],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   // Pour afficher un bandeau si le serveur ne répond pas

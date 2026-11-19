@@ -1,4 +1,13 @@
-import { Component, DestroyRef, computed, effect, inject, input, linkedSignal, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  computed,
+  effect,
+  inject,
+  input,
+  linkedSignal,
+  signal,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { CleTraduction, t } from '../../i18n/langue';
 import { Traduction } from '../../i18n/traduire.pipe';
@@ -47,14 +56,24 @@ export class Boutique {
   protected readonly sections = computed(() => {
     const produits = this.produits();
     return [
-      { id: 'snacks', titre: 'bout.partieSnacks' as CleTraduction, produits: produits.filter((p) => p.categorie !== 'poster') },
-      { id: 'posters', titre: 'bout.partiePosters' as CleTraduction, produits: produits.filter((p) => p.categorie === 'poster') },
+      {
+        id: 'snacks',
+        titre: 'bout.partieSnacks' as CleTraduction,
+        produits: produits.filter((p) => p.categorie !== 'poster'),
+      },
+      {
+        id: 'posters',
+        titre: 'bout.partiePosters' as CleTraduction,
+        produits: produits.filter((p) => p.categorie === 'poster'),
+      },
     ].filter((section) => section.produits.length > 0);
   });
 
   protected nombreDans(filtre: Filtre): number {
     const produits = this.tousLesProduits();
-    return filtre === 'tout' ? produits.length : produits.filter((p) => p.categorie === filtre).length;
+    return filtre === 'tout'
+      ? produits.length
+      : produits.filter((p) => p.categorie === filtre).length;
   }
 
   // ---------- Panier ----------

@@ -21,5 +21,7 @@ export class CarteFilm {
   protected readonly duree = computed(() => formaterDuree(this.film().duree));
 
   // « 2026-12-02 » → « 2 déc. » / « 2 Dec »
-  protected readonly dateSortie = computed(() => formaterDate(this.film().dateSortie, { day: 'numeric', month: 'short' }));
+  protected readonly dateSortie = computed(() =>
+    formaterDate(this.film().dateSortie, { day: 'numeric', month: 'short' }),
+  );
 }

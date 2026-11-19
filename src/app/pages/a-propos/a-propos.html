@@ -27,7 +27,6 @@
     </div>
   </section>
 
-
   <!-- 2. Salles & équipements -->
   <section class="partie" aria-labelledby="titre-salles">
     <div class="partie__entete">
@@ -43,7 +42,9 @@
           <ul class="equipements" [attr.aria-hidden]="copie > 0 ? 'true' : null">
             @for (e of equipements; track e.titre) {
               <li class="equipement">
-                <svg class="equipement__icone" viewBox="0 0 24 24" aria-hidden="true"><path [attr.d]="e.icone" /></svg>
+                <svg class="equipement__icone" viewBox="0 0 24 24" aria-hidden="true">
+                  <path [attr.d]="e.icone" />
+                </svg>
                 <h3 class="equipement__titre">{{ e.titre | t }}</h3>
                 <p>{{ e.texte | t }}</p>
               </li>
@@ -62,7 +63,12 @@
     </div>
     <ul class="tarifs">
       @for (tarif of tarifs(); track tarif.nom; let i = $index) {
-        <li class="tarif" [class.tarif--abonnement]="tarif.mensuel" appApparition [style.--delai]="i * 0.08 + 's'">
+        <li
+          class="tarif"
+          [class.tarif--abonnement]="tarif.mensuel"
+          appApparition
+          [style.--delai]="i * 0.08 + 's'"
+        >
           @if (tarif.mensuel) {
             <p class="tarif__badge">{{ 'apropos.tarif.populaire' | t }}</p>
           }

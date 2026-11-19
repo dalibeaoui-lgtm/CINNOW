@@ -28,10 +28,14 @@ export class Article {
   protected readonly article = computed(() => this.service.article(Number(this.id())));
   protected readonly srcset = computed(() => srcsetPhoto(this.article()?.image ?? ''));
   protected readonly film = computed(() => this.catalogue.film(this.article()?.filmId));
-  protected readonly categorie = computed(() => `actu.cat.${this.article()?.categorie}` as CleTraduction);
+  protected readonly categorie = computed(
+    () => `actu.cat.${this.article()?.categorie}` as CleTraduction,
+  );
   protected readonly date = computed(() => {
     const a = this.article();
-    return a ? formaterDate(a.date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    return a
+      ? formaterDate(a.date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+      : '';
   });
 
   // 3 autres articles : ceux du même thème d'abord, puis les plus récents
@@ -39,7 +43,10 @@ export class Article {
     const a = this.article();
     if (!a) return [];
     const reste = this.service.articles().filter((x) => x.id !== a.id);
-    return [...reste.filter((x) => x.categorie === a.categorie), ...reste.filter((x) => x.categorie !== a.categorie)].slice(0, 3);
+    return [
+      ...reste.filter((x) => x.categorie === a.categorie),
+      ...reste.filter((x) => x.categorie !== a.categorie),
+    ].slice(0, 3);
   });
 
   constructor() {

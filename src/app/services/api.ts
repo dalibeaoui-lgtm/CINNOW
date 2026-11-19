@@ -52,7 +52,11 @@ export class Api {
 
   // ---------- Écriture ----------
   // On envoie seulement les numéros (séance, produits) : le serveur vérifie tout et calcule le prix.
-  creerReservation(demande: { seanceId: number; places: string[]; snacks: { produitId: number; quantite: number }[] }) {
+  creerReservation(demande: {
+    seanceId: number;
+    places: string[];
+    snacks: { produitId: number; quantite: number }[];
+  }) {
     return firstValueFrom(this.http.post<Reservation>(`${API}/reservations`, demande));
   }
 
@@ -67,11 +71,16 @@ export class Api {
   // ---------- Mise à jour et suppression ----------
   // Le serveur libère les places et renvoie le montant remboursé (refuse moins de 2 h avant la séance)
   annulerReservation(id: number) {
-    return firstValueFrom(this.http.delete<{ annulee: number; rembourse: number }>(`${API}/reservations/${id}`));
+    return firstValueFrom(
+      this.http.delete<{ annulee: number; rembourse: number }>(`${API}/reservations/${id}`),
+    );
   }
 
   // billetId : prouve que l'avis est bien le sien (voir backend/routes/avis.js)
-  modifierAvis(id: number, modifications: Pick<Avis, 'noteFilm' | 'noteService' | 'commentaire'> & { billetId: number }) {
+  modifierAvis(
+    id: number,
+    modifications: Pick<Avis, 'noteFilm' | 'noteService' | 'commentaire'> & { billetId: number },
+  ) {
     return firstValueFrom(this.http.put<Avis>(`${API}/avis/${id}`, modifications));
   }
 

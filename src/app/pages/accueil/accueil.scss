@@ -114,7 +114,12 @@
   padding: 32px;
   // Photo des snacks, avec un voile expresso (plus foncé en bas à gauche) pour lire le texte
   background:
-    linear-gradient(35deg, rgba(20, 8, 1, 0.94) 0%, rgba(56, 21, 1, 0.75) 50%, rgba(56, 21, 1, 0.3) 100%),
+    linear-gradient(
+      35deg,
+      rgba(20, 8, 1, 0.94) 0%,
+      rgba(56, 21, 1, 0.75) 50%,
+      rgba(56, 21, 1, 0.3) 100%
+    ),
     url('/images/hero/snacks.webp') center / cover no-repeat,
     var(--expresso);
   color: var(--creme);

@@ -37,6 +37,10 @@ export function t(cle: CleTraduction, parametres: Record<string, string | number
 }
 
 // Singulier ou pluriel : tn('bout.nbProduits', 3) utilise la clé « bout.nbProduits.plusieurs »
-export function tn(base: string, n: number, parametres: Record<string, string | number> = {}): string {
+export function tn(
+  base: string,
+  n: number,
+  parametres: Record<string, string | number> = {},
+): string {
   return t(`${base}.${n > 1 ? 'plusieurs' : 'un'}` as CleTraduction, { n, ...parametres });
 }

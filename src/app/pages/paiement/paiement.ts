@@ -53,7 +53,9 @@ export class Paiement {
   protected readonly estBoutique = computed(() => this.commande() === 'boutique');
 
   // ---------- Ce qu'on paie ----------
-  protected readonly reservation = computed(() => (this.estBoutique() ? null : this.reservationEnCours.reservation()));
+  protected readonly reservation = computed(() =>
+    this.estBoutique() ? null : this.reservationEnCours.reservation(),
+  );
 
   // La séance doit encore exister et ne pas avoir commencé
   protected readonly seance = computed(() => {
@@ -65,8 +67,12 @@ export class Paiement {
   protected readonly lignes = computed(() =>
     this.estBoutique() ? this.panier.lignes() : (this.reservation()?.snacks ?? []),
   );
-  protected readonly total = computed(() => (this.estBoutique() ? this.panier.total() : (this.reservation()?.total ?? 0)));
-  protected readonly rienAPayer = computed(() => (this.estBoutique() ? !this.panier.nombre() : !this.seance()));
+  protected readonly total = computed(() =>
+    this.estBoutique() ? this.panier.total() : (this.reservation()?.total ?? 0),
+  );
+  protected readonly rienAPayer = computed(() =>
+    this.estBoutique() ? !this.panier.nombre() : !this.seance(),
+  );
 
   protected readonly prixPlace = this.catalogue.salle().prixPlace;
 
@@ -122,7 +128,8 @@ export class Paiement {
         const [mois, annee] = this.expiration().split(' / ').map(Number);
         const aujourdhui = new Date();
         const anneeActuelle = aujourdhui.getFullYear() % 100;
-        const expiree = annee < anneeActuelle || (annee === anneeActuelle && mois < aujourdhui.getMonth() + 1);
+        const expiree =
+          annee < anneeActuelle || (annee === anneeActuelle && mois < aujourdhui.getMonth() + 1);
         if (!mois || mois > 12 || annee === undefined || Number.isNaN(annee)) {
           erreurs.expiration = 'pay.err.format';
         } else if (expiree) {
@@ -177,7 +184,8 @@ export class Paiement {
   // définitif et le prix qu'il a calculé lui-même. En cas de refus, une erreur est lancée.
   private async envoyerAuServeur(): Promise<void> {
     // En mode test, « admin » n'est pas une vraie adresse : on n'affiche pas « envoyé à admin »
-    const email = this.envoyerEmail() && !estModeTest(this.email()) ? this.email().trim().toLowerCase() : '';
+    const email =
+      this.envoyerEmail() && !estModeTest(this.email()) ? this.email().trim().toLowerCase() : '';
     const moyen = this.moyen();
 
     if (this.estBoutique()) {

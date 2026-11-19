@@ -35,7 +35,9 @@
     @case ('erreur') {
       <div class="message" role="alert">
         <p>{{ 'actu.erreur' | t }}</p>
-        <button type="button" class="bouton bouton--plein" (click)="reessayer()">{{ 'actu.reessayer' | t }}</button>
+        <button type="button" class="bouton bouton--plein" (click)="reessayer()">
+          {{ 'actu.reessayer' | t }}
+        </button>
       </div>
     }
     @default {
@@ -52,11 +54,21 @@
         <div class="liste__entete">
           <h2 id="titre-liste" class="liste__titre">{{ 'actu.toutes' | t }}</h2>
           <div class="filtres" role="group" [attr.aria-label]="'actu.filtrer' | t">
-            <button type="button" class="filtre" [attr.aria-pressed]="filtre() === 'tous'" (click)="filtre.set('tous')">
+            <button
+              type="button"
+              class="filtre"
+              [attr.aria-pressed]="filtre() === 'tous'"
+              (click)="filtre.set('tous')"
+            >
               {{ 'actu.tous' | t }}
             </button>
             @for (c of categories; track c.id) {
-              <button type="button" class="filtre" [attr.aria-pressed]="filtre() === c.id" (click)="filtre.set(c.id)">
+              <button
+                type="button"
+                class="filtre"
+                [attr.aria-pressed]="filtre() === c.id"
+                (click)="filtre.set(c.id)"
+              >
                 {{ c.libelle | t }}
               </button>
             }

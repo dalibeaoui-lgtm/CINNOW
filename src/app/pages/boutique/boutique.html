@@ -20,52 +20,83 @@
 
   <!-- Produits, en 2 parties : snacks & boissons, puis posters (une partie vide n'est pas affichée) -->
   @for (section of sections(); track section.id) {
-  <section class="partie" [attr.aria-labelledby]="'titre-' + section.id">
-    <div class="partie__entete">
-      <h2 class="partie__titre" [id]="'titre-' + section.id">{{ section.titre | t }}</h2>
-      <p class="etiquette">{{ 'bout.nbProduits' | tn: section.produits.length }}</p>
-    </div>
+    <section class="partie" [attr.aria-labelledby]="'titre-' + section.id">
+      <div class="partie__entete">
+        <h2 class="partie__titre" [id]="'titre-' + section.id">{{ section.titre | t }}</h2>
+        <p class="etiquette">{{ 'bout.nbProduits' | tn: section.produits.length }}</p>
+      </div>
 
-  <ul class="produits">
-    @for (produit of section.produits; track produit.id) {
-      @let quantite = lePanier.quantite(produit.id);
-      <li class="produit">
-        <div class="produit__image" [class.produit__image--poster]="produit.categorie === 'poster' && produit.image">
-          @if (produit.categorie === 'poster' && produit.image) {
-            <!-- Poster : affiché en entier, debout dans la case -->
-            <img [src]="produit.image" [alt]="produit.nom" width="600" height="900" loading="lazy" />
-          } @else {
-            <!-- Snack ou boisson : photo détourée (ou le nom sur une vignette de couleur, sans photo) -->
-            <div class="vignette {{ vignette(produit) }}">
-              @if (produit.image) {
-                <img class="vignette__photo" [src]="produit.image" [alt]="produit.nom" width="800" height="800" loading="lazy" />
+      <ul class="produits">
+        @for (produit of section.produits; track produit.id) {
+          @let quantite = lePanier.quantite(produit.id);
+          <li class="produit">
+            <div
+              class="produit__image"
+              [class.produit__image--poster]="produit.categorie === 'poster' && produit.image"
+            >
+              @if (produit.categorie === 'poster' && produit.image) {
+                <!-- Poster : affiché en entier, debout dans la case -->
+                <img
+                  [src]="produit.image"
+                  [alt]="produit.nom"
+                  width="600"
+                  height="900"
+                  loading="lazy"
+                />
               } @else {
-                <span aria-hidden="true">{{ produit.nom }}</span>
+                <!-- Snack ou boisson : photo détourée (ou le nom sur une vignette de couleur, sans photo) -->
+                <div class="vignette {{ vignette(produit) }}">
+                  @if (produit.image) {
+                    <img
+                      class="vignette__photo"
+                      [src]="produit.image"
+                      [alt]="produit.nom"
+                      width="800"
+                      height="800"
+                      loading="lazy"
+                    />
+                  } @else {
+                    <span aria-hidden="true">{{ produit.nom }}</span>
+                  }
+                </div>
               }
             </div>
-          }
-        </div>
 
-        <h3 class="produit__nom">{{ produit.nom }}</h3>
-        <p class="produit__description">{{ produit.description }}</p>
+            <h3 class="produit__nom">{{ produit.nom }}</h3>
+            <p class="produit__description">{{ produit.description }}</p>
 
-        <div class="produit__bas">
-          <span class="produit__prix">{{ formaterPrix(produit.prix) }}</span>
+            <div class="produit__bas">
+              <span class="produit__prix">{{ formaterPrix(produit.prix) }}</span>
 
-          @if (quantite) {
-            <div class="quantite">
-              <button type="button" [attr.aria-label]="'commun.retirer' | t: { nom: produit.nom }" (click)="lePanier.changerQuantite(produit, -1)">−</button>
-              <span>{{ quantite }}</span>
-              <button type="button" [attr.aria-label]="'commun.ajouterNom' | t: { nom: produit.nom }" [disabled]="quantite >= 10" (click)="lePanier.changerQuantite(produit, 1)">+</button>
+              @if (quantite) {
+                <div class="quantite">
+                  <button
+                    type="button"
+                    [attr.aria-label]="'commun.retirer' | t: { nom: produit.nom }"
+                    (click)="lePanier.changerQuantite(produit, -1)"
+                  >
+                    −
+                  </button>
+                  <span>{{ quantite }}</span>
+                  <button
+                    type="button"
+                    [attr.aria-label]="'commun.ajouterNom' | t: { nom: produit.nom }"
+                    [disabled]="quantite >= 10"
+                    (click)="lePanier.changerQuantite(produit, 1)"
+                  >
+                    +
+                  </button>
+                </div>
+              } @else {
+                <button class="bouton" type="button" (click)="ajouter(produit)">
+                  {{ 'bout.ajouter' | t }}
+                </button>
+              }
             </div>
-          } @else {
-            <button class="bouton" type="button" (click)="ajouter(produit)">{{ 'bout.ajouter' | t }}</button>
-          }
-        </div>
-      </li>
-    }
-  </ul>
-  </section>
+          </li>
+        }
+      </ul>
+    </section>
   }
 </section>
 
@@ -78,7 +109,9 @@
     </p>
     <div class="barre__droite">
       <span class="barre__total">{{ formaterPrix(lePanier.total()) }}</span>
-      <button class="bouton bouton--clair" type="button" (click)="panierOuvert.set(true)">{{ 'bout.voirPanier' | t }}</button>
+      <button class="bouton bouton--clair" type="button" (click)="panierOuvert.set(true)">
+        {{ 'bout.voirPanier' | t }}
+      </button>
     </div>
   </div>
 }
@@ -89,7 +122,14 @@
   <aside class="tiroir" role="dialog" aria-modal="true" aria-labelledby="titre-panier">
     <div class="tiroir__entete">
       <h2 id="titre-panier" class="tiroir__titre">{{ 'bout.votrePanier' | t }}</h2>
-      <button class="tiroir__fermer" type="button" [attr.aria-label]="'bout.fermer' | t" (click)="panierOuvert.set(false)">✕</button>
+      <button
+        class="tiroir__fermer"
+        type="button"
+        [attr.aria-label]="'bout.fermer' | t"
+        (click)="panierOuvert.set(false)"
+      >
+        ✕
+      </button>
     </div>
 
     @if (lePanier.nombre()) {
@@ -98,14 +138,31 @@
           <li class="ligne">
             <div>
               <p class="ligne__nom">{{ nomProduit(ligne.produit) }}</p>
-              <p class="ligne__prix">{{ 'bout.unite' | t: { prix: formaterPrix(ligne.produit.prix) } }}</p>
+              <p class="ligne__prix">
+                {{ 'bout.unite' | t: { prix: formaterPrix(ligne.produit.prix) } }}
+              </p>
             </div>
             <div class="quantite">
-              <button type="button" [attr.aria-label]="'commun.retirer' | t: { nom: nomProduit(ligne.produit) }" (click)="lePanier.changerQuantite(ligne.produit, -1)">−</button>
+              <button
+                type="button"
+                [attr.aria-label]="'commun.retirer' | t: { nom: nomProduit(ligne.produit) }"
+                (click)="lePanier.changerQuantite(ligne.produit, -1)"
+              >
+                −
+              </button>
               <span>{{ ligne.quantite }}</span>
-              <button type="button" [attr.aria-label]="'commun.ajouterNom' | t: { nom: nomProduit(ligne.produit) }" [disabled]="ligne.quantite >= 10" (click)="lePanier.changerQuantite(ligne.produit, 1)">+</button>
+              <button
+                type="button"
+                [attr.aria-label]="'commun.ajouterNom' | t: { nom: nomProduit(ligne.produit) }"
+                [disabled]="ligne.quantite >= 10"
+                (click)="lePanier.changerQuantite(ligne.produit, 1)"
+              >
+                +
+              </button>
             </div>
-            <span class="ligne__total">{{ formaterPrix(ligne.produit.prix * ligne.quantite) }}</span>
+            <span class="ligne__total">{{
+              formaterPrix(ligne.produit.prix * ligne.quantite)
+            }}</span>
           </li>
         }
       </ul>
@@ -116,8 +173,12 @@
           <span>{{ formaterPrix(lePanier.total()) }}</span>
         </div>
         <p class="tiroir__note">{{ 'bout.note' | t }}</p>
-        <button class="bouton bouton--plein tiroir__bouton" type="button" (click)="commander()">{{ 'bout.commander' | t }}</button>
-        <button class="lien" type="button" (click)="lePanier.vider()">{{ 'bout.vider' | t }}</button>
+        <button class="bouton bouton--plein tiroir__bouton" type="button" (click)="commander()">
+          {{ 'bout.commander' | t }}
+        </button>
+        <button class="lien" type="button" (click)="lePanier.vider()">
+          {{ 'bout.vider' | t }}
+        </button>
       </div>
     } @else {
       <p class="tiroir__vide">{{ 'bout.vide' | t }}</p>
@@ -126,6 +187,11 @@
 }
 
 <!-- Notification -->
-<p class="notification" [class.notification--visible]="notification()" role="status" aria-live="polite">
+<p
+  class="notification"
+  [class.notification--visible]="notification()"
+  role="status"
+  aria-live="polite"
+>
   {{ notification() }}
 </p>

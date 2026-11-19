@@ -23,7 +23,9 @@ const CLE = 'cinnow-compte-v2';
 @Injectable({ providedIn: 'root' })
 export class Compte {
   private readonly catalogue = inject(Catalogue);
-  private readonly donnees = signal<DonneesCompte | null>(lireStockage<DonneesCompte | null>(CLE, null));
+  private readonly donnees = signal<DonneesCompte | null>(
+    lireStockage<DonneesCompte | null>(CLE, null),
+  );
 
   readonly utilisateur = computed(() => {
     const donnees = this.donnees();
@@ -31,7 +33,9 @@ export class Compte {
   });
 
   readonly billets = computed(() => (this.utilisateur() ? this.donnees()!.billets : []));
-  readonly commandes = computed(() => (this.utilisateur() ? (this.donnees()!.commandes ?? []) : []));
+  readonly commandes = computed(() =>
+    this.utilisateur() ? (this.donnees()!.commandes ?? []) : [],
+  );
 
   constructor() {
     // À chaque changement, on enregistre le compte dans le navigateur
@@ -64,12 +68,16 @@ export class Compte {
   // Après le paiement : range le billet dans « Mes billets » (seulement si quelqu'un est connecté)
   ajouterBillet(billet: Reservation): void {
     if (!this.utilisateur()) return;
-    this.donnees.update((donnees) => (donnees ? { ...donnees, billets: [billet, ...donnees.billets] } : null));
+    this.donnees.update((donnees) =>
+      donnees ? { ...donnees, billets: [billet, ...donnees.billets] } : null,
+    );
   }
 
   // Réservation annulée : le billet disparaît de « Mes billets »
   retirerBillet(id: number): void {
-    this.donnees.update((donnees) => (donnees ? { ...donnees, billets: donnees.billets.filter((b) => b.id !== id) } : null));
+    this.donnees.update((donnees) =>
+      donnees ? { ...donnees, billets: donnees.billets.filter((b) => b.id !== id) } : null,
+    );
   }
 
   // Après le paiement d'une commande de la boutique : la range dans « Mes commandes »
@@ -83,7 +91,11 @@ export class Compte {
   private creer(infos: Pick<Utilisateur, 'prenom' | 'nom' | 'email'>): void {
     this.donnees.set({
       utilisateur: { ...infos, telephone: '', versionPreferee: 'peu-importe', newsletter: false },
-      billets: billetsDeDemo(this.catalogue.seances(), this.catalogue.produits(), this.catalogue.salle().prixPlace),
+      billets: billetsDeDemo(
+        this.catalogue.seances(),
+        this.catalogue.produits(),
+        this.catalogue.salle().prixPlace,
+      ),
       commandes: [],
       connecte: true,
     });

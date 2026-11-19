@@ -15,7 +15,10 @@
       <p class="succes__texte">{{ message() }}</p>
       @if (a.moyen === 'comptoir') {
         <p class="succes__a-regler">
-          {{ 'conf.aRegler' | t: { total: formaterPrix(reservation()?.total ?? commande()?.total ?? 0) } }}
+          {{
+            'conf.aRegler'
+              | t: { total: formaterPrix(reservation()?.total ?? commande()?.total ?? 0) }
+          }}
         </p>
       }
     </div>
@@ -23,7 +26,13 @@
     <!-- E-billet / bon de retrait -->
     <article class="billet">
       @if (film(); as f) {
-        <img class="billet__affiche" [src]="f.affiche" [alt]="'fiche.afficheDe' | t: { titre: f.titre }" width="600" height="900" />
+        <img
+          class="billet__affiche"
+          [src]="f.affiche"
+          [alt]="'fiche.afficheDe' | t: { titre: f.titre }"
+          width="600"
+          height="900"
+        />
       }
 
       <div class="billet__infos">
@@ -33,7 +42,10 @@
           @if (film() && seance()) {
             <h2 class="billet__titre">{{ film()!.titre }}</h2>
             <p class="majuscule">{{ dateLongue(seance()!.date) }} · {{ seance()!.heure }}</p>
-            <p>{{ 'commun.salle' | t: { n: seance()!.salle } }} · {{ 'version.' + seance()!.version | t }}</p>
+            <p>
+              {{ 'commun.salle' | t: { n: seance()!.salle } }} ·
+              {{ 'version.' + seance()!.version | t }}
+            </p>
             <p>{{ 'conf.places' | t: { places: r.places.join(' · ') } }}</p>
           }
           @if (texteArticles()) {
@@ -46,12 +58,20 @@
           <p class="billet__snacks">{{ 'conf.retirer' | t }}</p>
         }
 
-        <p class="billet__numero">{{ (reservation() ? 'conf.numResa' : 'conf.numCommande') | t: { n: numeroCourt(numero()) } }}</p>
+        <p class="billet__numero">
+          {{
+            (reservation() ? 'conf.numResa' : 'conf.numCommande') | t: { n: numeroCourt(numero()) }
+          }}
+        </p>
       </div>
 
       <div class="billet__qr">
         <app-qr-code [numero]="numero()" [label]="'conf.code' | t: { n: numeroCourt(numero()) }" />
-        <p>{{ 'conf.presenter' | t }}<br />{{ (reservation() ? 'conf.entree' : 'conf.auComptoir') | t }}</p>
+        <p>
+          {{ 'conf.presenter' | t }}<br />{{
+            (reservation() ? 'conf.entree' : 'conf.auComptoir') | t
+          }}
+        </p>
       </div>
     </article>
 
@@ -62,7 +82,9 @@
           {{ (reservation() ? 'conf.pdfBillet' : 'conf.pdfBon') | t }}
         </button>
         @if (reservation()) {
-          <button class="bouton" type="button" (click)="ajouterAuCalendrier()">{{ 'conf.calendrier' | t }}</button>
+          <button class="bouton" type="button" (click)="ajouterAuCalendrier()">
+            {{ 'conf.calendrier' | t }}
+          </button>
         }
       </div>
 

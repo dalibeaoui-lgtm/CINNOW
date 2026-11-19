@@ -88,7 +88,10 @@ main {
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    border-color 0.25s;
 
   &:hover,
   &:focus-visible {
