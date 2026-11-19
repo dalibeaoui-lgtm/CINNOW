@@ -125,6 +125,7 @@ export const en: Record<keyof typeof fr, string> = {
   'resa.titre': 'Choose your seats',
   'resa.dateHeure': '{date} at {heure}',
   'resa.plan': 'Seating plan',
+  'resa.verification': 'Checking available seats…',
   'resa.ecran': 'Screen',
   'resa.siege': 'Row {rangee}, seat {numero}',
   'resa.siegeOccupe': 'Row {rangee}, seat {numero}, taken',

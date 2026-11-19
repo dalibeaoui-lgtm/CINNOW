@@ -126,6 +126,7 @@ export const fr = {
   'resa.titre': 'Choisissez vos places',
   'resa.dateHeure': '{date} à {heure}',
   'resa.plan': 'Plan de la salle',
+  'resa.verification': 'Vérification des places libres…',
   'resa.ecran': 'Écran',
   'resa.siege': 'Rangée {rangee}, place {numero}',
   'resa.siegeOccupe': 'Rangée {rangee}, place {numero}, occupée',

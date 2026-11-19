@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, linkedSignal, untracked } from '@angular/core';
+import { Component, computed, effect, inject, input, linkedSignal, signal, untracked } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Etapes } from '../../components/etapes/etapes';
 import { Traduction } from '../../i18n/traduire.pipe';
@@ -42,11 +42,16 @@ export class Reservation {
     effect(() => {
       const id = Number(this.seanceId());
       untracked(async () => {
+        this.verification.set(true);
         await this.catalogue.actualiserSeance(id);
         this.places.update((places) => places.filter((p) => !this.occupees().has(p)));
+        this.verification.set(false);
       });
     });
   }
+
+  // Vrai pendant que le serveur confirme les places libres (message + spinner au-dessus du plan)
+  protected readonly verification = signal(true);
 
   protected readonly dateSeance = computed(() => {
     const seance = this.seance();

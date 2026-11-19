@@ -21,8 +21,15 @@
 
         <div class="ecran" aria-hidden="true"><span>{{ 'resa.ecran' | t }}</span></div>
 
+        <!-- Pendant que le serveur confirme les places libres. role="status" : annoncé par les lecteurs d'écran -->
+        <p class="verification" role="status">
+          @if (verification()) {
+            <span class="spinner" aria-hidden="true"></span> {{ 'resa.verification' | t }}
+          }
+        </p>
+
         <div class="plan-defilant">
-          <div class="plan">
+          <div class="plan" [class.plan--verification]="verification()">
             @for (rangee of rangees; track rangee) {
               <div class="rangee">
                 <span class="rangee__lettre" aria-hidden="true">{{ rangee }}</span>

@@ -231,3 +231,66 @@ body.sans-defilement {
     overflow: hidden;
   }
 }
+
+// ---------- États de chargement (utilisés sur plusieurs pages) ----------
+
+// Squelette : bloc gris à la forme du contenu qui arrive, avec un reflet qui passe
+// Utilisation : <div class="squelette" style="height: 24px"></div>
+.squelette {
+  display: block;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #eeebe4 0%, #f7f5f0 40%, #eeebe4 80%) 0 0 / 200% 100%;
+  animation: reflet 1.4s ease-in-out infinite;
+}
+
+@keyframes reflet {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+// Petit cercle qui tourne (couleur du texte autour)
+.spinner {
+  display: inline-block;
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  vertical-align: -0.2em;
+  animation: tourner 0.7s linear infinite;
+}
+
+@keyframes tourner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Bouton qui attend la réponse du serveur : aria-busy="true" ajoute un spinner devant le texte
+.bouton[aria-busy='true'] {
+  cursor: progress;
+
+  &::before {
+    content: '';
+    width: 1.1em;
+    height: 1.1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: tourner 0.7s linear infinite;
+  }
+}
+
+// « Réduire les animations » : reflet et rotation arrêtés (le spinner reste visible, immobile)
+@media (prefers-reduced-motion: reduce) {
+  .squelette,
+  .spinner,
+  .bouton[aria-busy='true']::before {
+    animation: none;
+  }
+}

@@ -1,5 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { BarreNavigation } from './components/barre-navigation/barre-navigation';
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
 import { CLE_STOCKAGE_LANGUE, langueActive } from './i18n/langue';
@@ -9,7 +10,7 @@ import { ecrireStockage } from './utils/stockage';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer, Traduction],
+  imports: [RouterOutlet, BarreNavigation, Header, Footer, Traduction],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

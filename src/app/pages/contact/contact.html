@@ -116,7 +116,7 @@
             <p class="erreur-serveur" role="alert">{{ erreurServeur() }}</p>
           }
 
-          <button class="bouton bouton--plein formulaire__bouton" type="submit" [disabled]="envoiEnCours()">
+          <button class="bouton bouton--plein formulaire__bouton" type="submit" [disabled]="envoiEnCours()" [attr.aria-busy]="envoiEnCours() || null">
             {{ (envoiEnCours() ? 'contact.envoiEnCours' : 'contact.envoyer') | t }}
           </button>
         </form>
