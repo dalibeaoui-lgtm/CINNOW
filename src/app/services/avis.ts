@@ -24,4 +24,15 @@ export class AvisService {
     const publie = await this.api.publierAvis(avis);
     this.tous.update((liste) => [publie, ...liste]);
   }
+
+  // Nouvelles notes et nouveau commentaire : la fiche du film affiche aussitôt la nouvelle version
+  async modifier(avis: Avis, modifications: Pick<Avis, 'noteFilm' | 'noteService' | 'commentaire'>): Promise<void> {
+    const aJour = await this.api.modifierAvis(avis.id, { ...modifications, billetId: avis.billetId! });
+    this.tous.update((liste) => liste.map((a) => (a.id === aJour.id ? aJour : a)));
+  }
+
+  async supprimer(avis: Avis): Promise<void> {
+    await this.api.supprimerAvis(avis.id, avis.billetId!);
+    this.tous.update((liste) => liste.filter((a) => a.id !== avis.id));
+  }
 }

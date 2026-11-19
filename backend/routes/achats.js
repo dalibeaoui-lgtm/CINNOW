@@ -6,7 +6,7 @@
 
 import { Router } from 'express';
 import { estPassee, trouverSeance, versAAAAMMJJ } from '../seances.js';
-import { ajouter, lireDonnees } from '../stockage.js';
+import { ajouter, lireDonnees, lireListe, retirer } from '../stockage.js';
 
 const routeur = Router();
 
@@ -77,6 +77,24 @@ routeur.post('/reservations', (req, res) => {
     total: places.length * salle.prixPlace + totalArticles(lignes),
   });
   res.status(201).json(reservation);
+});
+
+// DELETE /api/reservations/1794572173278 → annule la réservation : ses places redeviennent libres.
+// Possible jusqu'à 2 h avant la séance (règle affichée sur le site : confirmation, FAQ).
+const DELAI_ANNULATION_MS = 2 * 60 * 60 * 1000;
+
+routeur.delete('/reservations/:id', (req, res) => {
+  const reservation = lireListe('reservations').find((r) => r.id === Number(req.params.id));
+  if (!reservation) return res.status(404).json({ message: 'Réservation introuvable.' });
+
+  const seance = trouverSeance(reservation.seanceId);
+  // new Date('2026-11-20T15:00') : date et heure locales du serveur
+  if (seance && new Date(`${seance.date}T${seance.heure}`) - Date.now() < DELAI_ANNULATION_MS) {
+    return res.status(409).json({ message: 'Trop tard : une réservation s’annule au plus tard 2 h avant la séance.' });
+  }
+
+  retirer('reservations', reservation.id);
+  res.json({ annulee: reservation.id, rembourse: reservation.total });
 });
 
 // POST /api/commandes  { articles: [{ produitId, quantite }] }

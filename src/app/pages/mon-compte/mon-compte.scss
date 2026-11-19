@@ -772,3 +772,59 @@ input[type='checkbox'] {
     width: auto;
   }
 }
+
+// ---------- Annulation d'une réservation / suppression d'un avis ----------
+.annulation {
+  margin-top: 18px;
+}
+
+// Encadré de confirmation (« Annuler cette réservation ? », « Supprimer cet avis ? »)
+.annulation__confirmation {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-left: 3px solid var(--or);
+  // Teinte or légère : lisible sur les billets noirs comme sur fond blanc
+  background: rgba(246, 181, 1, 0.1);
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+.annulation__actions,
+.un-avis__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+.annulation__trop-tard {
+  margin: 0;
+  font-size: 13px;
+  color: var(--gris);
+}
+
+// Message après une annulation (vide le reste du temps)
+.message-ok {
+  margin: 0;
+  color: var(--caramel);
+  font-weight: 500;
+
+  &:not(:empty) {
+    margin-bottom: 20px;
+  }
+}
+
+// Sur les billets (fond noir), le lien « Garder ma réservation » passe en clair
+.billet .lien {
+  color: var(--sable);
+}
+
+// Avis en cours de modification : il prend toute la largeur de la liste (formulaire plus à l'aise)
+.un-avis:has(.notation) {
+  grid-column: 1 / -1;
+}

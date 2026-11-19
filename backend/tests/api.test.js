@@ -6,7 +6,7 @@
 
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { after, before, describe, it } from 'node:test';
@@ -118,9 +118,50 @@ describe('Réservations', () => {
     });
     assert.equal(reponse.status, 400);
   });
+
+  it('annule une réservation et libère ses places', async () => {
+    const seance = await seanceLibre();
+    const reservation = await (await post('/reservations', { seanceId: seance.id, places: ['G3', 'G4'] })).json();
+
+    const reponse = await fetch(`${API}/reservations/${reservation.id}`, { method: 'DELETE' });
+    assert.equal(reponse.status, 200);
+    assert.equal((await reponse.json()).rembourse, 24);
+
+    const aJour = await (await fetch(`${API}/seances/${seance.id}`)).json();
+    assert.ok(!aJour.placesOccupees.includes('G3') && !aJour.placesOccupees.includes('G4'));
+    assert.equal((await fetch(`${API}/reservations/${reservation.id}`, { method: 'DELETE' })).status, 404);
+  });
+
+  it('refuse d’annuler moins de 2 h avant la séance (409)', async () => {
+    // Réservation écrite directement dans le stockage, pour une séance d'hier (impossible à créer par l'API)
+    const seances = await (await fetch(`${API}/seances?filmId=1`)).json();
+    const hier = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
+    const passee = seances.find((s) => s.date === hier);
+    writeFileSync(join(stockage, 'reservations.json'), JSON.stringify([{ id: 42, seanceId: passee.id, places: ['A9'], snacks: [], total: 12 }]));
+    assert.equal((await fetch(`${API}/reservations/42`, { method: 'DELETE' })).status, 409);
+  });
 });
 
 describe('Avis et contact', () => {
+  it('modifie puis supprime un avis, seulement avec le bon billet', async () => {
+    const envoyer = (methode, chemin, corps) =>
+      fetch(`${API}${chemin}`, { method: methode, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corps) });
+    const avis = await (await post('/avis', { filmId: 1, billetId: 777, auteur: 'Test', noteFilm: 2, noteService: 3 })).json();
+
+    // Mauvais billet : refusé
+    assert.equal((await envoyer('PUT', `/avis/${avis.id}`, { billetId: 1, noteFilm: 5, noteService: 5 })).status, 403);
+
+    const modifie = await envoyer('PUT', `/avis/${avis.id}`, { billetId: 777, noteFilm: 5, noteService: 4, commentaire: ' Revu, excellent ! ' });
+    assert.equal(modifie.status, 200);
+    const corps = await modifie.json();
+    assert.deepEqual([corps.noteFilm, corps.noteService, corps.commentaire], [5, 4, 'Revu, excellent !']);
+
+    assert.equal((await envoyer('PUT', `/avis/${avis.id}`, { billetId: 777, noteFilm: 0, noteService: 4 })).status, 400);
+    assert.equal((await envoyer('DELETE', `/avis/${avis.id}`, { billetId: 777 })).status, 204);
+    const restants = await (await fetch(`${API}/avis`)).json();
+    assert.ok(!restants.some((a) => a.id === avis.id));
+  });
+
   it('refuse une note en dehors de 1 à 5', async () => {
     const reponse = await post('/avis', { filmId: 1, auteur: 'Test', noteFilm: 9, noteService: 3 });
     assert.equal(reponse.status, 400);
