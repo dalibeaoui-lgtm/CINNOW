@@ -14,7 +14,15 @@
     </header>
 
     <div class="article__image" appApparition>
-      <img [src]="a.image" [attr.srcset]="srcset()" sizes="100vw" alt="" width="1600" height="900" fetchpriority="high" />
+      <img
+        [src]="a.image"
+        [attr.srcset]="srcset()"
+        sizes="100vw"
+        alt=""
+        width="1600"
+        height="900"
+        fetchpriority="high"
+      />
     </div>
 
     <div class="article__corps">
@@ -58,7 +66,9 @@
   <!-- Le serveur ne répond pas (la page attend les articles avant de s'ouvrir : voir titreArticle dans app.routes.ts) -->
   <section class="page" role="alert">
     <p class="erreur">{{ 'actu.erreur' | t }}</p>
-    <button type="button" class="bouton bouton--plein" (click)="reessayer()">{{ 'actu.reessayer' | t }}</button>
+    <button type="button" class="bouton bouton--plein" (click)="reessayer()">
+      {{ 'actu.reessayer' | t }}
+    </button>
   </section>
 } @else {
   <section class="page introuvable">

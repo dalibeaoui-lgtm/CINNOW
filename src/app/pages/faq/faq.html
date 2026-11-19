@@ -8,11 +8,21 @@
 
   <!-- Filtre par thème -->
   <div class="filtres" role="group" [attr.aria-label]="'faq.filtrer' | t" appApparition>
-    <button type="button" class="filtre" [attr.aria-pressed]="filtre() === 'toutes'" (click)="filtre.set('toutes')">
+    <button
+      type="button"
+      class="filtre"
+      [attr.aria-pressed]="filtre() === 'toutes'"
+      (click)="filtre.set('toutes')"
+    >
       {{ 'faq.toutes' | t }}
     </button>
     @for (c of categories; track c.id) {
-      <button type="button" class="filtre" [attr.aria-pressed]="filtre() === c.id" (click)="filtre.set(c.id)">
+      <button
+        type="button"
+        class="filtre"
+        [attr.aria-pressed]="filtre() === c.id"
+        (click)="filtre.set(c.id)"
+      >
         {{ c.libelle | t }}
       </button>
     }

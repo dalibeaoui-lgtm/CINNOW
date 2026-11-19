@@ -1,4 +1,9 @@
-import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 
@@ -19,6 +24,8 @@ export const appConfig: ApplicationConfig = {
     // Requêtes HTTP vers l'API (dossier backend/)
     provideHttpClient(withFetch()),
     // Avant d'afficher la première page : charger films, séances, produits et avis depuis le serveur
-    provideAppInitializer(() => Promise.all([inject(Catalogue).charger(), inject(AvisService).charger()])),
+    provideAppInitializer(() =>
+      Promise.all([inject(Catalogue).charger(), inject(AvisService).charger()]),
+    ),
   ],
 };

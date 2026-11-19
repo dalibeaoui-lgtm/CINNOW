@@ -20,7 +20,11 @@ export class CarteActualite {
   readonly grande = input(false);
 
   protected readonly srcset = computed(() => srcsetPhoto(this.article().image));
-  protected readonly categorie = computed(() => `actu.cat.${this.article().categorie}` as CleTraduction);
+  protected readonly categorie = computed(
+    () => `actu.cat.${this.article().categorie}` as CleTraduction,
+  );
   // « 2026-11-13 » → « 13 novembre 2026 » / « 13 November 2026 »
-  protected readonly date = computed(() => formaterDate(this.article().date, { day: 'numeric', month: 'long', year: 'numeric' }));
+  protected readonly date = computed(() =>
+    formaterDate(this.article().date, { day: 'numeric', month: 'long', year: 'numeric' }),
+  );
 }

@@ -6,11 +6,7 @@ import { Catalogue } from '../../services/catalogue';
 import { Panier } from '../../services/panier';
 
 // « Pâte » → « pate » : on compare sans majuscules ni accents
-const simplifier = (texte: string) =>
-  texte
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase();
+const simplifier = (texte: string) => texte.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
 const MAX_RESULTATS = 6;
 
@@ -49,10 +45,14 @@ export class Header {
     effect(() => {
       const ouvert = this.menuOuvert();
       document.documentElement.classList.toggle('menu-mobile-ouvert', ouvert);
-      document.querySelectorAll('main, app-footer').forEach((e) => e.toggleAttribute('inert', ouvert));
+      document
+        .querySelectorAll('main, app-footer')
+        .forEach((e) => e.toggleAttribute('inert', ouvert));
     });
     // L'écran s'élargit (téléphone tourné, fenêtre agrandie) : le bouton ☰ disparaît, on ferme le menu
-    window.matchMedia?.('(min-width: 761px)').addEventListener('change', (e) => e.matches && this.fermerMenu());
+    window
+      .matchMedia?.('(min-width: 761px)')
+      .addEventListener('change', (e) => e.matches && this.fermerMenu());
   }
 
   protected basculerMenu(): void {
@@ -64,7 +64,11 @@ export class Header {
     this.cache.set(false);
     // Le focus va sur le premier lien du panneau, une fois celui-ci affiché
     // (pas sur la recherche : sur un téléphone, le clavier s'ouvrirait tout de suite)
-    setTimeout(() => this.panneau()?.nativeElement.querySelector<HTMLElement>('.menu-mobile__liens a')?.focus(), 60);
+    setTimeout(
+      () =>
+        this.panneau()?.nativeElement.querySelector<HTMLElement>('.menu-mobile__liens a')?.focus(),
+      60,
+    );
   }
 
   // rendreFocus : après Échap, le focus revient sur le bouton ☰ (on ne perd pas sa place au clavier)
@@ -109,7 +113,9 @@ export class Header {
   });
 
   // La liste s'affiche quand le champ a le focus et qu'on a tapé quelque chose
-  protected readonly listeOuverte = computed(() => this.ouverte() && this.recherche().trim().length > 0);
+  protected readonly listeOuverte = computed(
+    () => this.ouverte() && this.recherche().trim().length > 0,
+  );
 
   protected taper(valeur: string): void {
     this.recherche.set(valeur);

@@ -24,26 +24,67 @@ export class APropos {
     const sallesUtilisees = new Set(this.catalogue.seances().map((s) => s.salle)).size;
     return [
       { valeur: sallesUtilisees, libelle: 'apropos.chiffre.salles' as CleTraduction },
-      { valeur: salle.rangees.length * salle.placesParRangee, libelle: 'apropos.chiffre.places' as CleTraduction },
+      {
+        valeur: salle.rangees.length * salle.placesParRangee,
+        libelle: 'apropos.chiffre.places' as CleTraduction,
+      },
       { valeur: 3, libelle: 'apropos.chiffre.seances' as CleTraduction },
       { valeur: 7, libelle: 'apropos.chiffre.jours' as CleTraduction },
     ];
   });
 
   // Icônes au trait fin (style de la charte), une par équipement
-  protected readonly equipements: { icone: string; titre: CleTraduction; texte: CleTraduction }[] = [
-    { icone: 'M4 9v6h4l5 4V5L8 9H4zm12.5 3a3.5 3.5 0 00-2-3.2v6.4a3.5 3.5 0 002-3.2zm-2-7.8v2a6 6 0 010 11.6v2a8 8 0 000-15.6z', titre: 'apropos.equip.son.titre', texte: 'apropos.equip.son.texte' },
-    { icone: 'M3 5h18v11H3zM8 20h8M12 16v4', titre: 'apropos.equip.image.titre', texte: 'apropos.equip.image.texte' },
-    { icone: 'M6 11V6a3 3 0 013-3h6a3 3 0 013 3v5M4 11h16v5H4zM6 16v4M18 16v4', titre: 'apropos.equip.fauteuils.titre', texte: 'apropos.equip.fauteuils.texte' },
-    { icone: 'M12 4.5a1.5 1.5 0 100 .01M8 8h8M12 8v6l-3 6M12 14l3 6', titre: 'apropos.equip.acces.titre', texte: 'apropos.equip.acces.texte' },
-  ];
+  protected readonly equipements: { icone: string; titre: CleTraduction; texte: CleTraduction }[] =
+    [
+      {
+        icone:
+          'M4 9v6h4l5 4V5L8 9H4zm12.5 3a3.5 3.5 0 00-2-3.2v6.4a3.5 3.5 0 002-3.2zm-2-7.8v2a6 6 0 010 11.6v2a8 8 0 000-15.6z',
+        titre: 'apropos.equip.son.titre',
+        texte: 'apropos.equip.son.texte',
+      },
+      {
+        icone: 'M3 5h18v11H3zM8 20h8M12 16v4',
+        titre: 'apropos.equip.image.titre',
+        texte: 'apropos.equip.image.texte',
+      },
+      {
+        icone: 'M6 11V6a3 3 0 013-3h6a3 3 0 013 3v5M4 11h16v5H4zM6 16v4M18 16v4',
+        titre: 'apropos.equip.fauteuils.titre',
+        texte: 'apropos.equip.fauteuils.texte',
+      },
+      {
+        icone: 'M12 4.5a1.5 1.5 0 100 .01M8 8h8M12 8v6l-3 6M12 14l3 6',
+        titre: 'apropos.equip.acces.titre',
+        texte: 'apropos.equip.acces.texte',
+      },
+    ];
 
   // Tarifs : le plein tarif est celui du serveur (le même que pour la réservation en ligne)
   protected readonly tarifs = computed(() => [
-    { nom: 'apropos.tarif.plein' as CleTraduction, detail: 'apropos.tarif.plein.detail' as CleTraduction, prix: this.catalogue.salle().prixPlace, mensuel: false },
-    { nom: 'apropos.tarif.etudiant' as CleTraduction, detail: 'apropos.tarif.etudiant.detail' as CleTraduction, prix: 9, mensuel: false },
-    { nom: 'apropos.tarif.enfant' as CleTraduction, detail: 'apropos.tarif.enfant.detail' as CleTraduction, prix: 8, mensuel: false },
-    { nom: 'apropos.tarif.abonnement' as CleTraduction, detail: 'apropos.tarif.abonnement.detail' as CleTraduction, prix: 35, mensuel: true },
+    {
+      nom: 'apropos.tarif.plein' as CleTraduction,
+      detail: 'apropos.tarif.plein.detail' as CleTraduction,
+      prix: this.catalogue.salle().prixPlace,
+      mensuel: false,
+    },
+    {
+      nom: 'apropos.tarif.etudiant' as CleTraduction,
+      detail: 'apropos.tarif.etudiant.detail' as CleTraduction,
+      prix: 9,
+      mensuel: false,
+    },
+    {
+      nom: 'apropos.tarif.enfant' as CleTraduction,
+      detail: 'apropos.tarif.enfant.detail' as CleTraduction,
+      prix: 8,
+      mensuel: false,
+    },
+    {
+      nom: 'apropos.tarif.abonnement' as CleTraduction,
+      detail: 'apropos.tarif.abonnement.detail' as CleTraduction,
+      prix: 35,
+      mensuel: true,
+    },
   ]);
 
   protected readonly horaires: { jours: CleTraduction; heures: string }[] = [

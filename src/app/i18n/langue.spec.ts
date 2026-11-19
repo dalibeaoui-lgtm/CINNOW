@@ -29,7 +29,9 @@ describe('i18n/langue', () => {
   });
 
   it('n’a aucun texte vide', () => {
-    const vides = [...Object.entries(fr), ...Object.entries(en)].filter(([, texte]) => !texte.trim());
+    const vides = [...Object.entries(fr), ...Object.entries(en)].filter(
+      ([, texte]) => !texte.trim(),
+    );
     expect(vides).toEqual([]);
   });
 });

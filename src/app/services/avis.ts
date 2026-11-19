@@ -26,8 +26,14 @@ export class AvisService {
   }
 
   // Nouvelles notes et nouveau commentaire : la fiche du film affiche aussitôt la nouvelle version
-  async modifier(avis: Avis, modifications: Pick<Avis, 'noteFilm' | 'noteService' | 'commentaire'>): Promise<void> {
-    const aJour = await this.api.modifierAvis(avis.id, { ...modifications, billetId: avis.billetId! });
+  async modifier(
+    avis: Avis,
+    modifications: Pick<Avis, 'noteFilm' | 'noteService' | 'commentaire'>,
+  ): Promise<void> {
+    const aJour = await this.api.modifierAvis(avis.id, {
+      ...modifications,
+      billetId: avis.billetId!,
+    });
     this.tous.update((liste) => liste.map((a) => (a.id === aJour.id ? aJour : a)));
   }
 

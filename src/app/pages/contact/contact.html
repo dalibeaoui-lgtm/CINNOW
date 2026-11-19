@@ -48,7 +48,9 @@
           </span>
           <h2 class="merci__titre">{{ 'contact.merciTitre' | t }}</h2>
           <p>{{ 'contact.merci' | t: { nom: e.nom, email: e.email } }}</p>
-          <button class="bouton" type="button" (click)="nouveauMessage()">{{ 'contact.autreMessage' | t }}</button>
+          <button class="bouton" type="button" (click)="nouveauMessage()">
+            {{ 'contact.autreMessage' | t }}
+          </button>
         </div>
       } @else {
         <form class="formulaire" (ngSubmit)="envoyer()" novalidate>
@@ -57,7 +59,12 @@
           <div class="deux-champs">
             <label class="champ">
               <span>{{ 'contact.nom' | t }}</span>
-              <input name="nom" autocomplete="name" [(ngModel)]="nom" [attr.aria-invalid]="!!erreurs().nom" />
+              <input
+                name="nom"
+                autocomplete="name"
+                [(ngModel)]="nom"
+                [attr.aria-invalid]="!!erreurs().nom"
+              />
               @if (erreurs().nom) {
                 <small class="erreur">{{ erreurs().nom! | t }}</small>
               }
@@ -84,7 +91,13 @@
             <div class="sujets__liste">
               @for (s of sujets; track s.id) {
                 <label class="sujet" [class.sujet--choisi]="sujet() === s.id">
-                  <input type="radio" name="sujet" [value]="s.id" [ngModel]="sujet()" (ngModelChange)="sujet.set($event)" />
+                  <input
+                    type="radio"
+                    name="sujet"
+                    [value]="s.id"
+                    [ngModel]="sujet()"
+                    (ngModelChange)="sujet.set($event)"
+                  />
                   {{ s.libelle | t }}
                 </label>
               }
@@ -105,7 +118,9 @@
                 [(ngModel)]="message"
                 [attr.aria-invalid]="!!erreurs().message"
               ></textarea>
-              <span class="zone-texte__compteur" aria-hidden="true">{{ message().length }} / {{ maxMessage }}</span>
+              <span class="zone-texte__compteur" aria-hidden="true"
+                >{{ message().length }} / {{ maxMessage }}</span
+              >
             </div>
             @if (erreurs().message) {
               <small class="erreur">{{ erreurs().message! | t }}</small>
@@ -116,7 +131,12 @@
             <p class="erreur-serveur" role="alert">{{ erreurServeur() }}</p>
           }
 
-          <button class="bouton bouton--plein formulaire__bouton" type="submit" [disabled]="envoiEnCours()" [attr.aria-busy]="envoiEnCours() || null">
+          <button
+            class="bouton bouton--plein formulaire__bouton"
+            type="submit"
+            [disabled]="envoiEnCours()"
+            [attr.aria-busy]="envoiEnCours() || null"
+          >
             {{ (envoiEnCours() ? 'contact.envoiEnCours' : 'contact.envoyer') | t }}
           </button>
         </form>

@@ -29,7 +29,8 @@ export const fr = {
   'err.email': 'Cette adresse e-mail n’est pas valide.',
   'err.serveur': 'Le serveur CINNOW ne répond pas. Vérifiez qu’il est lancé (npm run dev).',
   'err.generique': 'Une erreur est survenue. Réessayez dans un instant.',
-  'err.placesPrises': 'Désolé, ces places viennent d’être réservées par quelqu’un d’autre : {places}.',
+  'err.placesPrises':
+    'Désolé, ces places viennent d’être réservées par quelqu’un d’autre : {places}.',
 
   // ---------- Menu, pied de page, bandeau serveur, titres d'onglet ----------
   'menu.principal': 'Menu principal',
@@ -49,7 +50,8 @@ export const fr = {
   'pied.liens': 'Liens du pied de page',
   'pied.projet': '© 2026 CINNOW',
   'pied.legal': 'Mentions légales · CGV · Confidentialité',
-  'app.serveur1': 'Le serveur CINNOW ne répond pas : les films et les séances ne peuvent pas être chargés. Lancez le site avec',
+  'app.serveur1':
+    'Le serveur CINNOW ne répond pas : les films et les séances ne peuvent pas être chargés. Lancez le site avec',
   'app.serveur2': '(site + serveur), puis rechargez la page.',
   'titre.accueil': 'CINNOW',
   'titre.film': '{titre} — CINNOW',
@@ -76,7 +78,8 @@ export const fr = {
   'accueil.boutique.posters': 'Posters',
   'accueil.boutique.etiquette': 'Boutique',
   'accueil.boutique.titre': 'Snacks & posters',
-  'accueil.boutique.texte': 'Commandez vos snacks et vos affiches avant la séance, et récupérez-les sans faire la queue.',
+  'accueil.boutique.texte':
+    'Commandez vos snacks et vos affiches avant la séance, et récupérez-les sans faire la queue.',
   'accueil.boutique.bouton': 'Voir la boutique →',
   'accueil.avis.etiquette': 'Avis & notes',
   'accueil.avis.titre': 'Vous avez vu un film ici ?',
@@ -163,10 +166,13 @@ export const fr = {
   'pay.expiration': 'Date d’expiration',
   'pay.formatExpiration': 'MM / AA',
   'pay.cvc': 'Code de sécurité (CVC)',
-  'pay.edinarInfo': 'Après avoir cliqué sur « Payer », vous validez le paiement avec votre carte e-Dinar.',
+  'pay.edinarInfo':
+    'Après avoir cliqué sur « Payer », vous validez le paiement avec votre carte e-Dinar.',
   'pay.edinarDemo': 'Dans cette version de démonstration, l’étape e-Dinar est simulée.',
-  'pay.comptoirPlaces': 'Vos places sont bloquées : vous réglez {total} au comptoir, au plus tard 30 minutes avant la séance. Passé ce délai, les places sont remises en vente.',
-  'pay.comptoirCommande': 'Votre commande est préparée : vous réglez {total} au comptoir, au plus tard 30 minutes avant la séance. Passé ce délai, la commande est annulée.',
+  'pay.comptoirPlaces':
+    'Vos places sont bloquées : vous réglez {total} au comptoir, au plus tard 30 minutes avant la séance. Passé ce délai, les places sont remises en vente.',
+  'pay.comptoirCommande':
+    'Votre commande est préparée : vous réglez {total} au comptoir, au plus tard 30 minutes avant la séance. Passé ce délai, la commande est annulée.',
   'pay.recevoirBillet': 'Recevoir l’e-billet par e-mail',
   'pay.recevoirRecu': 'Recevoir le reçu par e-mail',
   'pay.adresseEmail': 'Adresse e-mail',
@@ -178,7 +184,8 @@ export const fr = {
   'pay.pleinTarif': '{n} × Plein tarif',
   'pay.votreCommande': 'Votre commande',
   'pay.autresPlaces': 'Choisir d’autres places →',
-  'pay.demo': 'Démonstration : aucun paiement réel, les données de carte ne sont ni envoyées ni enregistrées. Pour tester : tapez « admin » dans chaque champ.',
+  'pay.demo':
+    'Démonstration : aucun paiement réel, les données de carte ne sont ni envoyées ni enregistrées. Pour tester : tapez « admin » dans chaque champ.',
   'pay.billetEnvoye': 'E-billet envoyé par e-mail et dans « Mon compte ».',
   'pay.recuEnvoye': 'Reçu envoyé par e-mail et dans « Mon compte ».',
   'pay.modifierResa': '← Modifier ma réservation',
@@ -219,7 +226,8 @@ export const fr = {
   'conf.voirBillets': 'Voir mes billets →',
   'conf.voirCommandes': 'Voir mes commandes →',
   'conf.creerCompte': 'Créer un compte pour les retrouver →',
-  'conf.aide': 'Annulation gratuite jusqu’à 2 h avant la séance · Besoin d’aide ? Écrivez-nous à l’accueil du cinéma.',
+  'conf.aide':
+    'Annulation gratuite jusqu’à 2 h avant la séance · Besoin d’aide ? Écrivez-nous à l’accueil du cinéma.',
   'conf.vide': 'Aucune réservation récente',
   'conf.videTexte': 'Vos réservations confirmées apparaissent ici juste après le paiement.',
 
@@ -296,7 +304,8 @@ export const fr = {
   'compte.publieLe': 'Publié le {date}',
   'compte.modifieLe': 'modifié le {date}',
   'compte.annulerReservation': 'Annuler la réservation',
-  'compte.annulerQuestion': 'Annuler cette réservation ? Vos places seront libérées et {montant} vous seront remboursés.',
+  'compte.annulerQuestion':
+    'Annuler cette réservation ? Vos places seront libérées et {montant} vous seront remboursés.',
   'compte.annulerOui': 'Oui, annuler',
   'compte.annulerGarder': 'Garder ma réservation',
   'compte.annulationImpossible': 'Annulation impossible moins de 2 h avant la séance.',
@@ -320,14 +329,16 @@ export const fr = {
   'compte.deconnexion': 'Se déconnecter',
   'compte.revoir': 'Content de vous revoir',
   'compte.rejoindre': 'Rejoignez CINNOW',
-  'compte.intro': 'Retrouvez vos e-billets, vos snacks commandés à l’avance, et notez les films que vous avez vus.',
+  'compte.intro':
+    'Retrouvez vos e-billets, vos snacks commandés à l’avance, et notez les films que vous avez vus.',
   'compte.connexion': 'Connexion',
   'compte.inscription': 'Inscription',
   'compte.motDePasse': 'Mot de passe',
   'compte.mdpPlaceholder': '6 caractères minimum',
   'compte.seConnecter': 'Se connecter →',
   'compte.creer': 'Créer mon compte →',
-  'compte.aide': 'Version de démonstration : n’importe quel e-mail et un mot de passe de 6 caractères suffisent. Pour tester plus vite : admin / admin.',
+  'compte.aide':
+    'Version de démonstration : n’importe quel e-mail et un mot de passe de 6 caractères suffisent. Pour tester plus vite : admin / admin.',
   'compte.err.prenom': 'Indiquez votre prénom.',
   'compte.err.prenomObligatoire': 'Le prénom est obligatoire.',
   'compte.err.mdp': 'Le mot de passe doit faire au moins 6 caractères.',
@@ -338,26 +349,35 @@ export const fr = {
   'titre.aPropos': 'À propos — CINNOW',
   'apropos.etiquette': 'À propos',
   'apropos.titre': 'Le cinéma, au cœur de Monastir',
-  'apropos.intro': 'CINNOW réunit toute la sortie au cinéma en un seul endroit : les films, les meilleures salles, les snacks commandés à l’avance et vos avis.',
+  'apropos.intro':
+    'CINNOW réunit toute la sortie au cinéma en un seul endroit : les films, les meilleures salles, les snacks commandés à l’avance et vos avis.',
   'apropos.histoire': 'Notre histoire',
-  'apropos.histoire1': 'CINNOW est né d’une idée simple : aller au cinéma devrait être aussi agréable avant et après la séance que pendant. Fini la queue au guichet et au comptoir : on choisit sa place, ses snacks et on paie en quelques clics.',
-  'apropos.histoire2': 'Installé au Palm Lake Mall de Monastir, le cinéma propose des grandes sorties comme des films cultes de retour en salle, avec des soirées spéciales tout au long de l’année.',
+  'apropos.histoire1':
+    'CINNOW est né d’une idée simple : aller au cinéma devrait être aussi agréable avant et après la séance que pendant. Fini la queue au guichet et au comptoir : on choisit sa place, ses snacks et on paie en quelques clics.',
+  'apropos.histoire2':
+    'Installé au Palm Lake Mall de Monastir, le cinéma propose des grandes sorties comme des films cultes de retour en salle, avec des soirées spéciales tout au long de l’année.',
   'apropos.chiffre.salles': 'salles',
   'apropos.chiffre.places': 'places par salle',
   'apropos.chiffre.seances': 'séances par jour et par film',
   'apropos.chiffre.jours': 'jours sur 7',
   'apropos.salles': 'Salles & équipements',
-  'apropos.salles.intro': 'Toutes nos salles ont le même équipement : où que vous soyez assis, vous profitez du film dans les meilleures conditions.',
+  'apropos.salles.intro':
+    'Toutes nos salles ont le même équipement : où que vous soyez assis, vous profitez du film dans les meilleures conditions.',
   'apropos.equip.son.titre': 'Son Dolby Atmos',
-  'apropos.equip.son.texte': 'Des haut-parleurs tout autour et au plafond : le son vient de partout.',
+  'apropos.equip.son.texte':
+    'Des haut-parleurs tout autour et au plafond : le son vient de partout.',
   'apropos.equip.image.titre': 'Projection laser 4K',
-  'apropos.equip.image.texte': 'Une image nette et lumineuse, des noirs profonds, même sur grand écran.',
+  'apropos.equip.image.texte':
+    'Une image nette et lumineuse, des noirs profonds, même sur grand écran.',
   'apropos.equip.fauteuils.titre': 'Fauteuils larges',
-  'apropos.equip.fauteuils.texte': '8 rangées de 14 places, avec de l’espace pour les jambes et deux allées.',
+  'apropos.equip.fauteuils.texte':
+    '8 rangées de 14 places, avec de l’espace pour les jambes et deux allées.',
   'apropos.equip.acces.titre': 'Accessible à tous',
-  'apropos.equip.acces.texte': 'Accès sans marche depuis le centre commercial et places réservées aux fauteuils roulants.',
+  'apropos.equip.acces.texte':
+    'Accès sans marche depuis le centre commercial et places réservées aux fauteuils roulants.',
   'apropos.tarifs': 'Tarifs & abonnements',
-  'apropos.tarifs.intro': 'La réservation en ligne est au plein tarif. Les tarifs réduits s’appliquent au comptoir, sur présentation d’un justificatif.',
+  'apropos.tarifs.intro':
+    'La réservation en ligne est au plein tarif. Les tarifs réduits s’appliquent au comptoir, sur présentation d’un justificatif.',
   'apropos.tarif.plein': 'Plein tarif',
   'apropos.tarif.plein.detail': 'Une place, pour toutes les séances',
   'apropos.tarif.etudiant': 'Étudiant',
@@ -369,7 +389,8 @@ export const fr = {
   'apropos.tarif.parMois': '/ mois',
   'apropos.tarif.populaire': 'Le plus avantageux',
   'apropos.horaires': 'Horaires d’ouverture',
-  'apropos.horaires.note': 'Le cinéma ouvre 30 minutes avant la première séance et ferme après la dernière.',
+  'apropos.horaires.note':
+    'Le cinéma ouvre 30 minutes avant la première séance et ferme après la dernière.',
   'apropos.contact': 'Une question, une séance privée ?',
   'apropos.contactBouton': 'Nous contacter →',
 
@@ -380,7 +401,8 @@ export const fr = {
   'titre.articleIntrouvable': 'Article introuvable — CINNOW',
   'actu.etiquette': 'Actualités',
   'actu.titre': 'Ce qui se passe à CINNOW',
-  'actu.intro': 'Avant-premières, soirées spéciales, nouveautés dans nos salles : toutes les nouvelles du cinéma.',
+  'actu.intro':
+    'Avant-premières, soirées spéciales, nouveautés dans nos salles : toutes les nouvelles du cinéma.',
   'actu.aLaUne': 'À la une',
   'actu.toutes': 'Toutes les actualités',
   'actu.filtrer': 'Filtrer les articles par thème',
@@ -406,7 +428,8 @@ export const fr = {
   'titre.faq': 'FAQ — CINNOW',
   'faq.etiquette': 'FAQ',
   'faq.titre': 'Vos questions, nos réponses',
-  'faq.intro': 'Réservation, billets, snacks, tarifs, accès : tout ce qu’on nous demande le plus souvent.',
+  'faq.intro':
+    'Réservation, billets, snacks, tarifs, accès : tout ce qu’on nous demande le plus souvent.',
   'faq.filtrer': 'Filtrer les questions par thème',
   'faq.toutes': 'Toutes',
   'faq.cat.reservation': 'Réservation',
@@ -415,31 +438,44 @@ export const fr = {
   'faq.cat.tarifs': 'Tarifs',
   'faq.cat.acces': 'Accès',
   'faq.q.reserver': 'Comment réserver une place ?',
-  'faq.r.reserver': 'Choisissez un film, puis une séance : le plan de la salle s’affiche et vous cliquez sur les places que vous voulez. Vous pouvez ajouter des snacks, puis payer en ligne ou au comptoir.',
+  'faq.r.reserver':
+    'Choisissez un film, puis une séance : le plan de la salle s’affiche et vous cliquez sur les places que vous voulez. Vous pouvez ajouter des snacks, puis payer en ligne ou au comptoir.',
   'faq.q.combien': 'Combien de places puis-je réserver en une fois ?',
-  'faq.r.combien': 'Jusqu’à {max} places par réservation. Pour un groupe plus grand ou une séance privée, écrivez-nous depuis la page Contact.',
+  'faq.r.combien':
+    'Jusqu’à {max} places par réservation. Pour un groupe plus grand ou une séance privée, écrivez-nous depuis la page Contact.',
   'faq.q.annuler': 'Puis-je annuler ma réservation ?',
-  'faq.r.annuler': 'Oui, l’annulation est gratuite jusqu’à 2 h avant la séance. Écrivez-nous depuis la page Contact (sujet « Paiement ou remboursement ») avec votre code de réservation.',
+  'faq.r.annuler':
+    'Oui, l’annulation est gratuite jusqu’à 2 h avant la séance. Écrivez-nous depuis la page Contact (sujet « Paiement ou remboursement ») avec votre code de réservation.',
   'faq.q.compte': 'Où retrouver mes billets et mes commandes ?',
-  'faq.r.compte': 'Dans « Mon compte » : vos e-billets, vos commandes de la boutique et leurs codes de retrait y sont gardés. Vous pouvez aussi les recevoir par e-mail au moment du paiement.',
+  'faq.r.compte':
+    'Dans « Mon compte » : vos e-billets, vos commandes de la boutique et leurs codes de retrait y sont gardés. Vous pouvez aussi les recevoir par e-mail au moment du paiement.',
   'faq.q.imprimer': 'Dois-je imprimer mon billet ?',
-  'faq.r.imprimer': 'Non. Présentez simplement le QR code de votre e-billet sur votre téléphone à l’entrée de la salle.',
+  'faq.r.imprimer':
+    'Non. Présentez simplement le QR code de votre e-billet sur votre téléphone à l’entrée de la salle.',
   'faq.q.payer': 'Comment puis-je payer ?',
-  'faq.r.payer': 'Par carte bancaire en ligne, ou au comptoir. Si vous payez au comptoir, vos places sont bloquées jusqu’à 30 minutes avant la séance ; après, elles sont remises en vente.',
+  'faq.r.payer':
+    'Par carte bancaire en ligne, ou au comptoir. Si vous payez au comptoir, vos places sont bloquées jusqu’à 30 minutes avant la séance ; après, elles sont remises en vente.',
   'faq.q.arriver': 'Combien de temps avant la séance dois-je arriver ?',
-  'faq.r.arriver': 'Le cinéma ouvre 30 minutes avant la première séance. Avec un e-billet, 10 minutes avant suffisent ; si vous payez ou retirez une commande au comptoir, prévoyez un peu plus.',
+  'faq.r.arriver':
+    'Le cinéma ouvre 30 minutes avant la première séance. Avec un e-billet, 10 minutes avant suffisent ; si vous payez ou retirez une commande au comptoir, prévoyez un peu plus.',
   'faq.q.boutique': 'Comment fonctionne la boutique ?',
-  'faq.r.boutique': 'Commandez vos snacks et posters à l’avance, sur la page Boutique ou pendant la réservation. Votre commande est prête au comptoir : vous la récupérez avec votre code de retrait, sans faire la queue.',
+  'faq.r.boutique':
+    'Commandez vos snacks et posters à l’avance, sur la page Boutique ou pendant la réservation. Votre commande est prête au comptoir : vous la récupérez avec votre code de retrait, sans faire la queue.',
   'faq.q.apporter': 'Puis-je apporter mes propres snacks ?',
-  'faq.r.apporter': 'La nourriture et les boissons de l’extérieur ne sont pas acceptées en salle. Le comptoir propose popcorn, boissons et confiseries, à commander en ligne pour gagner du temps.',
+  'faq.r.apporter':
+    'La nourriture et les boissons de l’extérieur ne sont pas acceptées en salle. Le comptoir propose popcorn, boissons et confiseries, à commander en ligne pour gagner du temps.',
   'faq.q.reduits': 'Existe-t-il des tarifs réduits ?',
-  'faq.r.reduits': 'Oui : {etudiant} pour les étudiants et {enfant} pour les moins de 12 ans (séances avant 20 h). La réservation en ligne est au plein tarif ({plein}) ; les tarifs réduits s’appliquent au comptoir, sur présentation d’un justificatif.',
+  'faq.r.reduits':
+    'Oui : {etudiant} pour les étudiants et {enfant} pour les moins de 12 ans (séances avant 20 h). La réservation en ligne est au plein tarif ({plein}) ; les tarifs réduits s’appliquent au comptoir, sur présentation d’un justificatif.',
   'faq.q.abonnement': 'Comment fonctionne l’abonnement ?',
-  'faq.r.abonnement': 'Pour {abonnement} par mois, vous voyez autant de films que vous voulez pendant 30 jours, à raison d’une séance par jour. Il s’achète au comptoir.',
+  'faq.r.abonnement':
+    'Pour {abonnement} par mois, vous voyez autant de films que vous voulez pendant 30 jours, à raison d’une séance par jour. Il s’achète au comptoir.',
   'faq.q.ou': 'Où se trouve le cinéma ?',
-  'faq.r.ou': 'Au Palm Lake Mall, à Monastir. Le parking du centre commercial est gratuit pour les clients. Le plan est sur la page Contact.',
+  'faq.r.ou':
+    'Au Palm Lake Mall, à Monastir. Le parking du centre commercial est gratuit pour les clients. Le plan est sur la page Contact.',
   'faq.q.fauteuil': 'Le cinéma est-il accessible en fauteuil roulant ?',
-  'faq.r.fauteuil': 'Oui : l’accès se fait sans marche depuis le centre commercial et chaque salle a des places réservées aux fauteuils roulants.',
+  'faq.r.fauteuil':
+    'Oui : l’accès se fait sans marche depuis le centre commercial et chaque salle a des places réservées aux fauteuils roulants.',
   'faq.encore': 'Vous n’avez pas trouvé votre réponse ?',
   'faq.encoreTexte': 'Écrivez-nous : nous répondons en général dans la journée.',
 
@@ -448,7 +484,8 @@ export const fr = {
   'titre.contact': 'Contact — CINNOW',
   'contact.etiquette': 'Contact',
   'contact.titre': 'Une question ? Écrivez-nous', // espace insécable (U+00A0) avant le « ? » : il reste sur la même ligne que « question »
-  'contact.intro': 'Réservation, paiement, boutique, événement privé… notre équipe vous répond sous 48 heures.',
+  'contact.intro':
+    'Réservation, paiement, boutique, événement privé… notre équipe vous répond sous 48 heures.',
   'contact.coordonnees': 'Coordonnées',
   'contact.adresse': 'Adresse',
   'contact.adresseValeur': 'Palm Lake Mall, 5000 Monastir',
@@ -467,15 +504,18 @@ export const fr = {
   'contact.sujet.evenement': 'Événement ou séance privée',
   'contact.sujet.autre': 'Autre question',
   'contact.message': 'Votre message',
-  'contact.messagePlaceholder': 'Décrivez votre demande. Pour une réservation, indiquez le film, la date et l’heure de la séance.',
+  'contact.messagePlaceholder':
+    'Décrivez votre demande. Pour une réservation, indiquez le film, la date et l’heure de la séance.',
   'contact.envoyer': 'Envoyer le message →',
   'contact.envoiEnCours': 'Envoi en cours…',
   'contact.merciTitre': 'Message envoyé',
-  'contact.merci': 'Merci {nom} ! Nous avons bien reçu votre message et nous vous répondons à {email} sous 48 heures.',
+  'contact.merci':
+    'Merci {nom} ! Nous avons bien reçu votre message et nous vous répondons à {email} sous 48 heures.',
   'contact.autreMessage': 'Envoyer un autre message',
   'contact.plan': 'Plan d’accès',
   'contact.planTitre': 'Plan d’accès au cinéma CINNOW, Palm Lake Mall, Monastir',
-  'contact.acces': 'Au Palm Lake Mall, à quelques minutes de l’aéroport et du centre de Monastir · Parking du centre commercial',
+  'contact.acces':
+    'Au Palm Lake Mall, à quelques minutes de l’aéroport et du centre de Monastir · Parking du centre commercial',
   'contact.itineraire': 'Ouvrir dans Google Maps →',
   'contact.err.nom': 'Indiquez votre nom (2 caractères au moins).',
   'contact.err.sujet': 'Choisissez un sujet.',

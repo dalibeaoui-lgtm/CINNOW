@@ -29,7 +29,8 @@ function lireArticles(articles, categoriesPermises) {
   return { lignes };
 }
 
-const totalArticles = (lignes) => lignes.reduce((somme, l) => somme + l.produit.prix * l.quantite, 0);
+const totalArticles = (lignes) =>
+  lignes.reduce((somme, l) => somme + l.produit.prix * l.quantite, 0);
 
 // POST /api/reservations  { seanceId, places: ["F7", "F8"], snacks: [{ produitId, quantite }] }
 routeur.post('/reservations', (req, res) => {
@@ -55,7 +56,8 @@ routeur.post('/reservations', (req, res) => {
     Number(place.slice(1)) <= salle.placesParRangee &&
     String(Number(place.slice(1))) === place.slice(1);
   const inconnues = places.filter((p) => !existe(p));
-  if (inconnues.length) return res.status(400).json({ message: `Places inconnues : ${inconnues.join(', ')}.` });
+  if (inconnues.length)
+    return res.status(400).json({ message: `Places inconnues : ${inconnues.join(', ')}.` });
 
   // LA vérification importante : personne d'autre n'a pris ces places entre-temps
   const dejaPrises = places.filter((p) => seance.placesOccupees.includes(p));
@@ -90,7 +92,9 @@ routeur.delete('/reservations/:id', (req, res) => {
   const seance = trouverSeance(reservation.seanceId);
   // new Date('2026-11-20T15:00') : date et heure locales du serveur
   if (seance && new Date(`${seance.date}T${seance.heure}`) - Date.now() < DELAI_ANNULATION_MS) {
-    return res.status(409).json({ message: 'Trop tard : une réservation s’annule au plus tard 2 h avant la séance.' });
+    return res
+      .status(409)
+      .json({ message: 'Trop tard : une réservation s’annule au plus tard 2 h avant la séance.' });
   }
 
   retirer('reservations', reservation.id);

@@ -17,13 +17,12 @@ describe('components/Etapes', () => {
     const etapes = await afficher([2, 3]);
     // Le nom seul : sans le numéro dans le rond ni le texte caché « (terminée) »
     const nom = (e: HTMLElement) =>
-      [...e.childNodes].filter((n) => n.nodeType === Node.TEXT_NODE).map((n) => n.textContent).join('').trim();
-    expect(etapes.map(nom)).toEqual([
-      'Séance',
-      'Places',
-      'Snacks',
-      'Paiement',
-    ]);
+      [...e.childNodes]
+        .filter((n) => n.nodeType === Node.TEXT_NODE)
+        .map((n) => n.textContent)
+        .join('')
+        .trim();
+    expect(etapes.map(nom)).toEqual(['Séance', 'Places', 'Snacks', 'Paiement']);
   });
 
   it('coche les étapes faites, numérote les étapes en cours, laisse les suivantes sans rond', async () => {

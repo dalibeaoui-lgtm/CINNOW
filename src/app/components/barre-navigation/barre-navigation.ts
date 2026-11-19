@@ -1,12 +1,22 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+} from '@angular/router';
 
 // Fine barre dorée en haut de l'écran pendant le passage d'une page à l'autre.
 // Chaque page est chargée seulement quand on l'ouvre (loadComponent) et certaines attendent
 // le serveur (ex. un article) : la barre montre que le clic a bien été pris en compte.
 @Component({
   selector: 'app-barre-navigation',
-  template: `<div class="barre" [class.barre--active]="active()" [class.barre--finie]="finie()"></div>`,
+  template: `<div
+    class="barre"
+    [class.barre--active]="active()"
+    [class.barre--finie]="finie()"
+  ></div>`,
   styleUrl: './barre-navigation.scss',
   host: { 'aria-hidden': 'true' }, // purement visuel : le titre de l'onglet change à l'arrivée
 })

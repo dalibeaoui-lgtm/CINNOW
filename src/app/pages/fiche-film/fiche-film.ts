@@ -19,7 +19,14 @@ import { t } from '../../i18n/langue';
 import { Traduction } from '../../i18n/traduire.pipe';
 import { AvisService } from '../../services/avis';
 import { Catalogue } from '../../services/catalogue';
-import { etoiles, formaterDate, formaterDuree, formaterNote, seanceEstPassee, versAAAAMMJJ } from '../../utils/formats';
+import {
+  etoiles,
+  formaterDate,
+  formaterDuree,
+  formaterNote,
+  seanceEstPassee,
+  versAAAAMMJJ,
+} from '../../utils/formats';
 
 const entre0et1 = (valeur: number) => Math.min(Math.max(valeur, 0), 1);
 
@@ -44,13 +51,17 @@ export class FicheFilm {
   protected readonly duree = computed(() => formaterDuree(this.film()?.duree ?? 0));
   protected readonly dateSortie = computed(() => {
     const film = this.film();
-    return film ? formaterDate(film.dateSortie, { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    return film
+      ? formaterDate(film.dateSortie, { day: 'numeric', month: 'long', year: 'numeric' })
+      : '';
   });
 
   // ---------- Séances ----------
   // Séances à venir du film (celles déjà commencées sont retirées)
   private readonly seances = computed(() =>
-    this.catalogue.seances().filter((seance) => seance.filmId === this.film()?.id && !seanceEstPassee(seance)),
+    this.catalogue
+      .seances()
+      .filter((seance) => seance.filmId === this.film()?.id && !seanceEstPassee(seance)),
   );
 
   // Les 7 prochains jours, pour la barre des dates
@@ -75,7 +86,9 @@ export class FicheFilm {
   // Jour choisi : le premier jour qui a des séances, puis celui sur lequel on clique.
   // linkedSignal le remet à zéro quand on passe à un autre film.
   // (on passe par premierJour, une simple date : changer de langue ne remet pas le choix à zéro)
-  private readonly premierJour = computed(() => this.jours().find((jour) => jour.nombre > 0)?.date ?? '');
+  private readonly premierJour = computed(
+    () => this.jours().find((jour) => jour.nombre > 0)?.date ?? '',
+  );
   protected readonly jourChoisi = linkedSignal(() => this.premierJour());
   protected readonly seancesDuJour = computed(() =>
     this.seances().filter((seance) => seance.date === this.jourChoisi()),
@@ -84,11 +97,16 @@ export class FicheFilm {
   // ---------- Avis et autres films ----------
   // Avis d'exemple + avis publiés depuis « Mon compte »
   private readonly avisService = inject(AvisService);
-  protected readonly avis = computed(() => this.avisService.tous().filter((avis) => avis.filmId === this.film()?.id));
+  protected readonly avis = computed(() =>
+    this.avisService.tous().filter((avis) => avis.filmId === this.film()?.id),
+  );
   protected readonly autresFilms = computed(() => {
     const film = this.film();
     if (!film) return [];
-    return this.catalogue.films().filter((autre) => autre.id !== film.id && autre.statut === film.statut).slice(0, 4);
+    return this.catalogue
+      .films()
+      .filter((autre) => autre.id !== film.id && autre.statut === film.statut)
+      .slice(0, 4);
   });
 
   // « Me prévenir » pour un film qui n'est pas encore sorti
@@ -128,7 +146,12 @@ export class FicheFilm {
     // toute la place à la vidéo. Il revient dès qu'on descend plus bas dans la page.
     const suivreDefilement = () => this.enHautDePage.set(window.scrollY < window.innerHeight * 0.5);
     window.addEventListener('scroll', suivreDefilement, { passive: true });
-    effect(() => document.documentElement.classList.toggle('video-en-cours', this.lecture() && this.enHautDePage()));
+    effect(() =>
+      document.documentElement.classList.toggle(
+        'video-en-cours',
+        this.lecture() && this.enHautDePage(),
+      ),
+    );
     destroyRef.onDestroy(() => {
       window.removeEventListener('scroll', suivreDefilement);
       document.documentElement.classList.remove('video-en-cours');

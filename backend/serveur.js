@@ -16,7 +16,9 @@ app.use(express.json({ limit: '20kb' }));
 // Affiche chaque requête dans le terminal : « POST /api/reservations → 201 (12 ms) »
 app.use((req, res, next) => {
   const debut = Date.now();
-  res.on('finish', () => console.log(`${req.method} ${req.originalUrl} → ${res.statusCode} (${Date.now() - debut} ms)`));
+  res.on('finish', () =>
+    console.log(`${req.method} ${req.originalUrl} → ${res.statusCode} (${Date.now() - debut} ms)`),
+  );
   next();
 });
 
@@ -33,7 +35,8 @@ app.use((req, res) => res.status(404).json({ message: `Aucune route ${req.method
 
 // Erreur imprévue (ou JSON mal formé) : on répond proprement au lieu de planter
 app.use((erreur, req, res, next) => {
-  if (erreur.type === 'entity.parse.failed') return res.status(400).json({ message: 'JSON invalide.' });
+  if (erreur.type === 'entity.parse.failed')
+    return res.status(400).json({ message: 'JSON invalide.' });
   console.error(erreur);
   res.status(500).json({ message: 'Erreur interne du serveur.' });
 });

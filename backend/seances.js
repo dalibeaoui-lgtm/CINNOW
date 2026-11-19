@@ -34,7 +34,10 @@ export function versAAAAMMJJ(date) {
 // Vrai si la séance a déjà commencé
 export function estPassee(seance) {
   const maintenant = new Date();
-  return `${seance.date} ${seance.heure}` <= `${versAAAAMMJJ(maintenant)} ${maintenant.toTimeString().slice(0, 5)}`;
+  return (
+    `${seance.date} ${seance.heure}` <=
+    `${versAAAAMMJJ(maintenant)} ${maintenant.toTimeString().slice(0, 5)}`
+  );
 }
 
 // Numéro de séance stable d'un jour à l'autre : film 1, le 13/11/2026 à 14:00 → 1202611131400

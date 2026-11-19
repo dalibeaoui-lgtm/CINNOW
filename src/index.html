@@ -1,72 +1,109 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <title>CINNOW</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="CINNOW : films à l'affiche, bandes-annonces, réservation de places, snacks et posters à l'avance.">
-  <!-- Icône de l'onglet : le « O » du logo CINNOW (SVG net à toutes les tailles, PNG pour les anciens navigateurs) -->
-  <!-- « ?v=2 » : numéro de version. Les navigateurs gardent les icônes en mémoire très longtemps ;
+  <head>
+    <meta charset="utf-8" />
+    <title>CINNOW</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="CINNOW : films à l'affiche, bandes-annonces, réservation de places, snacks et posters à l'avance."
+    />
+    <!-- Icône de l'onglet : le « O » du logo CINNOW (SVG net à toutes les tailles, PNG pour les anciens navigateurs) -->
+    <!-- « ?v=2 » : numéro de version. Les navigateurs gardent les icônes en mémoire très longtemps ;
        changer ce numéro quand on change l'icône les oblige à télécharger la nouvelle. -->
-  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
-  <meta name="theme-color" content="#080808">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500&display=swap" rel="stylesheet">
-  <!-- Écran de démarrage : styles écrits ici pour s'afficher avant même le chargement du site -->
-  <style>
-    .demarrage {
-      position: fixed;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      background: #fff;
-    }
-    .demarrage svg {
-      width: 180px;
-      height: auto;
-    }
-    /* Logo rempli par le dégradé animé (reflet doré qui va et vient) */
-    .demarrage .plein { fill: url(#reflet); }
-    .demarrage .trait { fill: none; stroke: url(#reflet); stroke-width: 24; }
-    /* « Réduire les animations » : logo noir, immobile */
-    @media (prefers-reduced-motion: reduce) {
-      .demarrage .plein { fill: #080808; }
-      .demarrage .trait { stroke: #080808; }
-    }
-  </style>
-</head>
-<body>
-  <!-- Ce qui est dans <app-root> s'affiche pendant que le site charge les films depuis le serveur,
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
+    <meta name="theme-color" content="#080808" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Écran de démarrage : styles écrits ici pour s'afficher avant même le chargement du site -->
+    <style>
+      .demarrage {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: #fff;
+      }
+      .demarrage svg {
+        width: 180px;
+        height: auto;
+      }
+      /* Logo rempli par le dégradé animé (reflet doré qui va et vient) */
+      .demarrage .plein {
+        fill: url(#reflet);
+      }
+      .demarrage .trait {
+        fill: none;
+        stroke: url(#reflet);
+        stroke-width: 24;
+      }
+      /* « Réduire les animations » : logo noir, immobile */
+      @media (prefers-reduced-motion: reduce) {
+        .demarrage .plein {
+          fill: #080808;
+        }
+        .demarrage .trait {
+          stroke: #080808;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Ce qui est dans <app-root> s'affiche pendant que le site charge les films depuis le serveur,
        puis Angular le remplace par la vraie page -->
-  <app-root>
-    <div class="demarrage" role="status" aria-label="Chargement · Loading">
-      <svg viewBox="0 0 510 100" aria-hidden="true">
-        <defs>
-          <!-- Noir, avec une bande ambre → or → ambre qui glisse d'un bord à l'autre puis revient -->
-          <linearGradient id="reflet" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="510" y2="0">
-            <stop offset="0" stop-color="#080808" />
-            <stop offset="0.34" stop-color="#080808" />
-            <stop offset="0.44" stop-color="#c87608" />
-            <stop offset="0.5" stop-color="#f6b501" />
-            <stop offset="0.56" stop-color="#c87608" />
-            <stop offset="0.66" stop-color="#080808" />
-            <stop offset="1" stop-color="#080808" />
-            <animateTransform attributeName="gradientTransform" type="translate" values="-420 0; 420 0; -420 0"
-              dur="2.4s" calcMode="spline" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1" repeatCount="indefinite" />
-          </linearGradient>
-        </defs>
-        <path class="trait" d="M76.9 23.1A38 38 0 1 0 76.9 76.9" />
-        <rect class="plein" x="102" width="24" height="100" /><rect class="plein" x="138" width="24" height="100" />
-        <rect class="plein" x="190" width="24" height="100" /><rect class="plein" x="242" width="24" height="100" />
-        <polygon class="plein" points="138,0 162,0 214,100 190,100" /><polygon class="plein" points="190,0 214,0 266,100 242,100" />
-        <circle class="trait" cx="328" cy="50" r="38" /><circle class="plein" cx="328" cy="50" r="7" />
-        <polygon class="plein" points="390,0 414,0 429,62 440,20 460,20 471,62 486,0 510,0 484,100 460,100 450,58 440,100 416,100" />
-      </svg>
-    </div>
-  </app-root>
-</body>
+    <app-root>
+      <div class="demarrage" role="status" aria-label="Chargement · Loading">
+        <svg viewBox="0 0 510 100" aria-hidden="true">
+          <defs>
+            <!-- Noir, avec une bande ambre → or → ambre qui glisse d'un bord à l'autre puis revient -->
+            <linearGradient
+              id="reflet"
+              gradientUnits="userSpaceOnUse"
+              x1="0"
+              y1="0"
+              x2="510"
+              y2="0"
+            >
+              <stop offset="0" stop-color="#080808" />
+              <stop offset="0.34" stop-color="#080808" />
+              <stop offset="0.44" stop-color="#c87608" />
+              <stop offset="0.5" stop-color="#f6b501" />
+              <stop offset="0.56" stop-color="#c87608" />
+              <stop offset="0.66" stop-color="#080808" />
+              <stop offset="1" stop-color="#080808" />
+              <animateTransform
+                attributeName="gradientTransform"
+                type="translate"
+                values="-420 0; 420 0; -420 0"
+                dur="2.4s"
+                calcMode="spline"
+                keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
+                repeatCount="indefinite"
+              />
+            </linearGradient>
+          </defs>
+          <path class="trait" d="M76.9 23.1A38 38 0 1 0 76.9 76.9" />
+          <rect class="plein" x="102" width="24" height="100" />
+          <rect class="plein" x="138" width="24" height="100" />
+          <rect class="plein" x="190" width="24" height="100" />
+          <rect class="plein" x="242" width="24" height="100" />
+          <polygon class="plein" points="138,0 162,0 214,100 190,100" />
+          <polygon class="plein" points="190,0 214,0 266,100 242,100" />
+          <circle class="trait" cx="328" cy="50" r="38" />
+          <circle class="plein" cx="328" cy="50" r="7" />
+          <polygon
+            class="plein"
+            points="390,0 414,0 429,62 440,20 460,20 471,62 486,0 510,0 484,100 460,100 450,58 440,100 416,100"
+          />
+        </svg>
+      </div>
+    </app-root>
+  </body>
 </html>

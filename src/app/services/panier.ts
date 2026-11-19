@@ -8,11 +8,15 @@ const MAX_PAR_PRODUIT = 10;
 // Panier de la boutique (snacks, boissons, posters), gardé dans le navigateur.
 @Injectable({ providedIn: 'root' })
 export class Panier {
-  private readonly lignesModifiables = signal<LigneProduit[]>(lireStockage<LigneProduit[]>(CLE, []));
+  private readonly lignesModifiables = signal<LigneProduit[]>(
+    lireStockage<LigneProduit[]>(CLE, []),
+  );
 
   readonly lignes = this.lignesModifiables.asReadonly();
   readonly nombre = computed(() => this.lignes().reduce((somme, l) => somme + l.quantite, 0));
-  readonly total = computed(() => this.lignes().reduce((somme, l) => somme + l.produit.prix * l.quantite, 0));
+  readonly total = computed(() =>
+    this.lignes().reduce((somme, l) => somme + l.produit.prix * l.quantite, 0),
+  );
 
   constructor() {
     effect(() => ecrireStockage(CLE, this.lignes()));

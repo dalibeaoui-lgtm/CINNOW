@@ -15,7 +15,13 @@ import { Catalogue } from '../../services/catalogue';
 import { Compte } from '../../services/compte';
 import { CleTraduction, t } from '../../i18n/langue';
 import { Traduction } from '../../i18n/traduire.pipe';
-import { dateLongue, etoiles, formaterPrix, numeroCourt, seanceEstPassee } from '../../utils/formats';
+import {
+  dateLongue,
+  etoiles,
+  formaterPrix,
+  numeroCourt,
+  seanceEstPassee,
+} from '../../utils/formats';
 import { estModeTest } from '../../utils/mode-test';
 
 type Onglet = 'billets' | 'commandes' | 'avis' | 'profil';
@@ -100,18 +106,24 @@ export class MonCompte {
   protected readonly aVenir = computed(() =>
     this.billets()
       .filter((b) => !b.passe)
-      .sort((a, b) => `${a.seance.date}${a.seance.heure}`.localeCompare(`${b.seance.date}${b.seance.heure}`)),
+      .sort((a, b) =>
+        `${a.seance.date}${a.seance.heure}`.localeCompare(`${b.seance.date}${b.seance.heure}`),
+      ),
   );
 
   protected readonly passes = computed(() =>
     this.billets()
       .filter((b) => b.passe)
-      .sort((a, b) => `${b.seance.date}${b.seance.heure}`.localeCompare(`${a.seance.date}${a.seance.heure}`)),
+      .sort((a, b) =>
+        `${b.seance.date}${b.seance.heure}`.localeCompare(`${a.seance.date}${a.seance.heure}`),
+      ),
   );
 
   // « 1 × Popcorn moyen, 2 × Boisson 50 cl »
   protected texteArticles(lignes: LigneProduit[]): string {
-    return lignes.map((ligne) => `${ligne.quantite} × ${this.catalogue.nomProduit(ligne.produit)}`).join(', ');
+    return lignes
+      .map((ligne) => `${ligne.quantite} × ${this.catalogue.nomProduit(ligne.produit)}`)
+      .join(', ');
   }
 
   // ---------- Annulation d'une réservation ----------
@@ -172,7 +184,9 @@ export class MonCompte {
   }
 
   // Séances passées pas encore notées
-  protected readonly aNoter = computed(() => this.passes().filter(({ billet }) => !this.avisDuBillet(billet.id)));
+  protected readonly aNoter = computed(() =>
+    this.passes().filter(({ billet }) => !this.avisDuBillet(billet.id)),
+  );
 
   // Formulaire de notation (un seul ouvert à la fois)
   protected readonly billetANoter = signal<number | null>(null);
@@ -219,11 +233,17 @@ export class MonCompte {
     if (!this.noteFilm() || !this.noteService()) {
       return this.erreurAvis.set(t('compte.err.notes'));
     }
-    const notes = { noteFilm: this.noteFilm(), noteService: this.noteService(), commentaire: this.commentaire().trim() };
+    const notes = {
+      noteFilm: this.noteFilm(),
+      noteService: this.noteService(),
+      commentaire: this.commentaire().trim(),
+    };
 
     this.publicationEnCours.set(true);
     try {
-      const enModification = this.mesAvis().find(({ avis }) => avis.id === this.avisEnModification())?.avis;
+      const enModification = this.mesAvis().find(
+        ({ avis }) => avis.id === this.avisEnModification(),
+      )?.avis;
       if (enModification) {
         await this.avisService.modifier(enModification, notes);
         this.fermerFormulaire();
@@ -283,7 +303,8 @@ export class MonCompte {
 
   protected enregistrerProfil(): void {
     const email = this.profilEmail().trim().toLowerCase();
-    if (!this.profilPrenom().trim()) return this.erreurProfil.set(t('compte.err.prenomObligatoire'));
+    if (!this.profilPrenom().trim())
+      return this.erreurProfil.set(t('compte.err.prenomObligatoire'));
     if (!/^\S+@\S+\.\S+$/.test(email)) return this.erreurProfil.set(t('err.email'));
 
     this.compte.modifierProfil({

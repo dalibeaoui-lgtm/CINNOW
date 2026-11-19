@@ -46,7 +46,12 @@
 .voile {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(20, 8, 1, 0.92) 0%, rgba(56, 21, 1, 0.72) 55%, rgba(20, 8, 1, 0.85) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(20, 8, 1, 0.92) 0%,
+    rgba(56, 21, 1, 0.72) 55%,
+    rgba(20, 8, 1, 0.85) 100%
+  );
 }
 
 // « Réduire les animations » activé : le fond reste immobile

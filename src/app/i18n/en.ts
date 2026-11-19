@@ -48,7 +48,8 @@ export const en: Record<keyof typeof fr, string> = {
   'pied.liens': 'Footer links',
   'pied.projet': '© 2026 CINNOW',
   'pied.legal': 'Legal notice · Terms of sale · Privacy',
-  'app.serveur1': 'The CINNOW server is not responding: films and showtimes cannot be loaded. Start the site with',
+  'app.serveur1':
+    'The CINNOW server is not responding: films and showtimes cannot be loaded. Start the site with',
   'app.serveur2': '(site + server), then reload the page.',
   'titre.accueil': 'CINNOW',
   'titre.film': '{titre} — CINNOW',
@@ -75,7 +76,8 @@ export const en: Record<keyof typeof fr, string> = {
   'accueil.boutique.posters': 'Posters',
   'accueil.boutique.etiquette': 'Shop',
   'accueil.boutique.titre': 'Snacks & posters',
-  'accueil.boutique.texte': 'Order your snacks and posters before the film and pick them up without queuing.',
+  'accueil.boutique.texte':
+    'Order your snacks and posters before the film and pick them up without queuing.',
   'accueil.boutique.bouton': 'Visit the shop →',
   'accueil.avis.etiquette': 'Reviews & ratings',
   'accueil.avis.titre': 'Seen a film here?',
@@ -164,8 +166,10 @@ export const en: Record<keyof typeof fr, string> = {
   'pay.cvc': 'Security code (CVC)',
   'pay.edinarInfo': 'After clicking “Pay”, you confirm the payment with your e-Dinar card.',
   'pay.edinarDemo': 'In this demo version, the e-Dinar step is simulated.',
-  'pay.comptoirPlaces': 'Your seats are on hold: pay {total} at the counter at least 30 minutes before the film. After that, the seats go back on sale.',
-  'pay.comptoirCommande': 'Your order is being prepared: pay {total} at the counter at least 30 minutes before the film. After that, the order is cancelled.',
+  'pay.comptoirPlaces':
+    'Your seats are on hold: pay {total} at the counter at least 30 minutes before the film. After that, the seats go back on sale.',
+  'pay.comptoirCommande':
+    'Your order is being prepared: pay {total} at the counter at least 30 minutes before the film. After that, the order is cancelled.',
   'pay.recevoirBillet': 'Receive the e-ticket by email',
   'pay.recevoirRecu': 'Receive the receipt by email',
   'pay.adresseEmail': 'Email address',
@@ -177,7 +181,8 @@ export const en: Record<keyof typeof fr, string> = {
   'pay.pleinTarif': '{n} × Standard ticket',
   'pay.votreCommande': 'Your order',
   'pay.autresPlaces': 'Choose other seats →',
-  'pay.demo': 'Demo: no real payment, card details are neither sent nor stored. To test: type “admin” in every field.',
+  'pay.demo':
+    'Demo: no real payment, card details are neither sent nor stored. To test: type “admin” in every field.',
   'pay.billetEnvoye': 'E-ticket sent by email and to “My account”.',
   'pay.recuEnvoye': 'Receipt sent by email and to “My account”.',
   'pay.modifierResa': '← Edit my booking',
@@ -218,7 +223,8 @@ export const en: Record<keyof typeof fr, string> = {
   'conf.voirBillets': 'See my tickets →',
   'conf.voirCommandes': 'See my orders →',
   'conf.creerCompte': 'Create an account to keep them →',
-  'conf.aide': 'Free cancellation up to 2 hours before the film · Need help? Ask at the cinema front desk.',
+  'conf.aide':
+    'Free cancellation up to 2 hours before the film · Need help? Ask at the cinema front desk.',
   'conf.vide': 'No recent booking',
   'conf.videTexte': 'Your confirmed bookings appear here right after payment.',
 
@@ -295,10 +301,12 @@ export const en: Record<keyof typeof fr, string> = {
   'compte.publieLe': 'Posted on {date}',
   'compte.modifieLe': 'edited on {date}',
   'compte.annulerReservation': 'Cancel booking',
-  'compte.annulerQuestion': 'Cancel this booking? Your seats will be released and {montant} will be refunded.',
+  'compte.annulerQuestion':
+    'Cancel this booking? Your seats will be released and {montant} will be refunded.',
   'compte.annulerOui': 'Yes, cancel',
   'compte.annulerGarder': 'Keep my booking',
-  'compte.annulationImpossible': 'Bookings can’t be cancelled less than 2 hours before the showtime.',
+  'compte.annulationImpossible':
+    'Bookings can’t be cancelled less than 2 hours before the showtime.',
   'compte.annulee': 'Booking cancelled: {montant} will be refunded.',
   'compte.modifier': 'Edit',
   'compte.supprimer': 'Delete',
@@ -326,7 +334,8 @@ export const en: Record<keyof typeof fr, string> = {
   'compte.mdpPlaceholder': '6 characters minimum',
   'compte.seConnecter': 'Log in →',
   'compte.creer': 'Create my account →',
-  'compte.aide': 'Demo version: any email and a 6-character password will do. For a quicker test: admin / admin.',
+  'compte.aide':
+    'Demo version: any email and a 6-character password will do. For a quicker test: admin / admin.',
   'compte.err.prenom': 'Enter your first name.',
   'compte.err.prenomObligatoire': 'First name is required.',
   'compte.err.mdp': 'The password must be at least 6 characters long.',
@@ -337,16 +346,20 @@ export const en: Record<keyof typeof fr, string> = {
   'titre.aPropos': 'About — CINNOW',
   'apropos.etiquette': 'About',
   'apropos.titre': 'Cinema, in the heart of Monastir',
-  'apropos.intro': 'CINNOW brings the whole cinema outing together in one place: the films, the best screens, snacks ordered in advance and your reviews.',
+  'apropos.intro':
+    'CINNOW brings the whole cinema outing together in one place: the films, the best screens, snacks ordered in advance and your reviews.',
   'apropos.histoire': 'Our story',
-  'apropos.histoire1': 'CINNOW was born from a simple idea: going to the cinema should be as enjoyable before and after the film as during it. No more queuing at the box office or the counter: choose your seat and your snacks, and pay in a few clicks.',
-  'apropos.histoire2': 'Located in Palm Lake Mall, Monastir, the cinema shows big new releases as well as cult films back on the big screen, with special nights throughout the year.',
+  'apropos.histoire1':
+    'CINNOW was born from a simple idea: going to the cinema should be as enjoyable before and after the film as during it. No more queuing at the box office or the counter: choose your seat and your snacks, and pay in a few clicks.',
+  'apropos.histoire2':
+    'Located in Palm Lake Mall, Monastir, the cinema shows big new releases as well as cult films back on the big screen, with special nights throughout the year.',
   'apropos.chiffre.salles': 'screens',
   'apropos.chiffre.places': 'seats per screen',
   'apropos.chiffre.seances': 'showtimes per day and per film',
   'apropos.chiffre.jours': 'days a week',
   'apropos.salles': 'Screens & equipment',
-  'apropos.salles.intro': 'All our screens have the same equipment: wherever you sit, you enjoy the film in the best conditions.',
+  'apropos.salles.intro':
+    'All our screens have the same equipment: wherever you sit, you enjoy the film in the best conditions.',
   'apropos.equip.son.titre': 'Dolby Atmos sound',
   'apropos.equip.son.texte': 'Speakers all around and on the ceiling: sound comes from everywhere.',
   'apropos.equip.image.titre': '4K laser projection',
@@ -354,9 +367,11 @@ export const en: Record<keyof typeof fr, string> = {
   'apropos.equip.fauteuils.titre': 'Wide seats',
   'apropos.equip.fauteuils.texte': '8 rows of 14 seats, with legroom and two aisles.',
   'apropos.equip.acces.titre': 'Accessible to all',
-  'apropos.equip.acces.texte': 'Step-free access from the shopping centre and spaces reserved for wheelchairs.',
+  'apropos.equip.acces.texte':
+    'Step-free access from the shopping centre and spaces reserved for wheelchairs.',
   'apropos.tarifs': 'Prices & memberships',
-  'apropos.tarifs.intro': 'Online booking is at the standard price. Reduced prices apply at the counter, on presentation of proof.',
+  'apropos.tarifs.intro':
+    'Online booking is at the standard price. Reduced prices apply at the counter, on presentation of proof.',
   'apropos.tarif.plein': 'Standard',
   'apropos.tarif.plein.detail': 'One seat, for every showtime',
   'apropos.tarif.etudiant': 'Student',
@@ -368,7 +383,8 @@ export const en: Record<keyof typeof fr, string> = {
   'apropos.tarif.parMois': '/ month',
   'apropos.tarif.populaire': 'Best value',
   'apropos.horaires': 'Opening hours',
-  'apropos.horaires.note': 'The cinema opens 30 minutes before the first showtime and closes after the last one.',
+  'apropos.horaires.note':
+    'The cinema opens 30 minutes before the first showtime and closes after the last one.',
   'apropos.contact': 'A question, a private screening?',
   'apropos.contactBouton': 'Contact us →',
 
@@ -405,7 +421,8 @@ export const en: Record<keyof typeof fr, string> = {
   'titre.faq': 'FAQ — CINNOW',
   'faq.etiquette': 'FAQ',
   'faq.titre': 'Your questions, answered',
-  'faq.intro': 'Booking, tickets, snacks, prices, getting here: everything we get asked most often.',
+  'faq.intro':
+    'Booking, tickets, snacks, prices, getting here: everything we get asked most often.',
   'faq.filtrer': 'Filter questions by topic',
   'faq.toutes': 'All',
   'faq.cat.reservation': 'Booking',
@@ -414,31 +431,44 @@ export const en: Record<keyof typeof fr, string> = {
   'faq.cat.tarifs': 'Prices',
   'faq.cat.acces': 'Getting here',
   'faq.q.reserver': 'How do I book a seat?',
-  'faq.r.reserver': 'Choose a film, then a showtime: the seating plan appears and you click the seats you want. You can add snacks, then pay online or at the counter.',
+  'faq.r.reserver':
+    'Choose a film, then a showtime: the seating plan appears and you click the seats you want. You can add snacks, then pay online or at the counter.',
   'faq.q.combien': 'How many seats can I book at once?',
-  'faq.r.combien': 'Up to {max} seats per booking. For a bigger group or a private screening, write to us from the Contact page.',
+  'faq.r.combien':
+    'Up to {max} seats per booking. For a bigger group or a private screening, write to us from the Contact page.',
   'faq.q.annuler': 'Can I cancel my booking?',
-  'faq.r.annuler': 'Yes, cancellation is free up to 2 hours before the showtime. Write to us from the Contact page (subject “Payment or refund”) with your booking code.',
+  'faq.r.annuler':
+    'Yes, cancellation is free up to 2 hours before the showtime. Write to us from the Contact page (subject “Payment or refund”) with your booking code.',
   'faq.q.compte': 'Where can I find my tickets and orders?',
-  'faq.r.compte': 'In “My account”: your e-tickets, your shop orders and their pickup codes are kept there. You can also receive them by email when you pay.',
+  'faq.r.compte':
+    'In “My account”: your e-tickets, your shop orders and their pickup codes are kept there. You can also receive them by email when you pay.',
   'faq.q.imprimer': 'Do I need to print my ticket?',
-  'faq.r.imprimer': 'No. Just show the QR code of your e-ticket on your phone at the screen entrance.',
+  'faq.r.imprimer':
+    'No. Just show the QR code of your e-ticket on your phone at the screen entrance.',
   'faq.q.payer': 'How can I pay?',
-  'faq.r.payer': 'By card online, or at the counter. If you pay at the counter, your seats are held until 30 minutes before the showtime; after that, they go back on sale.',
+  'faq.r.payer':
+    'By card online, or at the counter. If you pay at the counter, your seats are held until 30 minutes before the showtime; after that, they go back on sale.',
   'faq.q.arriver': 'How early should I arrive?',
-  'faq.r.arriver': 'The cinema opens 30 minutes before the first showtime. With an e-ticket, 10 minutes before is enough; if you pay or pick up an order at the counter, allow a little more.',
+  'faq.r.arriver':
+    'The cinema opens 30 minutes before the first showtime. With an e-ticket, 10 minutes before is enough; if you pay or pick up an order at the counter, allow a little more.',
   'faq.q.boutique': 'How does the shop work?',
-  'faq.r.boutique': 'Order your snacks and posters in advance, on the Shop page or while booking. Your order is ready at the counter: pick it up with your pickup code, no queuing.',
+  'faq.r.boutique':
+    'Order your snacks and posters in advance, on the Shop page or while booking. Your order is ready at the counter: pick it up with your pickup code, no queuing.',
   'faq.q.apporter': 'Can I bring my own snacks?',
-  'faq.r.apporter': 'Outside food and drinks are not allowed in the screens. The counter sells popcorn, drinks and sweets, which you can order online to save time.',
+  'faq.r.apporter':
+    'Outside food and drinks are not allowed in the screens. The counter sells popcorn, drinks and sweets, which you can order online to save time.',
   'faq.q.reduits': 'Are there reduced prices?',
-  'faq.r.reduits': 'Yes: {etudiant} for students and {enfant} for under-12s (showtimes before 8 pm). Online booking is at full price ({plein}); reduced prices apply at the counter, with proof.',
+  'faq.r.reduits':
+    'Yes: {etudiant} for students and {enfant} for under-12s (showtimes before 8 pm). Online booking is at full price ({plein}); reduced prices apply at the counter, with proof.',
   'faq.q.abonnement': 'How does the subscription work?',
-  'faq.r.abonnement': 'For {abonnement} a month, you can see as many films as you like for 30 days, one showtime per day. It is sold at the counter.',
+  'faq.r.abonnement':
+    'For {abonnement} a month, you can see as many films as you like for 30 days, one showtime per day. It is sold at the counter.',
   'faq.q.ou': 'Where is the cinema?',
-  'faq.r.ou': 'At Palm Lake Mall, in Monastir. The mall car park is free for customers. The map is on the Contact page.',
+  'faq.r.ou':
+    'At Palm Lake Mall, in Monastir. The mall car park is free for customers. The map is on the Contact page.',
   'faq.q.fauteuil': 'Is the cinema wheelchair accessible?',
-  'faq.r.fauteuil': 'Yes: step-free access from the mall, and every screen has spaces reserved for wheelchairs.',
+  'faq.r.fauteuil':
+    'Yes: step-free access from the mall, and every screen has spaces reserved for wheelchairs.',
   'faq.encore': 'Didn’t find your answer?',
   'faq.encoreTexte': 'Write to us: we usually reply the same day.',
 
@@ -466,15 +496,18 @@ export const en: Record<keyof typeof fr, string> = {
   'contact.sujet.evenement': 'Event or private screening',
   'contact.sujet.autre': 'Other question',
   'contact.message': 'Your message',
-  'contact.messagePlaceholder': 'Describe your request. For a booking, give the film, the date and the time of the showtime.',
+  'contact.messagePlaceholder':
+    'Describe your request. For a booking, give the film, the date and the time of the showtime.',
   'contact.envoyer': 'Send message →',
   'contact.envoiEnCours': 'Sending…',
   'contact.merciTitre': 'Message sent',
-  'contact.merci': 'Thank you {nom}! We have received your message and will reply to {email} within 48 hours.',
+  'contact.merci':
+    'Thank you {nom}! We have received your message and will reply to {email} within 48 hours.',
   'contact.autreMessage': 'Send another message',
   'contact.plan': 'How to find us',
   'contact.planTitre': 'Map to the CINNOW cinema, Palm Lake Mall, Monastir',
-  'contact.acces': 'At Palm Lake Mall, a few minutes from Monastir airport and city centre · Shopping centre car park',
+  'contact.acces':
+    'At Palm Lake Mall, a few minutes from Monastir airport and city centre · Shopping centre car park',
   'contact.itineraire': 'Open in Google Maps →',
   'contact.err.nom': 'Enter your name (at least 2 characters).',
   'contact.err.sujet': 'Choose a subject.',

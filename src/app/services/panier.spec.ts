@@ -2,8 +2,22 @@ import { TestBed } from '@angular/core/testing';
 import { Produit } from '../models/produit';
 import { Panier } from './panier';
 
-const popcorn: Produit = { id: 1, nom: 'Popcorn moyen', description: '', prix: 7.5, categorie: 'snack', image: '' };
-const poster: Produit = { id: 7, nom: 'Poster The Batman', description: '', prix: 25, categorie: 'poster', image: '' };
+const popcorn: Produit = {
+  id: 1,
+  nom: 'Popcorn moyen',
+  description: '',
+  prix: 7.5,
+  categorie: 'snack',
+  image: '',
+};
+const poster: Produit = {
+  id: 7,
+  nom: 'Poster The Batman',
+  description: '',
+  prix: 25,
+  categorie: 'poster',
+  image: '',
+};
 
 // Panier de la boutique
 describe('services/Panier', () => {

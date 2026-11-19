@@ -6,6 +6,8 @@ describe('utils/images', () => {
   });
 
   it('propose les 2 tailles au navigateur (srcset)', () => {
-    expect(srcsetPhoto('images/hero/f1.webp')).toBe('images/hero/800/f1.webp 800w, images/hero/f1.webp 1920w');
+    expect(srcsetPhoto('images/hero/f1.webp')).toBe(
+      'images/hero/800/f1.webp 800w, images/hero/f1.webp 1920w',
+    );
   });
 });

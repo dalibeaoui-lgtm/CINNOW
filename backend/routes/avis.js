@@ -11,8 +11,10 @@ const estUneNote = (n) => Number.isInteger(n) && n >= 1 && n <= 5;
 
 // Vérifie les notes et le commentaire (publication et modification). Renvoie un message d'erreur ou null.
 function erreurNotes({ noteFilm, noteService, commentaire }) {
-  if (!estUneNote(noteFilm) || !estUneNote(noteService)) return 'Les notes doivent être des nombres entiers de 1 à 5.';
-  if (typeof commentaire !== 'string' || commentaire.length > 400) return 'Le commentaire fait 400 caractères maximum.';
+  if (!estUneNote(noteFilm) || !estUneNote(noteService))
+    return 'Les notes doivent être des nombres entiers de 1 à 5.';
+  if (typeof commentaire !== 'string' || commentaire.length > 400)
+    return 'Le commentaire fait 400 caractères maximum.';
   return null;
 }
 
@@ -52,7 +54,9 @@ routeur.post('/', (req, res) => {
   const erreur = erreurNotes({ noteFilm, noteService, commentaire });
   if (erreur) return res.status(400).json({ message: erreur });
   if (typeof auteur !== 'string' || !auteur.trim() || auteur.length > 60) {
-    return res.status(400).json({ message: 'Le nom de l’auteur est obligatoire (60 caractères maximum).' });
+    return res
+      .status(400)
+      .json({ message: 'Le nom de l’auteur est obligatoire (60 caractères maximum).' });
   }
   if (billetId !== undefined && tousLesAvis().some((a) => a.billetId === billetId)) {
     return res.status(409).json({ message: 'Cette séance a déjà été notée.' });
@@ -79,7 +83,15 @@ routeur.put('/:id', (req, res) => {
   const erreur = erreurNotes({ noteFilm, noteService, commentaire });
   if (erreur) return res.status(400).json({ message: erreur });
 
-  res.json(remplacer('avis', { ...avis, noteFilm, noteService, commentaire: commentaire.trim(), modifieLe: versAAAAMMJJ(new Date()) }));
+  res.json(
+    remplacer('avis', {
+      ...avis,
+      noteFilm,
+      noteService,
+      commentaire: commentaire.trim(),
+      modifieLe: versAAAAMMJJ(new Date()),
+    }),
+  );
 });
 
 // DELETE /api/avis/1794572173278  { billetId }

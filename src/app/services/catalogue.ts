@@ -24,11 +24,19 @@ export class Catalogue {
   });
   readonly produits = computed(() => {
     const anglais = langueActive() === 'en';
-    return this.produitsBruts().map((produit) => (anglais ? { ...produit, ...produit.traductions?.en } : produit));
+    return this.produitsBruts().map((produit) =>
+      anglais ? { ...produit, ...produit.traductions?.en } : produit,
+    );
   });
 
   readonly seances = signal<Seance[]>([]);
-  readonly salle = signal<Salle>({ rangees: [], placesParRangee: 0, alleesApres: [], prixPlace: 0, maxPlaces: 0 });
+  readonly salle = signal<Salle>({
+    rangees: [],
+    placesParRangee: 0,
+    alleesApres: [],
+    prixPlace: 0,
+    maxPlaces: 0,
+  });
 
   // 'erreur' : le serveur ne répond pas (le site affiche alors un bandeau)
   readonly etat = signal<'chargement' | 'pret' | 'erreur'>('chargement');

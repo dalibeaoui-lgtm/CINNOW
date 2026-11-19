@@ -3,7 +3,9 @@
     <img [src]="film().affiche" alt="" width="600" height="900" loading="lazy" />
   </a>
 
-  <p class="etiquette">{{ enSalle() ? ('carte.enSalle' | t) : ('carte.desLe' | t: { date: dateSortie() }) }}</p>
+  <p class="etiquette">
+    {{ enSalle() ? ('carte.enSalle' | t) : ('carte.desLe' | t: { date: dateSortie() }) }}
+  </p>
   <h3 class="carte__titre">
     <a [routerLink]="['/film', film().id]">{{ film().titre }}</a>
   </h3>

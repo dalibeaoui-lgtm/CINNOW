@@ -32,7 +32,9 @@
 <!-- 3. Prochainement : rangée qui défile horizontalement -->
 <section class="section" aria-labelledby="titre-prochainement">
   <div class="section__entete">
-    <h2 id="titre-prochainement" class="grand-titre" appApparition>{{ 'accueil.prochainement' | t }}</h2>
+    <h2 id="titre-prochainement" class="grand-titre" appApparition>
+      {{ 'accueil.prochainement' | t }}
+    </h2>
     <p class="etiquette">{{ 'accueil.faitesDefiler' | t }}</p>
   </div>
   <div class="rangee">
@@ -70,7 +72,9 @@
     </div>
     <div class="avis__action" appApparition style="--delai: 0.1s">
       <p class="avis__etoiles" aria-hidden="true">★★★★★</p>
-      <a class="bouton bouton--or" routerLink="/mon-compte" [queryParams]="{ onglet: 'avis' }">{{ 'accueil.avis.bouton' | t }}</a>
+      <a class="bouton bouton--or" routerLink="/mon-compte" [queryParams]="{ onglet: 'avis' }">{{
+        'accueil.avis.bouton' | t
+      }}</a>
     </div>
   </div>
 </section>

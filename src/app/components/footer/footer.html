@@ -4,7 +4,15 @@
          2 fois plus large que le logo, qui glisse de gauche à droite sans fin.
          Utilisé seulement sur l'accueil (voir footer.scss). -->
     <defs>
-      <linearGradient id="degrade-pied" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1020" y2="0" spreadMethod="repeat">
+      <linearGradient
+        id="degrade-pied"
+        gradientUnits="userSpaceOnUse"
+        x1="0"
+        y1="0"
+        x2="1020"
+        y2="0"
+        spreadMethod="repeat"
+      >
         <stop offset="0" stop-color="#702b01" />
         <stop offset="0.1" stop-color="#8f4401" />
         <stop offset="0.2" stop-color="#c87608" />
@@ -16,15 +24,33 @@
         <stop offset="0.8" stop-color="#c87608" />
         <stop offset="0.9" stop-color="#8f4401" />
         <stop offset="1" stop-color="#702b01" />
-        <animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="1020 0" dur="10s" repeatCount="indefinite" />
+        <animateTransform
+          attributeName="gradientTransform"
+          type="translate"
+          from="0 0"
+          to="1020 0"
+          dur="10s"
+          repeatCount="indefinite"
+        />
       </linearGradient>
     </defs>
-    <path d="M76.9 23.1A38 38 0 1 0 76.9 76.9" fill="none" stroke="currentColor" stroke-width="24" />
-    <rect x="102" width="24" height="100" /><rect x="138" width="24" height="100" />
-    <rect x="190" width="24" height="100" /><rect x="242" width="24" height="100" />
-    <polygon points="138,0 162,0 214,100 190,100" /><polygon points="190,0 214,0 266,100 242,100" />
-    <circle cx="328" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="24" /><circle cx="328" cy="50" r="7" />
-    <polygon points="390,0 414,0 429,62 440,20 460,20 471,62 486,0 510,0 484,100 460,100 450,58 440,100 416,100" />
+    <path
+      d="M76.9 23.1A38 38 0 1 0 76.9 76.9"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="24"
+    />
+    <rect x="102" width="24" height="100" />
+    <rect x="138" width="24" height="100" />
+    <rect x="190" width="24" height="100" />
+    <rect x="242" width="24" height="100" />
+    <polygon points="138,0 162,0 214,100 190,100" />
+    <polygon points="190,0 214,0 266,100 242,100" />
+    <circle cx="328" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="24" />
+    <circle cx="328" cy="50" r="7" />
+    <polygon
+      points="390,0 414,0 429,62 440,20 460,20 471,62 486,0 510,0 484,100 460,100 450,58 440,100 416,100"
+    />
   </svg>
 
   <nav class="footer__liens" [attr.aria-label]="'pied.liens' | t">
