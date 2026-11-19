@@ -7,6 +7,7 @@ import { Traduction } from '../../i18n/traduire.pipe';
 import { ActualitesService } from '../../services/actualites';
 import { Catalogue } from '../../services/catalogue';
 import { formaterDate } from '../../utils/formats';
+import { srcsetPhoto } from '../../utils/images';
 
 // Un article des Actualités (/actualites/:id) : titre, photo, texte, lien vers le film
 // dont il parle, et 3 autres articles à lire.
@@ -25,6 +26,7 @@ export class Article {
   protected readonly etat = this.service.etat;
 
   protected readonly article = computed(() => this.service.article(Number(this.id())));
+  protected readonly srcset = computed(() => srcsetPhoto(this.article()?.image ?? ''));
   protected readonly film = computed(() => this.catalogue.film(this.article()?.filmId));
   protected readonly categorie = computed(() => `actu.cat.${this.article()?.categorie}` as CleTraduction);
   protected readonly date = computed(() => {

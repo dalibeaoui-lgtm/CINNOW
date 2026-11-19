@@ -15,3 +15,12 @@
     font-size: 14px;
   }
 }
+
+// Le contenu prend au moins toute la hauteur de l'écran. Chaque page est chargée seulement quand on
+// l'ouvre : sans cette hauteur, le pied de page apparaîtrait un instant en haut de l'écran puis serait
+// poussé vers le bas à l'arrivée de la page (« décalage de mise en page », mesuré par Lighthouse).
+main {
+  display: block;
+  min-height: 100vh;
+  min-height: 100svh;
+}

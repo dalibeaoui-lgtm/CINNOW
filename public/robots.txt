@@ -1,0 +1,3 @@
+# Tous les robots peuvent parcourir le site
+User-agent: *
+Allow: /

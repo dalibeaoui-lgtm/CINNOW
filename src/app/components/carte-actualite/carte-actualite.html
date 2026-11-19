@@ -1,7 +1,18 @@
 @let a = article();
 <a class="carte" [class.carte--grande]="grande()" [routerLink]="['/actualites', a.id]">
   <div class="carte__image">
-    <img [src]="a.image" alt="" width="1600" height="900" [attr.loading]="grande() ? null : 'lazy'" />
+    <!-- srcset + sizes : le navigateur télécharge la photo de 800 px pour une petite carte, celle de 1920 px
+         seulement si elle s'affiche en grand. La grande carte (à la une) est chargée en priorité. -->
+    <img
+      [src]="a.image"
+      [attr.srcset]="srcset()"
+      [attr.sizes]="grande() ? '(max-width: 1024px) 100vw, 60vw' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'"
+      alt=""
+      width="1600"
+      height="900"
+      [attr.loading]="grande() ? null : 'lazy'"
+      [attr.fetchpriority]="grande() ? 'high' : null"
+    />
   </div>
   <div class="carte__texte">
     <p class="carte__infos">
