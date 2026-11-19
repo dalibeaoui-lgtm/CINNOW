@@ -64,6 +64,21 @@ export class Api {
     return firstValueFrom(this.http.post<Avis>(`${API}/avis`, avis));
   }
 
+  // ---------- Mise à jour et suppression ----------
+  // Le serveur libère les places et renvoie le montant remboursé (refuse moins de 2 h avant la séance)
+  annulerReservation(id: number) {
+    return firstValueFrom(this.http.delete<{ annulee: number; rembourse: number }>(`${API}/reservations/${id}`));
+  }
+
+  // billetId : prouve que l'avis est bien le sien (voir backend/routes/avis.js)
+  modifierAvis(id: number, modifications: Pick<Avis, 'noteFilm' | 'noteService' | 'commentaire'> & { billetId: number }) {
+    return firstValueFrom(this.http.put<Avis>(`${API}/avis/${id}`, modifications));
+  }
+
+  supprimerAvis(id: number, billetId: number) {
+    return firstValueFrom(this.http.delete<void>(`${API}/avis/${id}`, { body: { billetId } }));
+  }
+
   // Formulaire de la page Contact
   envoyerMessage(message: { nom: string; email: string; sujet: string; message: string }) {
     return firstValueFrom(this.http.post<{ id: number }>(`${API}/messages`, message));

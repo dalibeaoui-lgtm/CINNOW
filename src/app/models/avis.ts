@@ -8,4 +8,5 @@ export interface Avis {
   commentaire: string;
   date: string; // format AAAA-MM-JJ
   billetId?: number; // le billet de la séance notée (avis laissés depuis « Mon compte »)
+  modifieLe?: string; // date de la dernière modification (AAAA-MM-JJ), s'il a été modifié
 }

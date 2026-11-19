@@ -67,6 +67,11 @@ export class Compte {
     this.donnees.update((donnees) => (donnees ? { ...donnees, billets: [billet, ...donnees.billets] } : null));
   }
 
+  // Réservation annulée : le billet disparaît de « Mes billets »
+  retirerBillet(id: number): void {
+    this.donnees.update((donnees) => (donnees ? { ...donnees, billets: donnees.billets.filter((b) => b.id !== id) } : null));
+  }
+
   // Après le paiement d'une commande de la boutique : la range dans « Mes commandes »
   ajouterCommande(commande: Commande): void {
     if (!this.utilisateur()) return;

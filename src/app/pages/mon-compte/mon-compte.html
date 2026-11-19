@@ -34,6 +34,8 @@
       @case ('billets') {
         <section class="bloc" aria-labelledby="titre-a-venir">
           <h2 id="titre-a-venir" class="sous-titre">{{ 'compte.aVenir' | t }}</h2>
+          <!-- Confirmation d'annulation (annoncée par les lecteurs d'écran) -->
+          <p class="message-ok" role="status">{{ messageAnnulation() }}</p>
 
           @for (b of aVenir(); track b.billet.id) {
             <article class="billet">
@@ -63,6 +65,36 @@
                     <dd>{{ formaterPrix(b.billet.total) }}</dd>
                   </div>
                 </dl>
+
+                <!-- Annulation : jusqu'à 2 h avant la séance, avec une étape de confirmation -->
+                <div class="annulation">
+                  @if (billetAAnnuler() === b.billet.id) {
+                    <div class="annulation__confirmation" role="group" [attr.aria-label]="'compte.annulerReservation' | t">
+                      <p>{{ 'compte.annulerQuestion' | t: { montant: formaterPrix(b.billet.total) } }}</p>
+                      @if (erreurAnnulation()) {
+                        <p class="erreur" role="alert">{{ erreurAnnulation() }}</p>
+                      }
+                      <div class="annulation__actions">
+                        <button
+                          class="bouton bouton--plein"
+                          type="button"
+                          [disabled]="annulationEnCours()"
+                          [attr.aria-busy]="annulationEnCours() || null"
+                          (click)="annuler(b.billet)"
+                        >
+                          {{ 'compte.annulerOui' | t }}
+                        </button>
+                        <button class="lien" type="button" (click)="billetAAnnuler.set(null)">{{ 'compte.annulerGarder' | t }}</button>
+                      </div>
+                    </div>
+                  } @else if (annulable(b.seance)) {
+                    <button class="lien" type="button" (click)="demanderAnnulation(b.billet.id)">
+                      {{ 'compte.annulerReservation' | t }}
+                    </button>
+                  } @else {
+                    <p class="annulation__trop-tard">{{ 'compte.annulationImpossible' | t }}</p>
+                  }
+                </div>
               </div>
 
               <div class="billet__qr">
@@ -161,65 +193,7 @@
                   </div>
 
                   @if (billetANoter() === b.billet.id) {
-                    <form class="notation" (ngSubmit)="publierAvis(b.billet.id, b.film.id)">
-                      <fieldset class="notation__ligne">
-                        <legend>{{ 'compte.leFilm' | t }}</legend>
-                        <div class="choix-etoiles">
-                          @for (n of notes; track n) {
-                            <button
-                              type="button"
-                              [class.allumee]="n <= noteFilm()"
-                              [attr.aria-label]="'commun.surCinq' | t: { n: n }"
-                              [attr.aria-pressed]="n === noteFilm()"
-                              (click)="noteFilm.set(n)"
-                            >
-                              ★
-                            </button>
-                          }
-                        </div>
-                      </fieldset>
-
-                      <fieldset class="notation__ligne">
-                        <legend>{{ 'compte.leService' | t }} <span>{{ 'compte.serviceDetail' | t }}</span></legend>
-                        <div class="choix-etoiles">
-                          @for (n of notes; track n) {
-                            <button
-                              type="button"
-                              [class.allumee]="n <= noteService()"
-                              [attr.aria-label]="'commun.surCinq' | t: { n: n }"
-                              [attr.aria-pressed]="n === noteService()"
-                              (click)="noteService.set(n)"
-                            >
-                              ★
-                            </button>
-                          }
-                        </div>
-                      </fieldset>
-
-                      <label class="champ">
-                        <span>{{ 'compte.votreAvis' | t }} <em>{{ 'commun.facultatif' | t }}</em></span>
-                        <!-- Zone de texte avec un compteur de caractères dans le coin -->
-                        <div class="zone-avis" [class.zone-avis--presque-pleine]="commentaire().length > 360">
-                          <textarea
-                            name="commentaire"
-                            rows="4"
-                            maxlength="400"
-                            [placeholder]="'compte.avisPlaceholder' | t"
-                            [(ngModel)]="commentaire"
-                          ></textarea>
-                          <span class="zone-avis__compteur" aria-hidden="true">{{ commentaire().length }} / 400</span>
-                        </div>
-                      </label>
-
-                      @if (erreurAvis()) {
-                        <p class="erreur" role="alert">{{ erreurAvis() }}</p>
-                      }
-
-                      <div class="notation__actions">
-                        <button class="bouton bouton--plein" type="submit">{{ 'compte.publier' | t }}</button>
-                        <button class="lien" type="button" (click)="billetANoter.set(null)">{{ 'commun.annuler' | t }}</button>
-                      </div>
-                    </form>
+                    <ng-container [ngTemplateOutlet]="formulaireAvis" />
                   }
                 </li>
               }
@@ -250,7 +224,41 @@
                   @if (a.avis.commentaire) {
                     <blockquote>« {{ a.avis.commentaire }} »</blockquote>
                   }
-                  <p class="etiquette">{{ 'compte.publieLe' | t: { date: dateLongue(a.avis.date) } }}</p>
+                  <p class="etiquette">
+                    {{ 'compte.publieLe' | t: { date: dateLongue(a.avis.date) } }}
+                    @if (a.avis.modifieLe) {
+                      · {{ 'compte.modifieLe' | t: { date: dateLongue(a.avis.modifieLe) } }}
+                    }
+                  </p>
+
+                  <!-- Modifier (formulaire pré-rempli) ou supprimer (avec confirmation) -->
+                  @if (avisEnModification() === a.avis.id) {
+                    <ng-container [ngTemplateOutlet]="formulaireAvis" />
+                  } @else if (avisASupprimer() === a.avis.id) {
+                    <div class="annulation__confirmation" role="group" [attr.aria-label]="'compte.supprimer' | t">
+                      <p>{{ 'compte.supprimerQuestion' | t }}</p>
+                      @if (erreurSuppression()) {
+                        <p class="erreur" role="alert">{{ erreurSuppression() }}</p>
+                      }
+                      <div class="annulation__actions">
+                        <button
+                          class="bouton bouton--plein"
+                          type="button"
+                          [disabled]="suppressionEnCours()"
+                          [attr.aria-busy]="suppressionEnCours() || null"
+                          (click)="supprimerAvis(a.avis)"
+                        >
+                          {{ 'compte.supprimerOui' | t }}
+                        </button>
+                        <button class="lien" type="button" (click)="avisASupprimer.set(null)">{{ 'commun.annuler' | t }}</button>
+                      </div>
+                    </div>
+                  } @else {
+                    <div class="un-avis__actions">
+                      <button class="lien" type="button" (click)="ouvrirModification(a.avis)">{{ 'compte.modifier' | t }}</button>
+                      <button class="lien" type="button" (click)="demanderSuppression(a.avis.id)">{{ 'compte.supprimer' | t }}</button>
+                    </div>
+                  }
                 </li>
               }
             </ul>
@@ -315,6 +323,76 @@
         </div>
       }
     }
+
+    <!-- Formulaire de notation : pour un nouvel avis (liste « à noter ») ou pour modifier un avis publié -->
+    <ng-template #formulaireAvis>
+      <form class="notation" (ngSubmit)="envoyerAvis()">
+        <fieldset class="notation__ligne">
+          <legend>{{ 'compte.leFilm' | t }}</legend>
+          <div class="choix-etoiles">
+            @for (n of notes; track n) {
+              <button
+                type="button"
+                [class.allumee]="n <= noteFilm()"
+                [attr.aria-label]="'commun.surCinq' | t: { n: n }"
+                [attr.aria-pressed]="n === noteFilm()"
+                (click)="noteFilm.set(n)"
+              >
+                ★
+              </button>
+            }
+          </div>
+        </fieldset>
+
+        <fieldset class="notation__ligne">
+          <legend>{{ 'compte.leService' | t }} <span>{{ 'compte.serviceDetail' | t }}</span></legend>
+          <div class="choix-etoiles">
+            @for (n of notes; track n) {
+              <button
+                type="button"
+                [class.allumee]="n <= noteService()"
+                [attr.aria-label]="'commun.surCinq' | t: { n: n }"
+                [attr.aria-pressed]="n === noteService()"
+                (click)="noteService.set(n)"
+              >
+                ★
+              </button>
+            }
+          </div>
+        </fieldset>
+
+        <label class="champ">
+          <span>{{ 'compte.votreAvis' | t }} <em>{{ 'commun.facultatif' | t }}</em></span>
+          <!-- Zone de texte avec un compteur de caractères dans le coin -->
+          <div class="zone-avis" [class.zone-avis--presque-pleine]="commentaire().length > 360">
+            <textarea
+              name="commentaire"
+              rows="4"
+              maxlength="400"
+              [placeholder]="'compte.avisPlaceholder' | t"
+              [(ngModel)]="commentaire"
+            ></textarea>
+            <span class="zone-avis__compteur" aria-hidden="true">{{ commentaire().length }} / 400</span>
+          </div>
+        </label>
+
+        @if (erreurAvis()) {
+          <p class="erreur" role="alert">{{ erreurAvis() }}</p>
+        }
+
+        <div class="notation__actions">
+          <button
+            class="bouton bouton--plein"
+            type="submit"
+            [disabled]="publicationEnCours()"
+            [attr.aria-busy]="publicationEnCours() || null"
+          >
+            {{ (avisEnModification() ? 'compte.enregistrerAvis' : 'compte.publier') | t }}
+          </button>
+          <button class="lien" type="button" (click)="fermerFormulaire()">{{ 'commun.annuler' | t }}</button>
+        </div>
+      </form>
+    </ng-template>
   </section>
 } @else {
   <!-- ========== Connexion / inscription ========== -->

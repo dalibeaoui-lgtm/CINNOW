@@ -39,3 +39,14 @@ export function ajouter(nom, element) {
   ecrireListe(nom, [element, ...lireListe(nom)]);
   return element;
 }
+
+// Remplace l'élément qui a ce numéro par sa nouvelle version (mise à jour)
+export function remplacer(nom, element) {
+  ecrireListe(nom, lireListe(nom).map((e) => (e.id === element.id ? element : e)));
+  return element;
+}
+
+// Retire l'élément qui a ce numéro
+export function retirer(nom, id) {
+  ecrireListe(nom, lireListe(nom).filter((e) => e.id !== id));
+}

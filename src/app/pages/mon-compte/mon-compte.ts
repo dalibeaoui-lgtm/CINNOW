@@ -1,16 +1,21 @@
 import { Component, computed, inject, input, linkedSignal, signal } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { QrCode } from '../../components/qr-code/qr-code';
+import { Avis } from '../../models/avis';
 import { LigneProduit } from '../../models/produit';
+import { Reservation } from '../../models/reservation';
+import { Seance } from '../../models/seance';
 import { Utilisateur } from '../../models/utilisateur';
-import { messageErreur } from '../../services/api';
+import { Api, messageErreur } from '../../services/api';
 import { AvisService } from '../../services/avis';
 import { Catalogue } from '../../services/catalogue';
 import { Compte } from '../../services/compte';
 import { CleTraduction, t } from '../../i18n/langue';
 import { Traduction } from '../../i18n/traduire.pipe';
-import { dateLongue, etoiles, formaterPrix, numeroCourt, seanceEstPassee, versAAAAMMJJ } from '../../utils/formats';
+import { dateLongue, etoiles, formaterPrix, numeroCourt, seanceEstPassee } from '../../utils/formats';
 import { estModeTest } from '../../utils/mode-test';
 
 type Onglet = 'billets' | 'commandes' | 'avis' | 'profil';
@@ -18,7 +23,7 @@ const ONGLETS: Onglet[] = ['billets', 'commandes', 'avis', 'profil'];
 
 @Component({
   selector: 'app-mon-compte',
-  imports: [FormsModule, RouterLink, QrCode, Traduction],
+  imports: [FormsModule, NgTemplateOutlet, RouterLink, QrCode, Traduction],
   templateUrl: './mon-compte.html',
   styleUrl: './mon-compte.scss',
 })
@@ -29,6 +34,7 @@ export class MonCompte {
   private readonly compte = inject(Compte);
   private readonly avisService = inject(AvisService);
   private readonly catalogue = inject(Catalogue);
+  private readonly api = inject(Api);
 
   protected readonly utilisateur = this.compte.utilisateur;
 
@@ -108,6 +114,46 @@ export class MonCompte {
     return lignes.map((ligne) => `${ligne.quantite} × ${this.catalogue.nomProduit(ligne.produit)}`).join(', ');
   }
 
+  // ---------- Annulation d'une réservation ----------
+  // Possible jusqu'à 2 h avant la séance (même règle que le serveur, voir backend/routes/achats.js)
+  protected annulable(seance: Seance): boolean {
+    return new Date(`${seance.date}T${seance.heure}`).getTime() - Date.now() >= 2 * 60 * 60 * 1000;
+  }
+
+  protected readonly billetAAnnuler = signal<number | null>(null); // confirmation ouverte sous ce billet
+  protected readonly annulationEnCours = signal(false);
+  protected readonly erreurAnnulation = signal('');
+  protected readonly messageAnnulation = signal(''); // « Réservation annulée… » une fois fait
+
+  protected demanderAnnulation(id: number): void {
+    this.billetAAnnuler.set(id);
+    this.erreurAnnulation.set('');
+    this.messageAnnulation.set('');
+  }
+
+  // Le serveur supprime la réservation et libère les places pour les autres spectateurs
+  protected async annuler(billet: Reservation): Promise<void> {
+    this.annulationEnCours.set(true);
+    this.erreurAnnulation.set('');
+    try {
+      let rembourse = billet.total;
+      try {
+        rembourse = (await this.api.annulerReservation(billet.id)).rembourse;
+      } catch (erreur) {
+        // 404 : billet de démonstration (créé avec le compte, jamais envoyé au serveur) → rien à libérer
+        if (!(erreur instanceof HttpErrorResponse && erreur.status === 404)) throw erreur;
+      }
+      this.compte.retirerBillet(billet.id);
+      this.catalogue.actualiserSeance(billet.seanceId); // les places libérées réapparaissent sur le plan
+      this.billetAAnnuler.set(null);
+      this.messageAnnulation.set(t('compte.annulee', { montant: formaterPrix(rembourse) }));
+    } catch (erreur) {
+      this.erreurAnnulation.set(messageErreur(erreur));
+    } finally {
+      this.annulationEnCours.set(false);
+    }
+  }
+
   // ---------- Commandes de la boutique ----------
   protected readonly commandes = this.compte.commandes;
 
@@ -134,10 +180,15 @@ export class MonCompte {
   protected readonly noteService = signal(0);
   protected readonly commentaire = signal('');
   protected readonly erreurAvis = signal('');
+  protected readonly publicationEnCours = signal(false); // avis en route vers le serveur
   protected readonly notes = [1, 2, 3, 4, 5];
+
+  // Avis publié en cours de modification (le même formulaire, rempli avec l'avis actuel)
+  protected readonly avisEnModification = signal<number | null>(null);
 
   protected ouvrirNotation(idBillet: number): void {
     this.ongletActif.set('avis');
+    this.avisEnModification.set(null);
     this.billetANoter.set(idBillet);
     this.noteFilm.set(0);
     this.noteService.set(0);
@@ -145,26 +196,75 @@ export class MonCompte {
     this.erreurAvis.set('');
   }
 
-  // L'avis est envoyé au serveur : il devient visible par tous les visiteurs sur la fiche du film
-  protected async publierAvis(idBillet: number, idFilm: number): Promise<void> {
+  protected ouvrirModification(avis: Avis): void {
+    this.billetANoter.set(null);
+    this.avisASupprimer.set(null);
+    this.avisEnModification.set(avis.id);
+    this.noteFilm.set(avis.noteFilm);
+    this.noteService.set(avis.noteService);
+    this.commentaire.set(avis.commentaire);
+    this.erreurAvis.set('');
+  }
+
+  protected fermerFormulaire(): void {
+    this.billetANoter.set(null);
+    this.avisEnModification.set(null);
+  }
+
+  // Bouton du formulaire : publie un nouvel avis, ou enregistre les modifications d'un avis publié.
+  // Dans les 2 cas, le serveur garde l'avis et la fiche du film affiche la nouvelle version.
+  protected async envoyerAvis(): Promise<void> {
     const utilisateur = this.utilisateur();
     if (!utilisateur) return;
     if (!this.noteFilm() || !this.noteService()) {
       return this.erreurAvis.set(t('compte.err.notes'));
     }
+    const notes = { noteFilm: this.noteFilm(), noteService: this.noteService(), commentaire: this.commentaire().trim() };
 
+    this.publicationEnCours.set(true);
     try {
+      const enModification = this.mesAvis().find(({ avis }) => avis.id === this.avisEnModification())?.avis;
+      if (enModification) {
+        await this.avisService.modifier(enModification, notes);
+        this.fermerFormulaire();
+        return;
+      }
+      const aNoter = this.aNoter().find(({ billet }) => billet.id === this.billetANoter());
+      if (!aNoter) return;
       await this.avisService.publier({
-        filmId: idFilm,
-        billetId: idBillet,
+        filmId: aNoter.film.id,
+        billetId: aNoter.billet.id,
         auteur: `${utilisateur.prenom}${utilisateur.nom ? ' ' + utilisateur.nom.charAt(0) + '.' : ''}`,
-        noteFilm: this.noteFilm(),
-        noteService: this.noteService(),
-        commentaire: this.commentaire().trim(),
+        ...notes,
       });
-      this.billetANoter.set(null);
+      this.fermerFormulaire();
     } catch (erreur) {
       this.erreurAvis.set(messageErreur(erreur));
+    } finally {
+      this.publicationEnCours.set(false);
+    }
+  }
+
+  // Suppression d'un avis (avec confirmation)
+  protected readonly avisASupprimer = signal<number | null>(null);
+  protected readonly suppressionEnCours = signal(false);
+  protected readonly erreurSuppression = signal('');
+
+  protected demanderSuppression(id: number): void {
+    this.fermerFormulaire();
+    this.avisASupprimer.set(id);
+    this.erreurSuppression.set('');
+  }
+
+  protected async supprimerAvis(avis: Avis): Promise<void> {
+    this.suppressionEnCours.set(true);
+    try {
+      await this.avisService.supprimer(avis);
+      this.avisASupprimer.set(null);
+    } catch (erreur) {
+      this.erreurSuppression.set(messageErreur(erreur));
+    } finally {
+      this.suppressionEnCours.set(false);
     }
   }
 
