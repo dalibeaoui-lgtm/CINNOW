@@ -43,4 +43,9 @@ export class Article {
   constructor() {
     this.service.charger();
   }
+
+  protected reessayer(): void {
+    this.etat.set('chargement');
+    this.service.charger();
+  }
 }

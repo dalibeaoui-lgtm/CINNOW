@@ -136,7 +136,8 @@
         }
 
         <!-- Bouton visible seulement sur téléphone (sur ordinateur, il est dans le récapitulatif) -->
-        <button class="bouton bouton--plein bouton-payer bouton-payer--mobile" type="submit" [disabled]="paiementEnCours()">
+        <button class="bouton bouton--plein bouton-payer bouton-payer--mobile" type="submit" [disabled]="paiementEnCours()"
+          [attr.aria-busy]="paiementEnCours() || null">
           {{ texteBoutonPayer() }}
         </button>
       </form>
@@ -192,6 +193,7 @@
           class="bouton bouton--plein bouton-payer"
           type="button"
           [disabled]="paiementEnCours()"
+          [attr.aria-busy]="paiementEnCours() || null"
           (click)="payer()"
         >
           {{ texteBoutonPayer() }}

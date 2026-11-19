@@ -1,0 +1,37 @@
+// Au-dessus de tout, collée en haut de la fenêtre
+.barre {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 3px;
+  background: var(--or);
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+  pointer-events: none;
+}
+
+// Pendant le chargement : avance vite au début puis ralentit (on ne sait pas combien de temps ça prend)
+.barre--active {
+  opacity: 1;
+  transform: scaleX(0.85);
+  transition: transform 8s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+// Page arrivée : la barre se remplit puis s'efface
+.barre--finie {
+  transform: scaleX(1);
+  opacity: 0;
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.3s ease 0.15s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barre--active {
+    transform: scaleX(1);
+    transition: none;
+  }
+}

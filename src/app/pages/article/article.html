@@ -54,9 +54,11 @@
       </section>
     }
   </article>
-} @else if (etat() === 'chargement') {
-  <section class="page">
-    <p class="chargement" role="status">{{ 'actu.chargement' | t }}</p>
+} @else if (etat() === 'erreur') {
+  <!-- Le serveur ne répond pas (la page attend les articles avant de s'ouvrir : voir titreArticle dans app.routes.ts) -->
+  <section class="page" role="alert">
+    <p class="erreur">{{ 'actu.erreur' | t }}</p>
+    <button type="button" class="bouton bouton--plein" (click)="reessayer()">{{ 'actu.reessayer' | t }}</button>
   </section>
 } @else {
   <section class="page introuvable">

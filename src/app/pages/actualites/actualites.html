@@ -8,7 +8,29 @@
 
   @switch (etat()) {
     @case ('chargement') {
-      <p class="message" role="status">{{ 'actu.chargement' | t }}</p>
+      <!-- Squelettes : la mise en page des articles, en gris, le temps que le serveur réponde -->
+      <div role="status">
+        <p class="visuellement-cache">{{ 'actu.chargement' | t }}</p>
+        <div class="une squelette-une" aria-hidden="true">
+          <span class="squelette squelette-une__image"></span>
+          <div class="squelette-une__texte">
+            <span class="squelette" style="width: 40%; height: 14px"></span>
+            <span class="squelette" style="width: 95%; height: 40px"></span>
+            <span class="squelette" style="width: 70%; height: 40px"></span>
+            <span class="squelette" style="width: 85%; height: 16px"></span>
+          </div>
+        </div>
+        <ul class="grille squelette-liste" aria-hidden="true">
+          @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+            <li class="squelette-carte">
+              <span class="squelette squelette-carte__image"></span>
+              <span class="squelette" style="width: 45%; height: 12px"></span>
+              <span class="squelette" style="width: 90%; height: 22px"></span>
+              <span class="squelette" style="width: 75%; height: 14px"></span>
+            </li>
+          }
+        </ul>
+      </div>
     }
     @case ('erreur') {
       <div class="message" role="alert">

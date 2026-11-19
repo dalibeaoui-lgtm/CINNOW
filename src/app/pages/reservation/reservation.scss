@@ -448,3 +448,25 @@
     position: static;
   }
 }
+
+// ---------- Vérification des places auprès du serveur ----------
+// Hauteur réservée même quand le message disparaît : le plan ne saute pas
+.verification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  min-height: 20px;
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: var(--sable);
+}
+
+// Le plan est légèrement estompé tant que les places ne sont pas confirmées
+.plan {
+  transition: opacity 0.3s;
+}
+
+.plan--verification {
+  opacity: 0.45;
+}
