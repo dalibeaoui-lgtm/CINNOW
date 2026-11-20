@@ -80,7 +80,7 @@ la fiche du film.
 **Paiement simulé :** aucun argent n'est débité et les données de carte ne sont ni envoyées ni
 enregistrées. Il sera remplacé par Stripe en mode test.
 
-Le site s'adapte à l'ordinateur, à la tablette et au téléphone. Sur téléphone, les liens du menu sont
+Le site s'adapte à l'ordinateur, à la tablette et au téléphone. Sur téléphone et tablette (jusqu'à 1200 px), les liens du menu sont
 remplacés par un **bouton ☰** qui ouvre un panneau plein écran (toutes les pages + recherche de films) ;
 il se ferme avec ✕, Échap ou en choisissant une page.
 
