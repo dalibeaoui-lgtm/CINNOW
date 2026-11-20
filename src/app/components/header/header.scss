@@ -429,8 +429,10 @@
   color: var(--sable);
 }
 
-// ---------- Téléphone : bouton ☰ à gauche, logo au centre, langue (et panier) à droite ----------
-@media (max-width: 760px) {
+// ---------- Téléphone et tablette : bouton ☰ à gauche, logo au centre, langue (et panier) à droite ----------
+// Jusqu'à 1200 px : en dessous, les 6 liens + la recherche + « Mon compte » ne tiennent plus sur une ligne
+// (textes coupés en 2, recherche coupée au bord de l'écran sur tablette).
+@media (max-width: 1200px) {
   .header__liens,
   .header__mon-compte,
   .recherche,

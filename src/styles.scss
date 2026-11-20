@@ -228,8 +228,8 @@ body.sans-defilement {
   }
 }
 
-// Menu du téléphone ouvert (classe posée par le menu sur <html>) : la page derrière ne défile plus
-@media (max-width: 760px) {
+// Menu du téléphone / de la tablette ouvert (classe posée par le menu sur <html>) : la page derrière ne défile plus
+@media (max-width: 1200px) {
   html.menu-mobile-ouvert {
     overflow: hidden;
   }

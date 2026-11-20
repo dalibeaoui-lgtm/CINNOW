@@ -49,9 +49,10 @@ export class Header {
         .querySelectorAll('main, app-footer')
         .forEach((e) => e.toggleAttribute('inert', ouvert));
     });
-    // L'écran s'élargit (téléphone tourné, fenêtre agrandie) : le bouton ☰ disparaît, on ferme le menu
+    // L'écran s'élargit (tablette tournée, fenêtre agrandie) : le bouton ☰ disparaît, on ferme le menu
+    // (même limite que dans header.scss)
     window
-      .matchMedia?.('(min-width: 761px)')
+      .matchMedia?.('(min-width: 1201px)')
       .addEventListener('change', (e) => e.matches && this.fermerMenu());
   }
 
